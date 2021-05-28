@@ -15,7 +15,10 @@
         height: 100%;
         z-index: -1;
     }
-
+    .content{
+      margin: 0 auto;
+      margin-top: 43px;
+    }
     .content-center{
         position: absolute;
         top: 50%;
@@ -78,6 +81,6 @@
     }
 
     &:before{
-        background-color: rgba(0,0,0,.3);
+        background-color: rgb(202 202 202 / 30%);
     }
 }

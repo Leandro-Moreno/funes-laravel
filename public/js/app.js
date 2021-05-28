@@ -49839,8 +49839,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\laragon\www\material-7\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\laragon\www\material-7\resources\sass\material-dashboard.scss */"./resources/sass/material-dashboard.scss");
+__webpack_require__(/*! C:\laragon\www\funes-laravel\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\laragon\www\funes-laravel\resources\sass\material-dashboard.scss */"./resources/sass/material-dashboard.scss");
 
 
 /***/ })

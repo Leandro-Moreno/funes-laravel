@@ -1,8 +1,19 @@
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute fixed-top text-white">
+<div class="fixed-top">
+<section class="d-none d-md-block p-1 text-white banner-top bg-dark ">
+      <div class="container container-fluid menu-adm">
+            <ul class="ep_tm_key_tools" id="ep_tm_menu_tools"><li><a href="/cgi/users/home?screen=Items">Manejar mis depósitos</a></li><li>Registrado como
+
+  <span class="ep_name_citation">
+    Leandro
+  </span>
+</li><li><a href="/cgi/users/home?screen=DataSets">Bases de datos</a></li><li><a href="/cgi/users/home?screen=User%3A%3AView">Perfil</a></li><li><a href="/cgi/users/home?screen=User%3A%3ASavedSearches">Búsquedas guardadas</a></li><li><a href="/cgi/users/home?screen=Review">Revisión</a></li><li><a href="/cgi/users/home?screen=Admin">Administración</a></li><li><a href="/cgi/users/home?screen=Admin%3A%3AConfig%3A%3AEdit%3A%3AXPage&amp;configfile=lang%2Fes%2Fstatic%2Findex.xpage">Editar página</a></li><li><a href="/cgi/logout">Salir</a></li></ul>
+      </div>
+    </section>
+<nav class="navbar navbar-expand-lg bg-primary navbar-absolutetext-white">
   <div class="container">
     <div class="navbar-wrapper">
-      <a class="navbar-brand" href="{{ route('home') }}">{{ $title }}</a>
+      <a class="navbar-brand" href="{{ route('home') }}">leandro</a>
     </div>
     <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index" aria-expanded="false" aria-label="Toggle navigation">
       <span class="sr-only">Toggle navigation</span>
@@ -37,3 +48,4 @@
   </div>
 </nav>
 <!-- End Navbar -->
+</div>

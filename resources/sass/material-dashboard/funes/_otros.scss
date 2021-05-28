@@ -1,0 +1,25 @@
+.banner-top {
+    height: 30px;
+}
+.menu-adm{
+
+  > .ep_tm_key_tools {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    & li  {
+      float: left;
+      font-size: 13px;
+      padding: 0 10px;
+      border-left: 0 !important;
+      border-right: 0 !important;
+      &a {
+        text-align: center;
+        padding: 1 4px;
+        text-decoration: none;
+        color: #05B35C;
+      }
+    }
+  }
+}

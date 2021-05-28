@@ -1,5 +1,5 @@
 body{
-    background-color: #eee;
+    background-color: #fff;
     color: $black-color;
     font-weight: 300;
 }
@@ -73,6 +73,7 @@ label{
   .navbar.navbar-transparent{
     padding-top: 25px;
     border-bottom: none;
+    background-color: $green-500;
 
     .navbar-minimize {
       display: none;
@@ -94,7 +95,9 @@ label{
   .page-header{
     display: flex;
     align-items: center;
-
+    .content {
+      margin: 0 auto;
+    }
     .content-center {
       z-index: 3;
 
