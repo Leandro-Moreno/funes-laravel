@@ -1,0 +1,120 @@
+header.masthead {
+  position: relative;
+  overflow: hidden;
+  padding-top: calc(5rem + 40px);
+  padding-bottom: 6rem;
+  background: linear-gradient(0deg, $brand-secondary 0%, $brand-primary 100%);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: scroll;
+  background-size: cover;
+  &-min{
+    padding-top: calc(2rem + 40px)!important;
+    padding-bottom: 3rem!important;
+  }
+  .masthead-content {
+    z-index: 1;
+    position: relative;
+    .masthead-heading {
+      font-size: 4rem;
+      font-weight: bolder;
+    }
+    .masthead-subheading {
+      font-size: 2rem;
+    }
+  }
+  .bg-circle {
+    z-index: 0;
+    position: absolute;
+    border-radius: 100%;
+    background: linear-gradient(0deg, $brand-primary 0%, $brand-secondary 100%);
+  }
+  .bg-circle-1 {
+    height: 90rem;
+    width: 90rem;
+    bottom: -55rem;
+    left: -55rem;
+  }
+  .bg-circle-2 {
+    height: 50rem;
+    width: 50rem;
+    top: -25rem;
+    right: -25rem;
+  }
+  .bg-circle-3 {
+    height: 20rem;
+    width: 20rem;
+    bottom: -10rem;
+    right: 5%;
+  }
+  .bg-circle-4 {
+    height: 30rem;
+    width: 30rem;
+    top: -5rem;
+    right: 35%;
+  }
+}
+.buscar{
+    padding: 0 15px;
+    .material-icons{
+        color:$white-color;
+    }
+
+    .form-control{
+        color: $white;
+    }
+    ul{
+
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        border: 0px;
+        border-radius: 0 0 3px 3px;
+        max-height: 300px;
+        overflow-y: auto;
+        box-shadow: 0px 3px 6px 0px rgba(195, 195, 195, 0.76);
+        position: absolute;
+        li{
+            padding: 0;
+            margin: 0;
+            a{
+                display: block;
+                color: $brand-primary;
+                background-color: $white-color;
+                padding: 0;
+                margin:0;
+                z-index: 100;
+                &:hover{
+                    color: $white-color;
+                    background-color: $brand-secondary;
+                }
+            }
+        }
+    }
+}
+@media (min-width: 992px) {
+  header.masthead {
+    padding-top: calc(10rem + 55px);
+    padding-bottom: 10rem;
+    .masthead-content {
+      .masthead-heading {
+        font-size: 4rem;
+      }
+      .masthead-subheading {
+        font-size: 3rem;
+      }
+    }
+  }
+}
+@media (max-width: 992px) {
+  .buscar{
+    ul{
+      width: 84%;
+    }
+  }
+}
+.buscar{
+  ul{
+    z-index:9999;
+  }
+}

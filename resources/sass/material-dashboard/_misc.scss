@@ -1,5 +1,5 @@
 body{
-    background-color: #fff;
+    background-color: #eee;
     color: $black-color;
     font-weight: 300;
 }
@@ -44,7 +44,7 @@ a{
 label{
     font-size: 14px;
     line-height: 1.42857;
-    color: $checkboxes-text-color;
+    color: darken($brand-primary, 5%);
     font-weight: 400;
 }
 
@@ -73,7 +73,6 @@ label{
   .navbar.navbar-transparent{
     padding-top: 25px;
     border-bottom: none;
-    background-color: $green-500;
 
     .navbar-minimize {
       display: none;
@@ -95,9 +94,7 @@ label{
   .page-header{
     display: flex;
     align-items: center;
-    .content {
-      margin: 0 auto;
-    }
+
     .content-center {
       z-index: 3;
 

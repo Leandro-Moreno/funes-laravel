@@ -66,11 +66,11 @@ $primary:       $blue !default;
 $secondary:     $gray-600 !default;
 $success:       $green !default;
 $info:          $cyan !default;
-$warning:       $yellow !default;
+$warning:       $orange-500 !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
-
+ 
 $theme-colors: () !default;
 $theme-colors: map-merge((
   "primary":    $primary,
@@ -255,9 +255,9 @@ $headings-font-weight:        500 !default;
 $headings-line-height:        1.2 !default;
 $headings-color:              inherit !default;
 
-$display1-size:               6rem !default;
-$display2-size:               5.5rem !default;
-$display3-size:               4.5rem !default;
+$display1-size:               4rem !default;
+$display2-size:               4rem !default;
+$display3-size:               3.5rem !default;
 $display4-size:               3.5rem !default;
 
 $display1-weight:             300 !default;
