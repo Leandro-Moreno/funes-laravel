@@ -18,9 +18,12 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
+import BootstrapVue from 'bootstrap-vue';
+Vue.use(BootstrapVue);
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('registro-crear', require('./components/RegistroCrear.vue').default);
+Vue.component('cargar-archivo', require('./components/cargarArchivo.vue').default);
+Vue.component('registro-detalles', require('./components/registroDetalles.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to

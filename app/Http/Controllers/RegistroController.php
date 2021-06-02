@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Registro;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RegistroController extends Controller
 {
@@ -81,5 +82,17 @@ class RegistroController extends Controller
     public function destroy(Registro $registro)
     {
         //
+    }
+    public function subirImagen(Request $request){
+      $request->validate([
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,xlsx,doc,docx,ai,pdf|max:2048'
+            ]);
+      if($request->file()) {
+        $tmp_name = Str::random(32).'.'.$request->file->getClientOriginalExtension();
+        $imageName = $tmp_name;
+        $request->file->move(public_path('images'), $imageName);
+        return response()->json(['success'=>'Subida exitosa', 'funes_id'=>rand(0,9999), 'file_name_temp'=>$tmp_name]);
+      }
+      return response()->json(['error'=>"Tipo de archivo incompatible"]);
     }
 }

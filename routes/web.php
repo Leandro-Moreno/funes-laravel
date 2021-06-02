@@ -21,6 +21,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('registro', 'RegistroController');
+Route::post('subirImagen','RegistroController@subirImagen');
 Auth::routes();
 
 
