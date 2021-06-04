@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Registro;
+use App\TipoRegistro;
+use App\RegistroTipoCampos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
@@ -94,5 +96,13 @@ class RegistroController extends Controller
         return response()->json(['success'=>'Subida exitosa', 'funes_id'=>rand(0,9999), 'file_name_temp'=>$tmp_name]);
       }
       return response()->json(['error'=>"Tipo de archivo incompatible"]);
+    }
+    public function tiposRegistro(){
+      $tipos_registro = TipoRegistro::all();
+      return response(['tipos_registro' => $tipos_registro, 'message' => 'Tipos de registro enviados correctamente'],200);
+    }
+    public function camposTiposRegistro(){
+      $campos_tipo_registro = RegistroTipoCampos::all();
+      return response(['campos_tipos_registro' => $campos_tipo_registro, 'message' => 'Tipos de registro enviados correctamente'],200);
     }
 }

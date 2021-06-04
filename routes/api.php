@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+Route::get('/tipos-registro', 'RegistroController@tiposRegistro');
+Route::get('/campos-tipos-registro', 'RegistroController@camposTiposRegistro');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });

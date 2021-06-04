@@ -14,4 +14,9 @@ const mix = require('laravel-mix');
 mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/material-dashboard.scss', 'public/material/css')
     .browserSync('funes-laravel.test')
-    .version();
+    .version()
+    .webpackConfig({
+      devServer: {
+          port: '8079'
+      },
+    });

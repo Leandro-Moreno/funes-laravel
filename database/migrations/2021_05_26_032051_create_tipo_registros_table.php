@@ -15,8 +15,9 @@ class CreateTipoRegistrosTable extends Migration
     {
         Schema::create('tipo_registros', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre");
-            $table->timestamps();
+            $table->string("name");
+            $table->text("description");
+            $table->string("label");
         });
     }
 

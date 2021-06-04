@@ -2353,11 +2353,6 @@ pre code {
   opacity: 1;
 }
 
-.form-control::-ms-input-placeholder {
-  color: #6c757d;
-  opacity: 1;
-}
-
 .form-control::placeholder {
   color: #6c757d;
   opacity: 1;
@@ -7586,7 +7581,6 @@ button.bg-dark:focus {
 }
 
 .position-sticky {
-  position: -webkit-sticky !important;
   position: sticky !important;
 }
 
@@ -7606,9 +7600,8 @@ button.bg-dark:focus {
   z-index: 1030;
 }
 
-@supports ((position: -webkit-sticky) or (position: sticky)) {
+@supports (position: sticky) {
   .sticky-top {
-    position: -webkit-sticky;
     position: sticky;
     top: 0;
     z-index: 1020;
@@ -13359,10 +13352,6 @@ fieldset[disabled][disabled] .has-rose .form-control,
   line-height: 1.1;
 }
 
-.bmd-form-group input::-ms-input-placeholder {
-  line-height: 1.1;
-}
-
 .bmd-form-group .form-control,
 .bmd-form-group label,
 .bmd-form-group input::placeholder {
@@ -13444,10 +13433,6 @@ fieldset[disabled][disabled] .has-rose .form-control,
 }
 
 .bmd-form-group.bmd-form-group-sm input:-ms-input-placeholder {
-  line-height: 1.1;
-}
-
-.bmd-form-group.bmd-form-group-sm input::-ms-input-placeholder {
   line-height: 1.1;
 }
 
@@ -13535,10 +13520,6 @@ fieldset[disabled][disabled] .has-rose .form-control,
   line-height: 1.1;
 }
 
-.bmd-form-group.bmd-form-group-lg input::-ms-input-placeholder {
-  line-height: 1.1;
-}
-
 .bmd-form-group.bmd-form-group-lg .form-control,
 .bmd-form-group.bmd-form-group-lg label,
 .bmd-form-group.bmd-form-group-lg input::placeholder {
@@ -13620,10 +13601,6 @@ input::-moz-placeholder {
 }
 
 input:-ms-input-placeholder {
-  line-height: 1.1;
-}
-
-input::-ms-input-placeholder {
   line-height: 1.1;
 }
 
@@ -17513,8 +17490,7 @@ label {
 .card .card-header.card-header-image .colored-shadow {
   transform: scale(0.94);
   top: 12px;
-  -webkit-filter: blur(12px);
-          filter: blur(12px);
+  filter: blur(12px);
   position: absolute;
   width: 100%;
   height: 100%;
