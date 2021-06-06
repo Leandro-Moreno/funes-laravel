@@ -37,7 +37,8 @@ export default {
   data (){
     return {
       campos_tipos_registro: null,
-      title: ''
+      title: '',
+      description: ''
     }          
   }
 }

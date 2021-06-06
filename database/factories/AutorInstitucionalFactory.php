@@ -7,6 +7,6 @@ use Faker\Generator as Faker;
 
 $factory->define(AutorInstitucional::class, function (Faker $faker) {
     return [
-        //
+      'nombre' => $faker->company
     ];
 });

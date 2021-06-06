@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Autor;
+use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
 
 class AutorController extends Controller
@@ -12,9 +13,15 @@ class AutorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+      // dd($request);
+      $searchterm = $request->input('query');
+
+        $searchResults = (new Search())
+                    ->registerModel(\App\Autor::class, 'nombre', 'apellido', 'email')
+                    ->perform($searchterm);
+        return response()->json($searchResults);
     }
 
     /**
@@ -46,7 +53,7 @@ class AutorController extends Controller
      */
     public function show(Autor $autor)
     {
-        //
+        var_dump("hola");
     }
 
     /**

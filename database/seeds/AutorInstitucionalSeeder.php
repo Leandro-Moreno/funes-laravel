@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
-
+use App\AutorInstitucional;
 class AutorInstitucionalSeeder extends Seeder
 {
     /**
@@ -11,6 +11,6 @@ class AutorInstitucionalSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(AutorInstitucional::class, 15)->create();
     }
 }

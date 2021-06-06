@@ -22,8 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::resource('registro', 'RegistroController');
 Route::post('subirImagen','RegistroController@subirImagen');
-Auth::routes();
-
+Route::resource('autor', 'AutorController');
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {

@@ -44,7 +44,7 @@
             wizard.activateAll()
             console.log('Creacion de registro montado.')
             axios
-              .get('http://localhost:3002/api/tipos-registro')
+              .get('/api/tipos-registro')
               .then(response => (this.tipos_registro = response.data.tipos_registro))
         },
         components: {
