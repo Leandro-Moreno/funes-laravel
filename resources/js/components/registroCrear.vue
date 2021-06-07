@@ -4,7 +4,7 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                    <form-wizard ref="wizard" :start-index="2" :title="wizardTitle" :subtitle="wizardSubtitle" :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade" duration="60" color="#05b35c">
+                    <form-wizard ref="wizard" :start-index="2" action="#"  @on-complete="postRegistro" :title="wizardTitle" :subtitle="wizardSubtitle" :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade" duration="60" color="#05b35c">
                       <tab-content title="Tipo de Documento">
                         <div id="v-model-radiobutton" v-for="tipo in tipos_registro">
                           <input type="radio" :id="tipo.name" :value="tipo.name" v-model="picked" />
@@ -18,13 +18,21 @@
                           <cargar-archivo></cargar-archivo>
                        </tab-content>
                        <tab-content title="Detalles">
-                         <registro-detalles></registro-detalles>
+                         <registro-detalles ref="detalles"></registro-detalles>
                        </tab-content>
                        <tab-content title="Términos clave">
                          Yuhuuu! This seems pretty damn simple
                        </tab-content>
                        <tab-content title="Depositar">
-                         Yuhuuu! This seems pretty damn simple
+                        <p>Como editor de este elemento, puede moverlo al estado "en revisión" sin tener que resolver los problemas indicados. En dado caso, seleccione Guardar para Más Adelante para corregir estos problemas más tarde.</p>
+
+                        <p>Para trabajos depositados por su propio autor: Al depositar la colección de archivos y metadatos bibliográficos asociados a este registro, otorgo a Funes el derecho para almacenarlos y ponerlos a disposición pública permanentemente de un modo gratuito y en línea.</p>
+
+                        <p>Declaro que este material es de mi propiedad intelectual y entiendo que Funes no asume ninguna responsabilidad en caso de que se produzca una violación de derechos de propiedad al distribuir estos archivos o metadatos. (Se insta a todos los autores a destacar sus derechos de autor en la página de título del documento principal de sus registros en Funes.)</p>
+
+                        <p>Para trabajos depositados por personas distintas a su autor: Por la presente, declaro que la colección de archivos y metadatos bibliográficos asociados al registro que estoy depositando en Funes es de dominio público. Si éste no fuese el caso, acepto totalmente la responsabilidad por cualquier infracción de derechos de autor que conlleve la distribución de estos archivos o metadatos.</p>
+
+                        <p>Pulsar en el botón de depósito indica que usted está de acuerdo con estos términos.</p>
                        </tab-content>
                     </form-wizard>
                     </div>
@@ -54,7 +62,7 @@
         data (){
           return {
             picked: "",
-            tipos_registro: null
+            tipos_registro: null,
           }          
         },
         props: {
@@ -80,6 +88,17 @@
           }
         },
         methods: {
+          postRegistro: function(){
+            axios.post('/registro',{
+              nombre: this.$refs['detalles'].title,
+              resumen: this.$refs['detalles'].description,
+              autores: this.$refs['detalles'].$refs['autores'].inputs,
+              autoresInstitucionales: this.$refs['detalles'].$refs['autoresInstitucionales'].institucionales
+            })
+                .then((response)=>{
+                    console.log(response);
+                })
+          }
         }
     }
 </script>

@@ -1,6 +1,6 @@
 <template>
 <div class="card card-body">
-<div class="card-title">Autores</div>
+<label class="card-title">Autores</label>
 <div class="col-sm-12 row">
   <div class="col-sm-4">
   <p>Primer Apellido</p>
@@ -39,6 +39,9 @@
 <script>
 export default {
     mounted() {
+  },
+  props: {
+    
   },
   data (){
     return {

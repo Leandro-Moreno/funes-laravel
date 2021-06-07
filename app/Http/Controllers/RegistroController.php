@@ -38,7 +38,8 @@ class RegistroController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
+        return response()->json("234234");
     }
 
     /**

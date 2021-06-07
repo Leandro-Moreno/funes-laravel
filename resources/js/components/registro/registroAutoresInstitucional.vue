@@ -1,6 +1,6 @@
 <template>
 <div class="card card-body">
-<div class="card-title">Autores institucionales</div>
+<label class="card-title">Autores institucionales</label> 
 <div class="col-sm-12 row">
   <div class="col-sm-4">
   <p>Autor</p>
@@ -31,6 +31,8 @@
 <script>
 export default {
     mounted() {
+  },
+  prop: {
   },
   data (){
     return {

@@ -25,8 +25,9 @@
       ></b-form-textarea>
           <p>Descripción</p>
       </div>
-      <registro-autores></registro-autores>
-      <registro-autores-institucionales></registro-autores-institucionales>
+      <registro-autores ref="autores"></registro-autores>
+      <registro-autores-institucionales ref="autoresInstitucionales"></registro-autores-institucionales>
+      <registro-info-adicional ref="infoAdicional"></registro-info-adicional>
       
 </div>
 </template>

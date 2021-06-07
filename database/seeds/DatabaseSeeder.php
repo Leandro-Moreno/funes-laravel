@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         $this->call([CamposTipoRegistroSeeder::class]);
         $this->call([AutorSeeder::class]);
         $this->call([AutorInstitucionalSeeder::class]);
+        $this->call([EstadoSeeder::class]);
     }
 }

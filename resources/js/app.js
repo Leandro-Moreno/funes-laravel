@@ -28,6 +28,7 @@ Vue.component('cargar-archivo', require('./components/cargarArchivo.vue').defaul
 Vue.component('registro-detalles', require('./components/registroDetalles.vue').default);
 Vue.component('registro-autores', require('./components/registro/registroAutores.vue').default);
 Vue.component('registro-autores-institucionales', require('./components/registro/registroAutoresInstitucional.vue').default);
+Vue.component('registro-info-adicional', require('./components/registro/registroInformacionAdicional.vue').default);
 
 // Vue.use(BootstrapVue);
 /**

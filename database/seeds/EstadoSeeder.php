@@ -11,6 +11,17 @@ class EstadoSeeder extends Seeder
      */
     public function run()
     {
-        //
+      DB::table('estados')->insert([
+            'nombre' => 'pub'
+      ]);
+      DB::table('estados')->insert([
+            'nombre' => 'impress'
+      ]);
+      DB::table('estados')->insert([
+            'nombre' => 'submitted'
+      ]);
+      DB::table('estados')->insert([
+            'nombre' => 'unpub'
+      ]);
     }
 }
