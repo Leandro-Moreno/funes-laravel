@@ -50,6 +50,7 @@ export default {
         valueNombre: "",
         valueApellido: "",
         valueMail: "",
+        userId: "",
         results: [],
         query: ""
       }],
@@ -76,6 +77,7 @@ export default {
       this.inputs[index].valueNombre = resultado.nombre;
       this.inputs[index].valueApellido = resultado.apellido;
       this.inputs[index].valueMail = resultado.email;
+      this.inputs[index].userId = resultado.id;
       this.inputs[index].results = [];
     },
     onChange: function(index){
@@ -88,7 +90,8 @@ export default {
         valueApellido: "",
         valueMail: "",
         results: [],
-        query: ""
+        query: "",
+        userId: ""
       });
     },
     borrarUsuario: function(index) {

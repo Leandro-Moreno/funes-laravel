@@ -15,9 +15,9 @@
     <div>
         <label class="col-md-12" >Resumen</label>
           <b-form-textarea
-        id="textarea"
+        id="description"
         v-model="description"
-        placeholder=""
+        placeholder="Ingrese su resumen"
         rows="10"
         max-rows="12"
         cols="60"

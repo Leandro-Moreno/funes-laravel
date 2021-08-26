@@ -4,18 +4,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                    <form-wizard ref="wizard" :start-index="2" action="#"  @on-complete="postRegistro" :title="wizardTitle" :subtitle="wizardSubtitle" :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade" duration="60" color="#05b35c">
+                    <form-wizard ref="wizard" :start-index="4" action="#"  @on-complete="postRegistro" :title="wizardTitle" :subtitle="wizardSubtitle" :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade" duration="60" color="#167d74">
                       <tab-content title="Tipo de Documento">
                         <div id="v-model-radiobutton" v-for="tipo in tipos_registro">
                           <input type="radio" :id="tipo.name" :value="tipo.name" v-model="picked" />
                           <label :for="tipo.name">{{tipo.label}}</label>
-                          <p :for="tipo.name">{{tipo.description}}<p/>
-                          
+                          <p>{{tipo.description}}</p>                   
                         </div>
-                        <p>El mensaje es: {{picked}}</p>
                       </tab-content>
                       <tab-content title="Cargar">
-                          <cargar-archivo></cargar-archivo>
+                          <cargar-archivo ref="cargarArchivo"></cargar-archivo>
                        </tab-content>
                        <tab-content title="Detalles">
                          <registro-detalles ref="detalles"></registro-detalles>
@@ -90,14 +88,22 @@
         methods: {
           postRegistro: function(){
             axios.post('/registro',{
+              prueba: "prueba",
               nombre: this.$refs['detalles'].title,
               resumen: this.$refs['detalles'].description,
               autores: this.$refs['detalles'].$refs['autores'].inputs,
-              autoresInstitucionales: this.$refs['detalles'].$refs['autoresInstitucionales'].institucionales
+              autoresInstitucionales: this.$refs['detalles'].$refs['autoresInstitucionales'].institucionales,
+              infoAdicional: this.$refs['detalles'].$refs['infoAdicional'].darInformacionAdicional(),
+              archivoEnviado: this.$refs['cargarArchivo'].darArchivoEnviado(),
+              archivoCargado: this.$refs['cargarArchivo'].darArchivoCargado(),
+              tipo_de_documento: this.picked            
             })
-                .then((response)=>{
-                    console.log(response);
-                })
+            .then((response)=>{
+                console.log(response);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
           }
         }
     }

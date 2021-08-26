@@ -24,6 +24,7 @@ Vue.use(BootstrapVueIcons);
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('registro-crear', require('./components/RegistroCrear.vue').default);
+Vue.component('registro-index', require('./components/registro/RegistroIndex.vue').default);
 Vue.component('cargar-archivo', require('./components/cargarArchivo.vue').default);
 Vue.component('registro-detalles', require('./components/registroDetalles.vue').default);
 Vue.component('registro-autores', require('./components/registro/registroAutores.vue').default);

@@ -23,10 +23,11 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
               headers: {
                 "X-CSRF-TOKEN": document.head.querySelector("[name=csrf-token]").content
               },
-              addRemoveLinks: true,
-              maxFiles: 1
+              addRemoveLinks: true
           },
-          dropzone: ""
+          dropzone: "",
+          file: "",
+          response_file: ""
         }
       },
         mounted() {
@@ -34,13 +35,25 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
         },
         methods: {
           obtenerID: function(file, response){
+            this.file = file;
+            this.response_file = response.file_name_temp;
             console.log(file);
-            console.log(response); 
+            console.log(response.file_name_temp);
           },
           verror: function(){
             let file = this.$refs.myVueDropzone.getAcceptedFiles()[0];
             console.log(file);
             this.$refs.myVueDropzone.removeFile(file);
+          },
+          darArchivoCargado: function(){
+            return {
+            };
+          },
+          darArchivoEnviado: function(){
+            return {
+              file: this.file,
+              response_file: this.response_file
+            };
           }
         }
     }
@@ -54,7 +67,7 @@ import 'vue2-dropzone/dist/vue2Dropzone.min.css'
 
   .dropzone-custom-title {
     margin-top: 0;
-    color: #00b782;
+    color: #167d74;
   }
 
   .subtitle {

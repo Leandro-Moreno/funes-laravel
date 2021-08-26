@@ -6,6 +6,7 @@ use App\Registro;
 use App\TipoRegistro;
 use App\RegistroTipoCampos;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Str;
 
 class RegistroController extends Controller
@@ -13,51 +14,89 @@ class RegistroController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index()
     {
          return view('registros.index');
+         // return csrf_token();
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
-        //
+      return view('registros.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
-        dd($request);
-        return response()->json("234234");
+        // $registro = $request;
+        $prueba = $request->prueba;
+        $todo = $request->all();
+        // dd($todo);
+        $registro = $todo['infoAdicional'];
+        $ano_publicacion = $todo['infoAdicional']['ano_publicacion'];
+        $registro = new Registro;
+        $registro->firstOrCreate([
+          'nombre' => $todo['nombre'],
+          'tipo_de_documento' => $todo['tipo_de_documento'],
+          'documento' => $todo['archivoEnviado']['response_file'],
+          'resumen' => $todo['resumen'],
+          'arbitrado' => $todo['infoAdicional']['arbitrado'],
+          'estado_id' => $todo['infoAdicional']['estado_id'],
+          'titulo_publicacion' => $todo['infoAdicional']['tipo_de_publicacion'],
+          'issn' => $todo['infoAdicional']['issn'],
+          'editor' => $todo['infoAdicional']['editor'],
+          'año_publicacion' => $todo['infoAdicional']['ano_publicacion'],
+          'mes_publicacion' => $todo['infoAdicional']['mes_publicacion'],
+          'dia_publicacion' => $todo['infoAdicional']['dia_publicacion'],
+          'tipo_de_fecha' => $todo['infoAdicional']['tipo_de_fecha'],
+          'numero_serie' => $todo['infoAdicional']['numero_serie'],
+          'pagina_hasta' => $todo['infoAdicional']['pagina_hasta'],
+          'url_oficial' => $todo['infoAdicional']['url_oficial'],
+          'volumen' => $todo['infoAdicional']['volumen'],
+          'user_deposito_id' => 1,
+          'user_edicion_id' => 1,
+          'pagina_de' => $todo['infoAdicional']['pagina_de'],
+          'numero_identificacion' => $todo['infoAdicional']['numero_identificacion']
+        ]);
+        $autores = $todo['autores'];
+        // $this->storeAuthorRegister($autores, $registro);
+        $autores_institucionales = $todo['autoresInstitucionales'];
+        return response()->json(['response'=>$ano_publicacion, 'prueba' => $prueba, 'todo' => $todo],200);
+    }
+    public function storeAuthorRegister(Array $autores, Registro $registro)
+    {
+      foreach ($autores as $autor => $value) {
+      }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
+     * @param Registro $registro
+     * @return Response
      */
     public function show(Registro $registro)
     {
-        //
+      return view('registros.show', ['registro' => $registro]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
+     * @param Registro $registro
+     * @return Response
      */
     public function edit(Registro $registro)
     {
@@ -67,9 +106,9 @@ class RegistroController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Registro $registro
+     * @return Response
      */
     public function update(Request $request, Registro $registro)
     {
@@ -79,8 +118,8 @@ class RegistroController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Registro  $registro
-     * @return \Illuminate\Http\Response
+     * @param Registro $registro
+     * @return Response
      */
     public function destroy(Registro $registro)
     {

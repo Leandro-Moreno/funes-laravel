@@ -17,9 +17,16 @@ Route::get('/', function () {
     return view('principal');
 });
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/subjects', 'RegistroController@subjects')->name('subjects');
+Route::get('/author', 'RegistroController@author')->name('author');
+Route::get('/division', 'RegistroController@division')->name('division');
+Route::get('/publication', 'RegistroController@publication')->name('publication');
+Route::get('/editorial', 'RegistroController@editorial')->name('editorial');
+Route::get('/year', 'RegistroController@year')->name('year');
+
 Route::resource('registro', 'RegistroController');
 Route::post('subirImagen','RegistroController@subirImagen');
 Route::resource('autor', 'AutorController');

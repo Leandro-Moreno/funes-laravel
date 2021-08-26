@@ -3,14 +3,14 @@
 <label class="col-md-12" >Información Adicional</label>
   <div>
   <b-form-group label="Arbitrado por especialistas" v-slot="{ ariaDescribedby }">
-      <b-form-radio v-model="arbitrado" :aria-describedby="ariaDescribedby" name="some-radios" value="TRUE">Sí, esta versión ha sido arbitrada.</b-form-radio>
-      <b-form-radio v-model="arbitrado" :aria-describedby="ariaDescribedby" name="some-radios" value="FALSE">No, esta versión no ha sido arbitrada.</b-form-radio>
+      <b-form-radio v-model="arbitrado" :aria-describedby="ariaDescribedby" name="arbitrado" value="1">Sí, esta versión ha sido arbitrada.</b-form-radio>
+      <b-form-radio v-model="arbitrado" :aria-describedby="ariaDescribedby" name="arbitrado" value="0">No, esta versión no ha sido arbitrada.</b-form-radio>
     </b-form-group>
-    <b-form-group label="Estado" v-slot="{ ariaDescribedby }">
-        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedby" name="some-radios" value="1">Publicado</b-form-radio>
-        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedby" name="some-radios" value="2">En Prensa</b-form-radio>
-        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedby" name="some-radios" value="3">En Evaluación</b-form-radio>
-        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedby" name="some-radios" value="4">Inédito</b-form-radio>
+    <b-form-group for="estado_id" label="Estado" v-slot="{ ariaDescribedbyd }">
+        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedbyd" name="estado_id" value="1">Publicado</b-form-radio>
+        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedbyd" name="estado_id" value="2">En Prensa</b-form-radio>
+        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedbyd" name="estado_id" value="3">En Evaluación</b-form-radio>
+        <b-form-radio v-model="estado_id" :aria-describedby="ariaDescribedbyd" name="estado_id" value="4">Inédito</b-form-radio>
       </b-form-group>
       <b-container fluid>
         <b-row class="my-1">
@@ -58,7 +58,7 @@
             <label for="numero_serie">Número</label>
           </b-col>
           <b-col sm="10">
-            <b-form-input v-model="numero_serie" type="number" id="numero_serie" placeholder="Número"></b-form-input>
+            <b-form-input v-model="numero_serie" autocomplete="name" type="number" min="1" id="numero_serie" placeholder="Número"></b-form-input>
           </b-col>
         </b-row>
         <b-row class="my-1">
@@ -66,13 +66,13 @@
             <label for="pagina_de">Rango de páginas</label>
           </b-col>
           <b-col sm="1">
-            <b-form-input v-model="pagina_de" type="number" id="pagina_de" placeholder=""></b-form-input>
+            <b-form-input v-model="pagina_de" type="number" id="pagina_de" min="0" placeholder=""></b-form-input>
           </b-col>
           <b-col sm="1">
             <label for="pagina_hasta">a</label>
           </b-col>
           <b-col sm="1">
-            <b-form-input v-model="pagina_hasta" type="number" id="pagina_hasta" placeholder=""></b-form-input>
+            <b-form-input v-model="pagina_hasta" type="number" id="pagina_hasta" min="1" placeholder=""></b-form-input>
           </b-col>
         </b-row>
         <b-row class="my-1">
@@ -86,26 +86,26 @@
             <b-form-select v-model="mes_publicacion" size="sm" :options="listames_publicaciones"></b-form-select>
           </b-col>          
           <b-col sm="2">
-            <b-form-input v-model="dia_publicacion" type="number" id="dia_publicacion" placeholder="Día"></b-form-input>
+            <b-form-input v-model="dia_publicacion" type="number" id="dia_publicacion" min="1" placeholder="Día"></b-form-input>
           </b-col>
         </b-row>
-        <b-form-group label="Tipo de Fecha" v-slot="{ ariaDescribedby }">
-            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="ariaDescribedby" name="tipo_de_fecha" value="">SIN ESPECIFICAR</b-form-radio>
-            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="ariaDescribedby" name="tipo_de_fecha" value="published">Publicación</b-form-radio>
-            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="ariaDescribedby" name="tipo_de_fecha" value="submitted">Presentación</b-form-radio>
-            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="ariaDescribedby" name="tipo_de_fecha" value="completed">Terminación</b-form-radio>
+        <b-form-group label="Tipo de Fecha" v-slot="{ tipoDeFecha }">
+            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="tipoDeFecha" name="tipo_de_fecha" value="unspecified">SIN ESPECIFICAR</b-form-radio>
+            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="tipoDeFecha" name="tipo_de_fecha" value="published">Publicación</b-form-radio>
+            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="tipoDeFecha" name="tipo_de_fecha" value="submitted">Presentación</b-form-radio>
+            <b-form-radio v-model="tipo_de_fecha" :aria-describedby="tipoDeFecha" name="tipo_de_fecha" value="completed">Terminación</b-form-radio>
           </b-form-group>
         <b-row class="my-1">
           <b-col sm="2">
             <label for="numero_identificacion">Número de Identificación</label>
           </b-col>
           <b-col sm="10"> 
-            <b-form-input v-model="numero_identificacion" type="text" autocomplete="off" id="numero_identificacion" placeholder="Número de Identificación"></b-form-input>
+            <b-form-input v-model="numero_identificacion"  type="text" autocomplete="name" id="numero_identificacion" placeholder="Número de Identificación"></b-form-input>
           </b-col>
         </b-row>
         </b-container>
   </div>
-  <div class="mt-3">Selected: <strong>{{ tipo_de_fecha }}</strong></div>
+  <div class="mt-3">Selected: <strong>{{ estado_id }}</strong></div>
 </div>
 </template>
 <script>
@@ -129,20 +129,42 @@ export default {
         numero_identificacion: '',
         listames_publicaciones: [
           {value: null, text: 'Elige mes_publicacion'},
-          {value: 'enero', text: 'Enero'},
-          {value: 'febrero', text: 'febrero'},
-          {value: 'marzo', text: 'marzo'},
-          {value: 'abril', text: 'abril'},
-          {value: 'mayo', text: 'mayo'},
-          {value: 'junio', text: 'junio'},
-          {value: 'julio', text: 'julio'},
-          {value: 'agosto', text: 'agosto'},
-          {value: 'septiembre', text: 'septiembre'},
-          {value: 'octubre', text: 'octubre'},
-          {value: 'noviembre', text: 'noviembre'},
-          {value: 'diciembre', text: 'diciembre'},
+          {value: '1', text: 'Enero'},
+          {value: '2', text: 'Febrero'},
+          {value: '3', text: 'Marzo'},
+          {value: '4', text: 'Abril'},
+          {value: '5', text: 'Mayo'},
+          {value: '6', text: 'Junio'},
+          {value: '7', text: 'Julio'},
+          {value: '8', text: 'Agosto'},
+          {value: '9', text: 'Septiembre'},
+          {value: '10', text: 'Octubre'},
+          {value: '11', text: 'Noviembre'},
+          {value: '12', text: 'Diciembre'},
         ]
       }
+  }, 
+  methods: {
+    darInformacionAdicional: function(){
+      let info = {
+        arbitrado: this.arbitrado,
+        estado_id: this.estado_id,
+        tipo_de_publicacion: this.tipo_de_publicacion,
+        issn: this.issn,
+        editor: this.editor,
+        url_oficial: this.url_oficial,
+        volumen: this.volumen,
+        pagina_de: this.pagina_de,
+        pagina_hasta: this.pagina_hasta,
+        numero_serie: this.numero_serie,
+        dia_publicacion: this.dia_publicacion,
+        mes_publicacion: this.mes_publicacion,
+        ano_publicacion: this.año_publicacion,
+        tipo_de_fecha: this.tipo_de_fecha,
+        numero_identificacion: this.numero_identificacion        
+      }
+      return info;
     }
   }
+}
 </script>

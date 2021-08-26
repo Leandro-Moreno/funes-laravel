@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Autor;
+use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,7 @@ class AutorController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
@@ -19,7 +20,7 @@ class AutorController extends Controller
       $searchterm = $request->input('query');
 
         $searchResults = (new Search())
-                    ->registerModel(\App\Autor::class, 'nombre', 'apellido', 'email')
+                    ->registerModel(Autor::class, 'nombre', 'apellido', 'email')
                     ->perform($searchterm);
         return response()->json($searchResults);
     }
@@ -27,7 +28,7 @@ class AutorController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -37,8 +38,8 @@ class AutorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -48,8 +49,8 @@ class AutorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Autor  $autor
-     * @return \Illuminate\Http\Response
+     * @param Autor $autor
+     * @return Response
      */
     public function show(Autor $autor)
     {
@@ -59,8 +60,8 @@ class AutorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Autor  $autor
-     * @return \Illuminate\Http\Response
+     * @param Autor $autor
+     * @return Response
      */
     public function edit(Autor $autor)
     {
@@ -70,9 +71,9 @@ class AutorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Autor  $autor
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Autor $autor
+     * @return Response
      */
     public function update(Request $request, Autor $autor)
     {
@@ -82,8 +83,8 @@ class AutorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Autor  $autor
-     * @return \Illuminate\Http\Response
+     * @param Autor $autor
+     * @return Response
      */
     public function destroy(Autor $autor)
     {

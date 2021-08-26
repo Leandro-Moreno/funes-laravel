@@ -6,8 +6,7 @@
     <div class="col-lg-4 col-md-6 col-sm-8 ml-auto mr-auto">
       <form class="form" method="POST" action="{{ route('password.update') }}">
         @csrf
-
-        <input type="hidden" name="token" value="{{ $token }}">
+        <input type="hidden" value="{{ request()->route('token') }}" name="token" >
         <div class="card card-login card-hidden mb-3">
           <div class="card-header card-header-primary text-center">
             <h4 class="card-title"><strong>{{ __('Reset Password') }}</strong></h4>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\AutorInstitucional;
+use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
 
@@ -11,13 +12,13 @@ class AutorInstitucionalController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function index(Request $request)
     {
       $searchterm = $request->input('query');
         $searchResults = (new Search())
-                    ->registerModel(\App\AutorInstitucional::class, 'nombre')
+                    ->registerModel(AutorInstitucional::class, 'nombre')
                     ->perform($searchterm);
         return response()->json($searchResults);
     }
@@ -25,7 +26,7 @@ class AutorInstitucionalController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -35,8 +36,8 @@ class AutorInstitucionalController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -46,8 +47,8 @@ class AutorInstitucionalController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\AutorInstitucional  $autorInstitucional
-     * @return \Illuminate\Http\Response
+     * @param AutorInstitucional $autorInstitucional
+     * @return Response
      */
     public function show(AutorInstitucional $autorInstitucional)
     {
@@ -57,8 +58,8 @@ class AutorInstitucionalController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\AutorInstitucional  $autorInstitucional
-     * @return \Illuminate\Http\Response
+     * @param AutorInstitucional $autorInstitucional
+     * @return Response
      */
     public function edit(AutorInstitucional $autorInstitucional)
     {
@@ -68,9 +69,9 @@ class AutorInstitucionalController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\AutorInstitucional  $autorInstitucional
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param AutorInstitucional $autorInstitucional
+     * @return Response
      */
     public function update(Request $request, AutorInstitucional $autorInstitucional)
     {
@@ -80,8 +81,8 @@ class AutorInstitucionalController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\AutorInstitucional  $autorInstitucional
-     * @return \Illuminate\Http\Response
+     * @param AutorInstitucional $autorInstitucional
+     * @return Response
      */
     public function destroy(AutorInstitucional $autorInstitucional)
     {

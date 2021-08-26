@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'home', 'title' => __('Estatus servicios uniandes')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'home', 'title' => __('Página Inicial de Funes')])
 
 @section('content')
 <section>
@@ -8,16 +8,20 @@
         <div class="col-md-12" >
           <h2 class="card-title font-weight-bold">Página Inicial de Funes</h2>
         </div>
+        @guest()
         <div class="card">
           <div class="card-header">
-            <h3 class="card-title">Ventajas de Ser un Usuario Registrado</h3>
-            <p class="card-category"></p>
+            <a href="{{ route('register') }}">
+              <h3 class="card-title">Ventajas de Ser un Usuario Registrado</h3>
+              <p class="card-category"></p>
+            </a>
           </div>
           <div class="card-body row">
               <div class="col-sm-12">  <p>Los usuarios registrados pueden proponer documentos para su publicación, guardar búsquedas de su interés y recibir información (por correo electrónico y RSS) cuando se publiquen nuevos documentos que satisfagan esas búsquedas.</p>
               </div>
             </div>
         </div>
+        @endguest()
         <div class="card">
           <div class="card-header">
             <h3 class="card-title">Registros Recientes</h3>

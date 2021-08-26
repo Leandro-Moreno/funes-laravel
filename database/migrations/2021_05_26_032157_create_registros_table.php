@@ -29,7 +29,7 @@ class CreateRegistrosTable extends Migration
             $table->string("lugar_publicacion")->nullable();
             $table->integer("total_paginas")->nullable();
             $table->string("issn")->nullable();
-            $table->string("tipo_de_medio");
+            $table->string("tipo_de_medio")->nullable();
             $table->string("editor")->nullable();
             $table->integer('año_publicacion');
             $table->integer('mes_publicacion')->nullable();
@@ -45,7 +45,7 @@ class CreateRegistrosTable extends Migration
             $table->integer("numero_publicacion")->nullable();
             $table->integer("pagina_de")->nullable();
             $table->integer("pagina_hasta")->nullable();
-            $table->text("referencias");
+            $table->text("referencias")->nullable();
             //fin detalles
             //info pedagogico
             $table->integer("tipo_pedagogico")->nullable();
@@ -59,7 +59,7 @@ class CreateRegistrosTable extends Migration
             $table->string("fechas_evento")->nullable();
             //
             $table->string("enfoque")->nullable();
-            $table->foreignId('nivel_educativo_id')->references('id')->on('nivel_educativo')->nullable();
+            $table->foreignId('nivel_educativo_id')->nullable()->references('id')->on('nivel_educativo');
             $table->string("correo_contacto")->nullable();
             $table->text("notas")->nullable();
             $table->text("comentarios")->nullable();
