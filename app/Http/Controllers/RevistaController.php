@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Revista;
+use App\Models\Revista;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

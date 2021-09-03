@@ -1,35 +1,28 @@
 <?php
 
+use App\Http\Controllers\AutorController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', function () {
     return view('principal');
 });
 
+Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/subjects', [RegistroController::class, 'subjects'])->name('subjects');
+Route::get('/author', [RegistroController::class, 'author'])->name('author');
+Route::get('/division', [RegistroController::class, 'division'])->name('division');
+Route::get('/publication', [RegistroController::class, 'publication'])->name('publication');
+Route::get('/editorial', [RegistroController::class,'editorial'])->name('editorial');
+Route::get('/year', [RegistroController::class, 'year'])->name('year');
 
-Route::get('/subjects', 'RegistroController@subjects')->name('subjects');
-Route::get('/author', 'RegistroController@author')->name('author');
-Route::get('/division', 'RegistroController@division')->name('division');
-Route::get('/publication', 'RegistroController@publication')->name('publication');
-Route::get('/editorial', 'RegistroController@editorial')->name('editorial');
-Route::get('/year', 'RegistroController@year')->name('year');
-
-Route::resource('registro', 'RegistroController');
-Route::post('subirImagen','RegistroController@subirImagen');
-Route::resource('autor', 'AutorController');
+Route::resource('registro', RegistroController::class);
+Route::post('subirImagen',[RegistroController::class, 'subirImagen']);
+Route::resource('autor', AutorController::class);
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
@@ -62,8 +55,9 @@ Route::group(['middleware' => 'auth'], function () {
 });
 
 Route::group(['middleware' => 'auth'], function () {
-	Route::resource('user', 'UserController', ['except' => ['show']]);
-	Route::get('profile', ['as' => 'profile.edit', 'uses' => 'ProfileController@edit']);
-	Route::put('profile', ['as' => 'profile.update', 'uses' => 'ProfileController@update']);
-	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
+//    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
+	Route::resource('user', UserController::class)->except(['show']);
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Enfoque;
+use App\Models\Enfoque;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Autor;
+use App\Models\Autor;
 use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
@@ -16,12 +16,12 @@ class AutorController extends Controller
      */
     public function index(Request $request)
     {
-      // dd($request);
-      $searchterm = $request->input('query');
+        // dd($request);
+        $searchterm = $request->input('query');
 
         $searchResults = (new Search())
-                    ->registerModel(Autor::class, 'nombre', 'apellido', 'email')
-                    ->perform($searchterm);
+            ->registerModel(Autor::class, 'nombre', 'apellido', 'email')
+            ->perform($searchterm);
         return response()->json($searchResults);
     }
 

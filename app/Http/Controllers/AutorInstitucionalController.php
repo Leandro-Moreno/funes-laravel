@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\AutorInstitucional;
+use App\Models\AutorInstitucional;
 use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
@@ -16,10 +16,10 @@ class AutorInstitucionalController extends Controller
      */
     public function index(Request $request)
     {
-      $searchterm = $request->input('query');
+        $searchterm = $request->input('query');
         $searchResults = (new Search())
-                    ->registerModel(AutorInstitucional::class, 'nombre')
-                    ->perform($searchterm);
+            ->registerModel(AutorInstitucional::class, 'nombre')
+            ->perform($searchterm);
         return response()->json($searchResults);
     }
 

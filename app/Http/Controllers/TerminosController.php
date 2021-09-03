@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Terminos;
+use App\Models\Terminos;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

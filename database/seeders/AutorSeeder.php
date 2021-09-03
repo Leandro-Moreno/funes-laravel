@@ -1,7 +1,9 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use App\Autor;
+use Illuminate\Support\Facades\DB;
 
 class AutorSeeder extends Seeder
 {
@@ -18,10 +20,11 @@ class AutorSeeder extends Seeder
         $table->string('nombre');
         $table->string('email')->nullable();*/
         DB::table('autors')->insert([
-              'apellido' => 'Moreno',
-              'nombre' => 'Leandro',
-              'email' => '123857@gmail.com'
-          ]);
-        factory(Autor::class, 50)->create();
+            'apellido' => 'Moreno',
+            'nombre' => 'Leandro',
+            'email' => '123857@gmail.com'
+        ]);
+
+        \App\Models\Autor::factory()->count(50)->create();
     }
 }

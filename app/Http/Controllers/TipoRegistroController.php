@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\TipoRegistro;
+use App\Models\TipoRegistro;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
