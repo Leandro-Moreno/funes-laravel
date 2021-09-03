@@ -1,23 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\AutorController;
+use App\Http\Controllers\AutorInstitucionalController;
+use App\Http\Controllers\RegistroController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-Route::get('/buscar-autor', 'AutorController@index');
-Route::get('/buscar-autor-institucional', 'AutorInstitucionalController@index');
-
-Route::get('/tipos-registro', 'RegistroController@tiposRegistro');
-Route::get('/campos-tipos-registro', 'RegistroController@camposTiposRegistro');
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::get('/user', [AutorController::class, 'index']);
+Route::get('/buscar-autor-institucional', [AutorInstitucionalController::class, 'index']);
+//Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
+//Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');

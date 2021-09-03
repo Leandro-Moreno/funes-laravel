@@ -1,15 +1,42 @@
 <?php
 
-/** @var Factory $factory */
+namespace Database\Factories;
 
-use App\Autor;
-use Faker\Generator as Faker;
-use Illuminate\Database\Eloquent\Factory;
+use App\Models\Autor;
+use Illuminate\Database\Eloquent\Factories\Factory;
 
-$factory->define(Autor::class, function (Faker $faker) {
-    return [
-      'nombre' => $faker->firstName,
-      'apellido' => $faker->lastName,
-      'email' => $faker->unique()->safeEmail
-    ];
-});
+class AutorFactory extends Factory
+{
+    /**
+     * The name of the factory's corresponding model.
+     *
+     * @var string
+     */
+    protected $model = Autor::class;
+
+    /**
+     * Define the model's default state.
+     *
+     * @return array
+     */
+    public function definition()
+    {
+        return [
+            'nombre' => $this->faker->firstName,
+            'apellido' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail
+        ];
+    }
+
+    /**
+     * Indicate that the model's email address should be unverified.
+     *
+     * @return \Illuminate\Database\Eloquent\Factories\Factory
+     */
+    public function unverified()
+    {
+        return $this->state(function (array $attributes) {
+
+        });
+    }
+}

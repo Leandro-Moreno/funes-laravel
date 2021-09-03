@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\NivelEducativo;
+use App\Models\NivelEducativo;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

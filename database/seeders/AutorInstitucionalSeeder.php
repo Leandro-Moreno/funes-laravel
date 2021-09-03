@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class RegistroSeeder extends Seeder
+class AutorInstitucionalSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +13,6 @@ class RegistroSeeder extends Seeder
      */
     public function run()
     {
-        //
+        \App\Models\AutorInstitucional::factory()->count(15)->create();
     }
 }

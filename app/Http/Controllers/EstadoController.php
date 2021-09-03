@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Estado;
+use App\Models\Estado;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 

@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class NivelEducativoSeeder extends Seeder
+class RevistaSeeder extends Seeder
 {
     /**
      * Run the database seeds.

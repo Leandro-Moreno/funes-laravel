@@ -1,8 +1,10 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 
-class EnfoqueSeeder extends Seeder
+class RegistroSeeder extends Seeder
 {
     /**
      * Run the database seeds.
