@@ -12,6 +12,7 @@
         "laravel/fortify": "^1.8",
         "laravel/framework": "^8.55",
         "laravel/tinker": "^2.6",
+        "maatwebsite/excel": "^3.1",
         "spatie/laravel-searchable": "^1.10"
     },
     "require-dev": {

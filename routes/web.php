@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -57,6 +58,9 @@ Route::group(['middleware' => 'auth'], function () {
 Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
 	Route::resource('user', UserController::class)->except(['show']);
+	Route::get('/user/massive', [UserController::class, 'massive'])->name('user.massive');
+	Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
+	Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
