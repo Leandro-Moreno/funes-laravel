@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AutorController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistroController;
@@ -54,11 +55,13 @@ Route::group(['middleware' => 'auth'], function () {
 		return view('pages.upgrade');
 	})->name('upgrade');
 });
-
+Route::get('/eprint/id/{document}', [RegistroController::class, 'show']);
+Route::get('/{eprint}/{pos}/{document}', [DocumentController::class, 'showFile']);
 Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
 	Route::resource('user', UserController::class)->except(['show']);
-	Route::get('/user/massive', [UserController::class, 'massive'])->name('user.massive');
+	Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
+	Route::get('/registros/folder', [RegistroController::class, 'massiveFolders'])->name('registro.folders');
 	Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
 	Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

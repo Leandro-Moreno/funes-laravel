@@ -15,37 +15,38 @@ class CreateRegistrosTable extends Migration
     {
         Schema::create('registros', function (Blueprint $table) {
             $table->id();
-            $table->string("nombre");
-            $table->string("tipo_de_documento");
-            $table->string("documento");
-            $table->text("resumen");
+            $table->integer("eprintid");
+            $table->string("title")->nullable();
+            $table->string("type")->nullable();
+            $table->text("abstract")->nullable();
             $table->integer("tipo_de_tesis")->nullable();
             $table->integer("tipo_de_publicacion")->nullable();
             $table->string("tipo_de_datos")->nullable();
+            $table->string("documento")->nullable();
+            $table->string("metadata_visibility")->nullable();
+            $table->integer("item_issues_count")->nullable();
             //informacion adicional
-            $table->boolean("arbitrado")->nullable();
-            $table->foreignId('estado_id')->references('id')->on('estados');
-            $table->string("titulo_publicacion");
+            $table->boolean("refereed")->nullable();
+            //TODO
+            $table->foreignId('estado_id')->nullable()->references('id')->on('estados');
+            $table->string("titulo_publicacion")->nullable();
             $table->string("lugar_publicacion")->nullable();
             $table->integer("total_paginas")->nullable();
             $table->string("issn")->nullable();
             $table->string("tipo_de_medio")->nullable();
             $table->string("editor")->nullable();
-            $table->integer('año_publicacion');
-            $table->integer('mes_publicacion')->nullable();
-            $table->integer('dia_publicacion')->nullable();
-            $table->string("tipo_de_fecha")->nullable();
+            $table->string('date')->nullable();
+            $table->string("date_type")->nullable();
             $table->string("numero_identificacion")->nullable();
             $table->string("numero_serie")->nullable();
             $table->string("isbn")->nullable();
-            $table->string("url_oficial")->nullable();
+            $table->string("official_url")->nullable();
             $table->string("institucion")->nullable();
             $table->string("facultad")->nullable();
-            $table->string("volumen")->nullable();
-            $table->integer("numero_publicacion")->nullable();
-            $table->integer("pagina_de")->nullable();
-            $table->integer("pagina_hasta")->nullable();
-            $table->text("referencias")->nullable();
+            $table->string("volume")->nullable();
+            $table->integer("number")->nullable();
+            $table->string("pagerange")->nullable();
+            $table->text("referencetext")->nullable();
             //fin detalles
             //info pedagogico
             $table->integer("tipo_pedagogico")->nullable();
@@ -63,8 +64,9 @@ class CreateRegistrosTable extends Migration
             $table->string("correo_contacto")->nullable();
             $table->text("notas")->nullable();
             $table->text("comentarios")->nullable();
-            $table->foreignId('user_deposito_id')->references('id')->on('users')->nullable();
-            $table->foreignId('user_edicion_id')->references('id')->on('users')->nullable();
+            $table->foreignId('user_deposito_id')->nullable()->references('id')->on('users');
+            $table->foreignId('user_edicion_id')->nullable()->references('id')->on('users');
+            $table->timestamp('status_changed')->nullable();
             $table->timestamps();
         });
     }

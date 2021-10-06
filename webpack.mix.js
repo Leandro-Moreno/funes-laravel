@@ -15,8 +15,16 @@ mix.js('resources/js/app.js', 'public/js')
     .sass('resources/sass/material-dashboard.scss', 'public/material/css')
     .browserSync('funes-laravel.test')
     .version()
+    .options({
+        hmrOptions: {
+            host: 'localhost',
+            port: '9000'
+        },
+    })
     .webpackConfig({
       devServer: {
-          port: '8079'
+          port: '9000',
+          compress: 'true',
+          http2: 'true'
       },
     });
