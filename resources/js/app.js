@@ -30,6 +30,7 @@ Vue.component('registro-detalles', require('./components/registroDetalles.vue').
 Vue.component('registro-autores', require('./components/registro/registroAutores.vue').default);
 Vue.component('registro-autores-institucionales', require('./components/registro/registroAutoresInstitucional.vue').default);
 Vue.component('registro-info-adicional', require('./components/registro/registroInformacionAdicional.vue').default);
+Vue.component('pdf-viewer', require('./components/pdfViewer.vue').default);
 
 // Vue.use(BootstrapVue);
 /**

@@ -184,7 +184,7 @@ class RegistroController extends Controller
     private function createDocuments(Array $xmlrevision, Registro $eprint)
     {
             //makeFolder
-            $path = 'document/'.strval($xmlrevision['eprintid']);
+            $path = 'public/document/'.strval($xmlrevision['eprintid']);
             $this->createRoute($path);
             if(array_key_exists('pos',$xmlrevision['documents']['document'])){
                 $documents = $xmlrevision['documents'];
@@ -214,6 +214,7 @@ class RegistroController extends Controller
                     $document['hash'] = sha1_file(Storage::path($newFileRoute));
                     $document['eprintid'] = $eprint->eprintid;
                     $document['registro_id'] = $eprint->id;
+                    $document['url'] = $newFileRoute;
                     $validator = Validator::make($document,[
                         'format' => ' required',
                         'language' => 'required',

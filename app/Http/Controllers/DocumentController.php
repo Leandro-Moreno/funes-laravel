@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Document;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class DocumentController extends Controller
 {
@@ -46,8 +48,7 @@ class DocumentController extends Controller
      */
     public function show(Document $document)
     {
-        dd($document);
-
+        return view('document.show', ['document' => $servicio]);
     }
 
     /**
@@ -66,7 +67,9 @@ class DocumentController extends Controller
                             ->where('pos', $pos)
                             ->where('main',$document)
                             ->first();
-        dd($eprint);
+        $url = URL::to( Storage::url($eprint->url) );
+//        dd($url);
+        return view('document.show', ['document' => $eprint, 'url'=>$url]);
     }
 
     /**
