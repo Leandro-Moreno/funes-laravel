@@ -20,7 +20,7 @@ class CreateDocumentsTable extends Migration
             $table->integer('pos');
             $table->integer('eprintid');
             $table->string('format');
-            $table->string('language');
+            $table->string('language')->default('es');
             $table->string('security');
             $table->string('license');
             $table->string('main');

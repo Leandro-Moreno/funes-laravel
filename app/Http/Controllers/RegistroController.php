@@ -13,7 +13,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Debugbar;
 
 class RegistroController extends Controller
 {
@@ -191,8 +193,9 @@ class RegistroController extends Controller
                 $documents = $xmlrevision['documents']['document'];
             }
             //Temporal TODO
-            $xmlrevision['dir'] = str_replace("disk0/00/01/02","disk0.00.01.02", $xmlrevision['dir']);
-            foreach ($documents as $document)
+        $xmlrevision['dir'] = str_replace("disk0/00/01/02","disk0.00.01.02", $xmlrevision['dir']);
+
+        foreach ($documents as $document)
             {
                 $document['filename'] = $document['files']['file']['filename'];
                 $document['filesize'] = $document['files']['file']['filesize'];
@@ -205,10 +208,32 @@ class RegistroController extends Controller
                 {
                     //TODO change for move // dejarlo por temas de pruebas de ejecución
                     Storage::copy($oldFileRoute, $newFileRoute);
+//                    if(!array_key_exists('format', $document)){
+//                        $document['format'] = mime_content_type( Storage::path($newFileRoute) );
+//                    }
                     $document['hash'] = sha1_file(Storage::path($newFileRoute));
                     $document['eprintid'] = $eprint->eprintid;
                     $document['registro_id'] = $eprint->id;
-                    $document = Document::create($document);
+                    $validator = Validator::make($document,[
+                        'format' => ' required',
+                        'language' => 'required',
+                        'registro_id' => 'required',
+                        'license' => 'required',
+                        'main' => 'required',
+                        'filename' => 'required',
+                        'filesize' => 'required',
+                        'hash' => 'required',
+                        'url' => 'required',
+                        'docid' => 'required',
+                        'eprintid' => 'required',
+                        'security' => 'required',
+                        'pos' => 'required',
+                        'license' => 'required'
+                    ]);
+                    if(!$validator->fails()){
+                        $document = $validator->validated();
+                        $document = Document::create($document);
+                    }
                 }
             }
 
@@ -226,26 +251,36 @@ class RegistroController extends Controller
     }
     public function identifyFoldersToExplore(): Array
     {
-        $folder_routes = Array();
-
+        $folder_routes = collect();
+        //TODO change disk.000 for testing purposes
         $directories = Storage::allFiles("disk0.00.01.02");
         foreach ($directories as $directory)
         {
             if(str_contains($directory, 'revisions'))
             {
                 $folder_routes_temp = explode("/revisions", $directory);
-                $folder = Folder::firstOrCreate(
-                    ['route' => $folder_routes_temp[0] ]
-                );
+                if(! $folder_routes->contains($folder_routes_temp[0])){
+                    $folder_routes->push($folder_routes_temp[0]);
+                    $folder = Folder::firstOrCreate(
+                        ['route' => $folder_routes_temp[0] ]
+                    );
+                }
             }
         }
         return $directories;
     }
     public function massiveFolders()
     {
+        Debugbar::startMeasure('render','identifyFoldersToExplore');
         $directories = $this->identifyFoldersToExplore();
+        Debugbar::stopMeasure('render');
+        Debugbar::startMeasure('render','scanRegister');
         $this->scanRegister();
+        Debugbar::stopMeasure('render');
+        Debugbar::startMeasure('render','extractRegister');
         $this->extractRegister();
+        Debugbar::stopMeasure('render');
+        return view('principal');
     }
     public function scanRegister(){
         $routes = Folder::where('scanned', false)->where('extracted',false)->get();
@@ -297,7 +332,7 @@ class RegistroController extends Controller
             $route->extracted = true;
             $route->save();
         }
-        dd("$routes");
+//        dd("$routes");
     }
     public function tiposRegistro()
     {
