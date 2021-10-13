@@ -1,5 +1,4 @@
-@extends('layouts.app', ['activePage' => 'table', 'titlePage' => __('Table List')])
-
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'table', 'title' => __('Table List')])
 @section('content')
 <div class="content">
   <div class="container-fluid">

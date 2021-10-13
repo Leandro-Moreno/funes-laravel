@@ -21,6 +21,7 @@ Route::get('/division', [RegistroController::class, 'division'])->name('division
 Route::get('/publication', [RegistroController::class, 'publication'])->name('publication');
 Route::get('/editorial', [RegistroController::class,'editorial'])->name('editorial');
 Route::get('/year', [RegistroController::class, 'year'])->name('year');
+Route::get('/{registro}', [RegistroController::class, 'show']);
 
 Route::resource('registro', RegistroController::class);
 Route::post('subirImagen',[RegistroController::class, 'subirImagen']);
@@ -61,10 +62,14 @@ Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
 	Route::resource('user', UserController::class)->except(['show']);
 	Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
-	Route::get('/registros/folder', [RegistroController::class, 'massiveFolders'])->name('registro.folders');
 	Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
 	Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });
+Route::group(['prefix' => 'import','middleware' => 'auth'], function () {
+    Route::get('folders', [RegistroController::class, 'importFolders']);
+    Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
+});
+

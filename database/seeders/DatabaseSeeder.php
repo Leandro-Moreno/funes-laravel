@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
             TerminosSeeder::class,
             TipoRegistroSeeder::class,
             CamposTipoRegistroSeeder::class,
-            AutorSeeder::class,
+            AuthorSeeder::class,
             AutorInstitucionalSeeder::class,
             EstadoSeeder::class
         ]);

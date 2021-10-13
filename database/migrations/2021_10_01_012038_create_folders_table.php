@@ -17,9 +17,10 @@ class CreateFoldersTable extends Migration
             $table->id();
             $table->string('route')->unique();
             $table->integer('eprintid')->nullable();
+            $table->integer('processid');
             $table->integer('xmlRevision')->nullable();
-            $table->boolean('scanned')->default(false);
-            $table->boolean('extracted')->default(false);
+            $table->integer('status')->default(0);
+            $table->foreignId('registroid')->nullable()->references('id')->on('registros');
             $table->timestamps();
         });
     }

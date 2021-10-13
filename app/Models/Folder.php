@@ -8,9 +8,28 @@ use Illuminate\Database\Eloquent\Model;
 class Folder extends Model
 {
     use HasFactory;
-    protected $fillable = ['eprintid', 'route', 'scanned', 'extracted', 'xmlRevision'];
-    /**
-     * @var mixed|string
-     */
-    private String $route;
+    protected $fillable = ['eprintid', 'route', 'status', 'registroid', 'xmlRevision', 'processid'];
+
+
+    public function register()
+    {
+        return $this->belongsTo(Registro::class, 'registroid','id');
+    }
+    public function status()
+    {
+        return match((int)$this->status){
+            1 => 'Agregado',
+            2 => 'Escaneado',
+            3 => 'Extraido',
+            default => 'undefined',
+        };
+    }
+    public function exists()
+    {
+        $folder  = $this::where('route', $this->route)->first();
+        return !is_null($folder);
+    }
+    public function registro(){
+        return $this->belongsTo(Registro::class);
+    }
 }

@@ -15,7 +15,7 @@ class CreateRegistrosTable extends Migration
     {
         Schema::create('registros', function (Blueprint $table) {
             $table->id();
-            $table->integer("eprintid");
+            $table->integer("eprintid")->unique();
             $table->string("title")->nullable();
             $table->string("type")->nullable();
             $table->text("abstract")->nullable();
@@ -26,7 +26,8 @@ class CreateRegistrosTable extends Migration
             $table->string("metadata_visibility")->nullable();
             $table->integer("item_issues_count")->nullable();
             //informacion adicional
-            $table->boolean("refereed")->nullable();
+            $table->string("refereed")->nullable();
+            $table->string("ispublished")->nullable();
             //TODO
             $table->foreignId('estado_id')->nullable()->references('id')->on('estados');
             $table->string("titulo_publicacion")->nullable();
@@ -44,9 +45,11 @@ class CreateRegistrosTable extends Migration
             $table->string("institucion")->nullable();
             $table->string("facultad")->nullable();
             $table->string("volume")->nullable();
-            $table->integer("number")->nullable();
+            $table->string("number")->nullable();
+            $table->string("publisher")->nullable();
             $table->string("pagerange")->nullable();
             $table->text("referencetext")->nullable();
+            $table->string("publication")->nullable();
             //fin detalles
             //info pedagogico
             $table->integer("tipo_pedagogico")->nullable();
@@ -54,11 +57,12 @@ class CreateRegistrosTable extends Migration
             $table->text("proposito_pedagogico")->nullable();
             $table->string("grado_pedagogico")->nullable();
             //informacion Evento
-            $table->string("nombre_evento")->nullable();
-            $table->integer("tipo_evento")->nullable();
-            $table->string("lugar_evento")->nullable();
-            $table->string("fechas_evento")->nullable();
+            $table->string("event_title")->nullable();
+            $table->string("event_location")->nullable();
+            $table->string("event_type")->nullable();
+            $table->string("event_dates")->nullable();
             //
+            $table->string("pres_type")->nullable();
             $table->string("enfoque")->nullable();
             $table->foreignId('nivel_educativo_id')->nullable()->references('id')->on('nivel_educativo');
             $table->string("correo_contacto")->nullable();

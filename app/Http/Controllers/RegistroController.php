@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DocumentRequest;
+use App\Jobs\importFolder;
 use App\Models\Document;
 use App\Models\Folder;
 use App\Models\Registro;
+use App\Models\Subject;
 use App\Models\TipoRegistro;
 use App\Models\RegistroTipoCampos;
+use App\Services\ImportService;
 use Carbon\Carbon;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
@@ -51,7 +55,6 @@ class RegistroController extends Controller
         // $registro = $request;
         $prueba = $request->prueba;
         $todo = $request->all();
-        // dd($todo);
         $registro = $todo['infoAdicional'];
         $ano_publicacion = $todo['infoAdicional']['ano_publicacion'];
         $registro = new Registro;
@@ -148,193 +151,46 @@ class RegistroController extends Controller
         }
         return response()->json(['error' => "Tipo de archivo incompatible"]);
     }
-    public function massiveFiles(){
-        $xmlString = file_get_contents(public_path('14.xml'));
-        $xmlObject = simplexml_load_string($xmlString);
 
-        $json = json_encode($xmlObject);
-        $phpArray = json_decode($json, true);
-        $userId = Auth::id();
-        $phpArray['user_deposito_id'] = $userId;
-        $phpArray['user_edicion_id'] = $userId;
-        $phpArray['created_at'] = $this->modifyDate($phpArray['datestamp']);
-        $phpArray['updated_at'] = $this->modifyDate($phpArray['lastmod']);
-        $phpArray['status_changed'] = $this->modifyDate($phpArray['status_changed']);
-        $registro = Registro::create($phpArray);
-        $documents = $phpArray['documents'];
-        if(!empty($documents))
-        {
-            $this->createDocuments($phpArray['documents'], $registro);
-        }
-    }
-    private function loadXmlContent(String $route): Array
-    {
-        $xmlString = Storage::get($route);
-        $xmlObject = simplexml_load_string($xmlString);
-        $json = json_encode($xmlObject);
-        $content = json_decode($json, true);
-        return $content;
-    }
-    public function createRoute(String $path)
-    {
-        if(!Storage::exists($path)){
-            Storage::makeDirectory($path);
-        }
-    }
-    private function createDocuments(Array $xmlrevision, Registro $eprint)
-    {
-            //makeFolder
-            $path = 'public/document/'.strval($xmlrevision['eprintid']);
-            $this->createRoute($path);
-            if(array_key_exists('pos',$xmlrevision['documents']['document'])){
-                $documents = $xmlrevision['documents'];
-            }
-            else{
-                $documents = $xmlrevision['documents']['document'];
-            }
-            //Temporal TODO
-        $xmlrevision['dir'] = str_replace("disk0/00/01/02","disk0.00.01.02", $xmlrevision['dir']);
 
-        foreach ($documents as $document)
-            {
-                $document['filename'] = $document['files']['file']['filename'];
-                $document['filesize'] = $document['files']['file']['filesize'];
-                $document['url'] = $document['files']['file']['url'];
-                $path = $path . '/' . $document['pos'];
-                $oldFileRoute = $xmlrevision['dir'] . '/'.str_pad($document['pos'], 2, "0", STR_PAD_LEFT) . '/' . $document['filename'];
-                $this->createRoute($path);
-                $newFileRoute = $path . '/' . $document['filename'];
-                if(Storage::exists($oldFileRoute) && ! Storage::exists($newFileRoute))
-                {
-                    //TODO change for move // dejarlo por temas de pruebas de ejecución
-                    Storage::copy($oldFileRoute, $newFileRoute);
-//                    if(!array_key_exists('format', $document)){
-//                        $document['format'] = mime_content_type( Storage::path($newFileRoute) );
-//                    }
-                    $document['hash'] = sha1_file(Storage::path($newFileRoute));
-                    $document['eprintid'] = $eprint->eprintid;
-                    $document['registro_id'] = $eprint->id;
-                    $document['url'] = $newFileRoute;
-                    $validator = Validator::make($document,[
-                        'format' => ' required',
-                        'language' => 'required',
-                        'registro_id' => 'required',
-                        'license' => 'required',
-                        'main' => 'required',
-                        'filename' => 'required',
-                        'filesize' => 'required',
-                        'hash' => 'required',
-                        'url' => 'required',
-                        'docid' => 'required',
-                        'eprintid' => 'required',
-                        'security' => 'required',
-                        'pos' => 'required',
-                        'license' => 'required'
-                    ]);
-                    if(!$validator->fails()){
-                        $document = $validator->validated();
-                        $document = Document::create($document);
-                    }
-                }
-            }
 
-    }
-    private function moveRegisterFile(Array $document, String $oldFileRoute, String $newFileRoute)
+    public function importFolders()
     {
+        $folders = Folder::with(['register', 'register.documents'])
+            ->latest()
+            ->get();
+        return view('import.index', [ 'folders' => $folders ]);
+    }
 
-    }
-    private function modifyDate(String $date): String
+    public function massiveFolders(Request $request)
     {
-        $strDate = str_replace("T"," ",$date);
-        $strDate = str_replace("Z","",$strDate);
-        $dateTime = Carbon::createFromFormat('Y-m-d H:i:s', $strDate);
-        return $dateTime->toDateTimeString();
-    }
-    public function identifyFoldersToExplore(): Array
-    {
-        $folder_routes = collect();
-        //TODO change disk.000 for testing purposes
-        $directories = Storage::allFiles("disk0.00.01.02");
-        foreach ($directories as $directory)
-        {
-            if(str_contains($directory, 'revisions'))
-            {
-                $folder_routes_temp = explode("/revisions", $directory);
-                if(! $folder_routes->contains($folder_routes_temp[0])){
-                    $folder_routes->push($folder_routes_temp[0]);
-                    $folder = Folder::firstOrCreate(
-                        ['route' => $folder_routes_temp[0] ]
-                    );
-                }
-            }
+        $service = new ImportService();
+        Debugbar::disable();
+        switch ($request->process){
+            case 'search':
+                $service->identifyFoldersToExplore();
+                break;
+            case 'scan':
+                $service->scanRegister();
+                break;
+            case 'extract':
+                $service->extractRegister();
+                break;
+            case 'complete':
+                $service->identifyFoldersToExplore();
+                $service->scanRegister();
+                $service->extractRegister();
+                break;
+            default:
+                break;
         }
-        return $directories;
+        $folders = Folder::with(['register', 'register.documents'])
+            ->orderBy('processid', 'DESC')
+            ->orderBy('eprintid', 'DESC')
+            ->paginate(30);
+        return view('import.index', [ 'folders' => $folders ]);
     }
-    public function massiveFolders()
-    {
-        Debugbar::startMeasure('render','identifyFoldersToExplore');
-        $directories = $this->identifyFoldersToExplore();
-        Debugbar::stopMeasure('render');
-        Debugbar::startMeasure('render','scanRegister');
-        $this->scanRegister();
-        Debugbar::stopMeasure('render');
-        Debugbar::startMeasure('render','extractRegister');
-        $this->extractRegister();
-        Debugbar::stopMeasure('render');
-        return view('principal');
-    }
-    public function scanRegister(){
-        $routes = Folder::where('scanned', false)->where('extracted',false)->get();
-        foreach ($routes as $route)
-        {
-            $folderRoute = $route->route . "/revisions";
-            $directories = Storage::allFiles($folderRoute);
-            $main = $this->selectMainFromFolder($directories, $folderRoute);
-            $fileRoute = $folderRoute . "/" . $main . '.xml';
-            $phpArray = $this->loadXmlContent($fileRoute);
 
-            $route->xmlRevision = $main;
-            $route->eprintid = $phpArray['eprintid'];
-            $route->scanned = true;
-            $route->save();
-        }
-    }
-    private function selectMainFromFolder(Array $files, String $folderRoute): int
-    {
-        $xmlNumber = Array();
-        foreach ($files as $file)
-        {
-            $file = explode($folderRoute . "/", $file);
-            $file = $file[1];
-            $file = explode(".xml", $file);
-            array_push($xmlNumber, $file[0]);
-        }
-        return max($xmlNumber);
-    }
-    public function extractRegister()
-    {
-        $routes = Folder::where('scanned', true)->where('extracted',false)->orderBy('eprintid')->get();
-        foreach ($routes as $route)
-        {
-            $fileRoute = $route->route . "/revisions/" . $route->xmlRevision . '.xml';
-            $phpArray = $this->loadXmlContent($fileRoute);
-
-            $userId = Auth::id();
-            $phpArray['user_deposito_id'] = $userId;
-            $phpArray['user_edicion_id'] = $userId;
-            $phpArray['created_at'] = $this->modifyDate(array_key_exists('datestamp', $phpArray)? $phpArray['datestamp'] : $phpArray['lastmod']);
-            $phpArray['updated_at'] = $this->modifyDate($phpArray['lastmod']);
-            $phpArray['status_changed'] = $this->modifyDate($phpArray['status_changed']);
-            $registro = Registro::create($phpArray);
-            $documents = $phpArray['documents'];
-            if(!empty($documents)) {
-                $this->createDocuments($phpArray, $registro);
-            }
-            $route->extracted = true;
-            $route->save();
-        }
-//        dd("$routes");
-    }
     public function tiposRegistro()
     {
         $tipos_registro = TipoRegistro::all();
@@ -345,5 +201,10 @@ class RegistroController extends Controller
     {
         $campos_tipo_registro = RegistroTipoCampos::all();
         return response(['campos_tipos_registro' => $campos_tipo_registro, 'message' => 'Tipos de registro enviados correctamente'], 200);
+    }
+
+    private function moveRegisterFile(Array $document, String $oldFileRoute, String $newFileRoute)
+    {
+
     }
 }
