@@ -32,12 +32,6 @@ class Author extends Model implements Searchable
             'given' => $this->given,
             'family' => $this->family
         ];
-        if(is_string($this->email)) {
-            $attributes['email'] = $this->email;
-        }
-        if(is_string($attributes)) {
-            dd($attributes);
-        }
         $author  = $this::firstOrCreate($attributes);
         return $author;
     }

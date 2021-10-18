@@ -1,11 +1,13 @@
 <?php
 
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AutorController;
+use App\Http\Controllers\AuthorController;
+use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RegistroController;
+use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -15,17 +17,16 @@ Route::get('/', function () {
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
-Route::get('/subjects', [RegistroController::class, 'subjects'])->name('subjects');
-Route::get('/author', [RegistroController::class, 'author'])->name('author');
-Route::get('/division', [RegistroController::class, 'division'])->name('division');
+Route::get('/latest', [RegistroController::class, 'latest'])->name('Registrolatest');
 Route::get('/publication', [RegistroController::class, 'publication'])->name('publication');
 Route::get('/editorial', [RegistroController::class,'editorial'])->name('editorial');
 Route::get('/year', [RegistroController::class, 'year'])->name('year');
-Route::get('/{registro}', [RegistroController::class, 'show']);
 
 Route::resource('registro', RegistroController::class);
+Route::resource('author', AuthorController::class);
+Route::resource('division', DivisionController::class);
+Route::resource('subject', SubjectController::class);
 Route::post('subirImagen',[RegistroController::class, 'subirImagen']);
-Route::resource('autor', AutorController::class);
 
 Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
@@ -60,9 +61,10 @@ Route::get('/eprint/id/{document}', [RegistroController::class, 'show']);
 Route::get('/{eprint}/{pos}/{document}', [DocumentController::class, 'showFile']);
 Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
-	Route::resource('user', UserController::class)->except(['show']);
-	Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
-	Route::post('/user/import', [UserController::class, 'import'])->name('user.import');
+    Route::get('/user/import', [UserController::class, 'massive'])->name('user.import');
+    Route::post('/user/import', [UserController::class, 'import']);
+    Route::resource('user', UserController::class);
+    Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
 	Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -73,3 +75,4 @@ Route::group(['prefix' => 'import','middleware' => 'auth'], function () {
     Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
 });
 
+Route::get('/{registro}', [RegistroController::class, 'show'])->name('registroid');

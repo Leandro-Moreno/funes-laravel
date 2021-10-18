@@ -19,12 +19,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('subjects') }}" class="nav-link">
+                    <a href="{{ route('subject.index') }}" class="nav-link">
                         <i class="material-icons">dashboard</i> {{ __('Término Clave') }}
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ route('author') }}" class="nav-link">
+                    <a href="{{ route('author.index') }}" class="nav-link">
                         <i class="material-icons">dashboard</i> {{ __('Autor') }}
                     </a>
                 </li>

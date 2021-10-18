@@ -23,10 +23,13 @@
         </div>
         @endguest()
         <div class="card">
+
+            <a href="{{ route('Registrolatest') }}">
           <div class="card-header">
             <h3 class="card-title">Registros Recientes</h3>
             <p class="card-category"></p>
           </div>
+            </a>
           <div class="card-body row">
               <div class="col-sm-12">  <p>Registros publicados en Funes durante la última semana.</p>
               </div>

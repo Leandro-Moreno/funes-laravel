@@ -8,6 +8,7 @@ use App\Models\Folder;
 use App\Models\Project;
 use App\Models\Registro;
 use App\Models\subject;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,18 +16,30 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ImportService{
+        protected $documentRules = [
+        'format' => ' required',
+        'language' => 'required',
+        'license' => 'required',
+        'main' => 'required',
+        'filename' => 'required',
+        'filesize' => 'required',
+        'docid' => 'required',
+        'security' => 'required',
+        'pos' => 'required',
+        'license' => 'required'
+        ];
     public function scanRegister(){
         $q = 0;
         $routes = Folder::where('status', 0)
             ->orderBy('eprintid')
-            ->lazy();
+            ->cursor();
         $routes->each(function ($route) use ($q){
             $folderRoute = $route->route . "/revisions";
             $directories = Storage::allFiles($folderRoute);
             $main = $this->selectMainFromFolder($directories, $folderRoute);
             $route->xmlRevision = $main;
-            $eprint = new Registro(['eprintid' => $route->eprintid]);
-            if(!$eprint->exists()){
+            $validator = Validator::make(['eprintid' => $route->eprintid],['eprintid'=>'unique:registros']);
+            if(!$validator->fails()){
                 $route->status = 1;
                 $q++;
             }
@@ -40,13 +53,20 @@ class ImportService{
     {
         $routes = Folder::where('status', 1)
             ->orderBy('eprintid')
-            ->lazy();
+            ->cursor();
         $routes->each(function ($route){
             $fileRoute = $route->route . "/revisions/" . $route->xmlRevision . '.xml';
             $xmlContent = $this->loadXmlContent($fileRoute);
-            $registro = new Registro($xmlContent);
-            if($registro->exists())
+//            $registro = new Registro($xmlContent);
+            $validator = Validator::make($xmlContent,['eprintid'=>'unique:registros']);
+            if($validator->fails()){
                 return;
+            }
+            $validated = $validator->validated();
+            $xmlContent['eprintid'] = $validated['eprintid'];
+            $registro = new Registro($xmlContent);
+
+            $registro = array_key_exists('date', $xmlContent)?$this->dateSplitColumns($xmlContent['date'], $registro):$registro;
             $registro->save();
 //            dd($xmlContent);
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
@@ -61,40 +81,18 @@ class ImportService{
             $route->status = 3;
             $route->save();
         });
-
-//        $routes = Folder::where('status', 1)
-//            ->orderBy('eprintid')
-//            ->chunk(100, function($routes){
-//                dd($routes);
-////                foreach ($routes as $route)
-////                {
-////                    $fileRoute = $route->route . "/revisions/" . $route->xmlRevision . '.xml';
-////                    $xmlContent = $this->loadXmlContent($fileRoute);
-////                    $registro = new Registro($xmlContent);
-////                    if($registro->exists()){
-////                        dd($registro);
-////                        return;
-////                    }
-////                    $registro->save();
-////                    $route->registroid = $registro->id;
-//////                    $route->status = 2;
-////                    $route->save();
-////
-////                    if(array_key_exists('subjects', $xmlContent))
-////                    {
-////                        $subjectArray = $xmlContent['subjects'];
-////                        if(!is_String($subjectArray['item'])){
-////                            $subjectArray = $subjectArray['item'];
-////                        }
-////                        $this->createSubjects($subjectArray, $registro);
-////                    }
-////                    if(!empty($xmlContent['documents'])) {
-////                        $this->createDocuments($xmlContent, $registro);
-////                    }
-////                    $route->status = 3;
-////                    $route->save();
-////                }
-//            });
+    }
+    public function dateSplitColumns(String $date, Registro $registro){
+        if(!empty($date)){
+            $explodeDate =explode("-", $date);
+            if(count($explodeDate)>=3)
+                $registro->date_day = $explodeDate[2];
+            if(count($explodeDate)>=2)
+                $registro->date_month = $explodeDate[1];
+            if(count($explodeDate)>=1)
+                $registro->date_year = $explodeDate[0];
+        }
+        return $registro;
     }
     private function createDocuments(Array $xmlrevision, Registro $eprint)
     {
@@ -103,7 +101,6 @@ class ImportService{
         $xmlrevision['dir'] = $xmlrevision['oldRoute'];
         $this->createRoute($path);
         $documents = array_key_exists('pos',$xmlrevision['documents']['document']) ? $documents = $xmlrevision['documents'] : $documents = $xmlrevision['documents']['document'];
-//        dd($documents);
         foreach ($documents as $document)
         {
             if(!array_key_exists('file', $document['files']))
@@ -116,32 +113,24 @@ class ImportService{
             $path = $path . '/' . $document['pos'];
             $oldFileRoute = $xmlrevision['dir'] . '/'.str_pad($document['pos'], 2, "0", STR_PAD_LEFT) . '/' . $document['filename'];
             $newFileRoute = $path . '/' . $document['filename'];
-            if(Storage::exists($oldFileRoute) && ! Storage::exists($newFileRoute))
-            {
-                $validator = Validator::make($document,
-                    [
-                        'format' => ' required',
-                        'language' => 'required',
-                        'license' => 'required',
-                        'main' => 'required',
-                        'filename' => 'required',
-                        'filesize' => 'required',
-                        'docid' => 'required',
-                        'security' => 'required',
-                        'pos' => 'required',
-                        'license' => 'required'
-                    ]);
-                if(!$validator->fails()){
+            $existsInOldRoute = Storage::exists($oldFileRoute);
+            $existsInNewRoute = Storage::exists($newFileRoute);
+            if(!$existsInOldRoute){
+                return;
+            }
+            $validator = Validator::make($document, $this->documentRules);
+            if(!$validator->fails()){
+                if(!$existsInNewRoute){
                     $this->createRoute($path);
-                    $doc = new Document($validator->validated());
                     //TODO change for move // dejarlo por temas de pruebas de ejecución
                     Storage::copy($oldFileRoute, $newFileRoute);
-                    $doc->hash = sha1_file(Storage::path($newFileRoute));
-                    $doc->eprintid = $eprint->eprintid;
-                    $doc->registro_id = $eprint->id;
-                    $doc->url = $newFileRoute;
-                    $doc->save();
                 }
+                $doc = new Document($validator->validated());
+                $doc->hash = sha1_file(Storage::path($newFileRoute));
+                $doc->eprintid = $eprint->eprintid;
+                $doc->registro_id = $eprint->id;
+                $doc->url = $newFileRoute;
+                $doc->save();
             }
         }
 
@@ -200,13 +189,16 @@ class ImportService{
         }
         foreach ($authors as $author){
 
-            $email = empty($author['id'])?"":$author['id'];
-            $authorsTemp = new Author([
+            $email = is_string($author['id'])?$author['id']:"";
+            $authorContent = [
                 'given' => $author['name']['given'],
                 'family' => $author['name']['family'],
-                'email' => $email
-            ]);
-            $authorsTemp = $authorsTemp->existsOrSave();
+                'email' => $email];
+            $validator = Validator::make($authorContent, ['email' => 'string', 'given'=>'required|string', 'family'=> 'required|string']);
+            if($validator->fails()){
+                return;
+            }
+            $authorsTemp = Author::firstOrCreate($validator->validated());
             $register->authors()->attach($authorsTemp);
         }
     }
@@ -217,7 +209,6 @@ class ImportService{
             return stripos($haystack,"revisions");
         });
         if($exists != false){
-
             return true;
         }
         else{
@@ -227,15 +218,18 @@ class ImportService{
                     $eprintidArray = array_slice(preg_split("#/#", $result), -3,3 );
                     $route = $eprintidArray[1].$eprintidArray[2];
                     $eprintidArray = explode(".",$eprintidArray[0]);
-                    $route = $eprintidArray[1].$eprintidArray[2].$route;
-                    $folder = new Folder([
+                    $eprintid = $eprintidArray[1].$eprintidArray[2].$route;
+                    $folderContent = [
                         'route' => $result,
-                        'eprintid' => (int)($route),
+                        'eprintid' => (int)($eprintid),
                         'processid' => $processid
-                    ]);
-                    if(! $folder->exists()){
-                        $folder->save();
+                    ];
+                    $validator = Validator::make($folderContent, ['route' => 'unique:folders', 'eprintid'=>'required', 'processid'=> 'required']);
+                    if ($validator->fails()){
+                        return;
                     }
+                    $folder = new Folder( $validator->validated() );
+                    $folder->save();
                 }
             }
         }
@@ -272,7 +266,7 @@ class ImportService{
         $xmlObject = simplexml_load_string($xmlString);
         $json = json_encode($xmlObject);
         $content = json_decode($json, true);
-        $userId = Auth::id();
+        $userId = User::where('old_id',$content['userid'])->pluck('id')->first();
         $content['user_deposito_id'] = $userId;
         $content['user_edicion_id'] = $userId;
         $content['created_at'] = $this->modifyDate(array_key_exists('datestamp', $content)? $content['datestamp'] : $content['lastmod']);

@@ -17,6 +17,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Debugbar;
@@ -101,9 +102,23 @@ class RegistroController extends Controller
      */
     public function show(Registro $registro)
     {
+        $registro->load("authors", "documents", "subjects", "projects", "divisions");
+        foreach ($registro->documents as $document) {
+            $document->url = URL::to(Storage::url($document->url));
+        }
         return view('registros.show', ['registro' => $registro]);
     }
 
+    public function latest()
+    {
+        $registros = Registro::latest()->take(25)->get();
+        return view('registros.index', ['registros' => $registros]);
+    }
+    public function year(){
+        $years = Registro::select('date_year')->orderBy('date_year', 'DESC')->distinct()->get();
+//        dd($years);
+        return view('registros.year',['registros' => $years]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -153,20 +168,19 @@ class RegistroController extends Controller
     }
 
 
-
     public function importFolders()
     {
         $folders = Folder::with(['register', 'register.documents'])
             ->latest()
             ->get();
-        return view('import.index', [ 'folders' => $folders ]);
+        return view('import.index', ['folders' => $folders]);
     }
 
     public function massiveFolders(Request $request)
     {
         $service = new ImportService();
         Debugbar::disable();
-        switch ($request->process){
+        switch ($request->process) {
             case 'search':
                 $service->identifyFoldersToExplore();
                 break;
@@ -188,7 +202,7 @@ class RegistroController extends Controller
             ->orderBy('processid', 'DESC')
             ->orderBy('eprintid', 'DESC')
             ->paginate(30);
-        return view('import.index', [ 'folders' => $folders ]);
+        return view('import.index', ['folders' => $folders]);
     }
 
     public function tiposRegistro()
@@ -203,7 +217,7 @@ class RegistroController extends Controller
         return response(['campos_tipos_registro' => $campos_tipo_registro, 'message' => 'Tipos de registro enviados correctamente'], 200);
     }
 
-    private function moveRegisterFile(Array $document, String $oldFileRoute, String $newFileRoute)
+    private function moveRegisterFile(array $document, string $oldFileRoute, string $newFileRoute)
     {
 
     }

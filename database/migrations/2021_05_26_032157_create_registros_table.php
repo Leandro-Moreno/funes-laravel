@@ -19,55 +19,77 @@ class CreateRegistrosTable extends Migration
             $table->string("title")->nullable();
             $table->string("type")->nullable();
             $table->text("abstract")->nullable();
-            $table->integer("tipo_de_tesis")->nullable();
-            $table->integer("tipo_de_publicacion")->nullable();
-            $table->string("tipo_de_datos")->nullable();
-            $table->string("documento")->nullable();
-            $table->string("metadata_visibility")->nullable();
-            $table->integer("item_issues_count")->nullable();
-            //informacion adicional
+            //Thesis
+            $table->integer("thesis_type")->nullable();
+            //Monograph
+            $table->string("monograph_type")->nullable();
+            $table->string("institution")->nullable();
+            $table->string("department")->nullable();
+            $table->string("place_of_pub")->nullable();
+            //Conference Item
+            $table->string("composition")->nullable();
+            //Dataset
+            $table->string("data_type")->nullable();
+            //Book Book_section actas_congresos edited_book
+
+            //Exhibition
+            $table->string("exhibitors")->nullable();
+            $table->string("num_pieces")->nullable();
+            //Composition && performance
+            $table->string("producers")->nullable();
+            $table->string("conducters")->nullable();
+            $table->string("accompaniment")->nullable();
+            //Composition
+            $table->string("lyricists")->nullable();
+            //book_section, book, article,actas_congresos,edited_book
             $table->string("refereed")->nullable();
+            //not artifact, not exhibition, not monograph, not conference_item
             $table->string("ispublished")->nullable();
-            //TODO
-            $table->foreignId('estado_id')->nullable()->references('id')->on('estados');
-            $table->string("titulo_publicacion")->nullable();
-            $table->string("lugar_publicacion")->nullable();
-            $table->integer("total_paginas")->nullable();
-            $table->string("issn")->nullable();
-            $table->string("tipo_de_medio")->nullable();
-            $table->string("editor")->nullable();
-            $table->string('date')->nullable();
+            //Patent
+            $table->string("patent_applicant")->nullable();
+
+            $table->integer('date_year')->nullable();
+            $table->string('date_month')->nullable();
+            $table->string('date_day')->nullable();
             $table->string("date_type")->nullable();
-            $table->string("numero_identificacion")->nullable();
-            $table->string("numero_serie")->nullable();
-            $table->string("isbn")->nullable();
             $table->string("official_url")->nullable();
-            $table->string("institucion")->nullable();
-            $table->string("facultad")->nullable();
+            $table->string("pages")->nullable();
+            $table->integer("id_number")->nullable();
+            $table->string("publisher")->nullable();
+
+            $table->string("book_title")->nullable();
+            $table->string("series")->nullable();
             $table->string("volume")->nullable();
             $table->string("number")->nullable();
-            $table->string("publisher")->nullable();
+            $table->string("isbn")->nullable();
             $table->string("pagerange")->nullable();
-            $table->text("referencetext")->nullable();
+            $table->string("issn")->nullable();
             $table->string("publication")->nullable();
-            //fin detalles
-            //info pedagogico
-            $table->integer("tipo_pedagogico")->nullable();
-            $table->string("fecha_pedagogico")->nullable();
-            $table->text("proposito_pedagogico")->nullable();
-            $table->string("grado_pedagogico")->nullable();
+
+            //artefact
+            $table->string("output_media")->nullable();
+            $table->string("related_url")->nullable();
+
             //informacion Evento
             $table->string("event_title")->nullable();
             $table->string("event_location")->nullable();
             $table->string("event_type")->nullable();
             $table->string("event_dates")->nullable();
-            //
+
+            $table->string("pedagogic_type")->nullable();
+            $table->string("completition_time")->nullable();
+            $table->string("task_purpose")->nullable();
+            $table->string("skill_areas")->nullable();
+            $table->string("learning_level")->nullable();
+
+            $table->string("funders")->nullable();
+            $table->text("referencetext")->nullable();
             $table->string("pres_type")->nullable();
-            $table->string("enfoque")->nullable();
+            $table->string("metadata_visibility")->nullable();
+            $table->integer("item_issues_count")->nullable();
+
+            $table->foreignId('estado_id')->nullable()->references('id')->on('estados');
             $table->foreignId('nivel_educativo_id')->nullable()->references('id')->on('nivel_educativo');
-            $table->string("correo_contacto")->nullable();
-            $table->text("notas")->nullable();
-            $table->text("comentarios")->nullable();
             $table->foreignId('user_deposito_id')->nullable()->references('id')->on('users');
             $table->foreignId('user_edicion_id')->nullable()->references('id')->on('users');
             $table->timestamp('status_changed')->nullable();

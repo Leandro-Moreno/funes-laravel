@@ -21,7 +21,8 @@ class Registro extends Model
         'user_edicion_id', 'issn', 'isbn', 'editor', 'año_publicacion', 'mes_publicacion',
         'dia_publicacion', 'tipo_de_fecha', 'arbitrado', 'estado_id', 'number', 'pagerange',
         'url_oficial', 'volume', 'numero_identificacion','referencetext','official_url',
-        'date','date_type','user_deposito_id','user_edicion_id','created_at','updated_at','status_changed',
+        'date_year','date_month','date_day','date_type',
+        'user_deposito_id','user_edicion_id','created_at','updated_at','status_changed',
         //event
         'event_title', 'event_type', 'event_location', 'event_dates',
         'publisher','publication'];
@@ -36,7 +37,7 @@ class Registro extends Model
     }
     public function documents()
     {
-        return $this->hasMany(Document::class);
+        return $this->hasMany(Document::class,'registro_id', 'id');
     }
     public function subjects()
     {

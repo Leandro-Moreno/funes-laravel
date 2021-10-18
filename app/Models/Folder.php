@@ -18,8 +18,8 @@ class Folder extends Model
     public function status()
     {
         return match((int)$this->status){
-            1 => 'Agregado',
-            2 => 'Escaneado',
+            0 => 'Agregado',
+            1 => 'Escaneado',
             3 => 'Extraido',
             default => 'undefined',
         };

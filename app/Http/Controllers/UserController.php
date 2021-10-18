@@ -29,21 +29,8 @@ class UserController extends Controller
      * Display a listing of the users
      *
      */
-    public function Massive()
+    public function massive()
     {
-        $xmlString = file_get_contents(public_path('14.xml'));
-        $xmlObject = simplexml_load_string($xmlString);
-
-        $json = json_encode($xmlObject);
-        $phpArray = json_decode($json, true);
-        $userId = Auth::id();
-        $phpArray['user_deposito_id'] = $userId;
-        $phpArray['user_edicion_id'] = $userId;
-        dd($phpArray);
-        $phpArray['created_at'] = $this->modifyDate($phpArray['datestamp']);
-        $phpArray['updated_at'] = $this->modifyDate($phpArray['lastmod']);
-        $registro = Registro::create($phpArray);
-        dd($registro);
         return view('users.massive');
     }
 

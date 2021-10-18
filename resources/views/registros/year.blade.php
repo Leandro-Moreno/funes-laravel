@@ -5,27 +5,17 @@
     <div class="container">
         <div class="row justify-content-center">
             @foreach($registros as $registro)
-            <a href="{{ route('registroid', $registro) }}" class="col-md-4">
+            <a href="" class="col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">
                         </h2>
                         <div class="card-description">
-                            <h3 class="card-title">{{$registro->title}}</h3>
+                            <h3 class="card-title">{{isset($registro->date_year)?$registro->date_year:__("Sin especificar")}}</h3>
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
-                            <div class="col-md-4">Código id</div>
-                            <div class="col-md-8">{{$registro->eprintid}}</div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-4">Autores</div>
-                            <div class="col-md-8">
-                                @foreach($registro->authors as $author)
-                                    {{$author->given}} {{$author->family}}
-                                @endforeach
-                            </div>
                         </div>
                     </div>
                 </div>

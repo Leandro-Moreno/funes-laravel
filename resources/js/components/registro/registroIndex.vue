@@ -5,14 +5,45 @@
             <div class="card">
                 <div class="card-header">
                   <h2 class="card-title">
-                  {{registro.nombre}}
+                  {{registro.title}}
                   </h2>
                   <div class="card-description">
                     <h3 class="card-title">Resumen</h3>
-                    {{registro.resumen}}
+                    {{registro.abstract}}
                   </div>
                 </div>
                 <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-4">Código id</div>
+                        <div class="col-md-8">{{registro.eprintid}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Subject</div>
+                        <div class="col-md-8">
+                            <div v-for="subject in registro.subjects">
+                                {{subject.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Autores</div>
+                        <div class="col-md-8">
+                            <div v-for="author in registro.authors">
+                                {{author.given }} {{author.family }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">Divisions</div>
+                        <div class="col-md-8">
+                            <div v-for="division in registro.divisions">
+                                {{division.name}}
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <pdf-viewer :pdf-url="registro.documents[0].url"></pdf-viewer>
+                    </div>
                 </div>
             </div>
         </div>
@@ -25,12 +56,11 @@
         created(){
           this.registro = this.registroprop;
           console.log(this.registro);
-          console.log(this.registro.resumen);
         },
         data(){
           return {
             registro: [],
           }
         }
-  }  
+  }
 </script>

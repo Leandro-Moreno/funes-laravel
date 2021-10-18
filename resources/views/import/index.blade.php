@@ -28,7 +28,6 @@
                                 </x-slot>
                                 @foreach($folders as $folder)
                                     <x-table.row>
-
                                             <x-table.cell>{{$folder->id}}</x-table.cell>
                                             <x-table.cell>{{isset($folder->register->title)?$folder->register->title:"Sin agregar nombre aún"}}</x-table.cell>
                                             <x-table.cell>{{$folder->eprintid}}</x-table.cell>

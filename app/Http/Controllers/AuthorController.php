@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Autor;
+use App\Models\Author;
 use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
 
-class AutorController extends Controller
+class AuthorController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -20,7 +20,7 @@ class AutorController extends Controller
         $searchterm = $request->input('query');
 
         $searchResults = (new Search())
-            ->registerModel(Autor::class, 'nombre', 'apellido', 'email')
+            ->registerModel(Author::class, 'nombre', 'apellido', 'email')
             ->perform($searchterm);
         return response()->json($searchResults);
     }
@@ -49,10 +49,10 @@ class AutorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param Autor $autor
+     * @param Author $author
      * @return Response
      */
-    public function show(Autor $autor)
+    public function show(Author $author)
     {
         var_dump("hola");
     }
@@ -60,10 +60,10 @@ class AutorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param Autor $autor
+     * @param Author $author
      * @return Response
      */
-    public function edit(Autor $autor)
+    public function edit(Author $author)
     {
         //
     }
@@ -72,10 +72,10 @@ class AutorController extends Controller
      * Update the specified resource in storage.
      *
      * @param Request $request
-     * @param Autor $autor
+     * @param Author $author
      * @return Response
      */
-    public function update(Request $request, Autor $autor)
+    public function update(Request $request, Author $author)
     {
         //
     }
@@ -83,10 +83,10 @@ class AutorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param Autor $autor
+     * @param Author $author
      * @return Response
      */
-    public function destroy(Autor $autor)
+    public function destroy(Author $author)
     {
         //
     }
