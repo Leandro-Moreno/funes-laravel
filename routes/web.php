@@ -20,8 +20,12 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/latest', [RegistroController::class, 'latest'])->name('Registrolatest');
 Route::get('/publication', [RegistroController::class, 'publication'])->name('publication');
 Route::get('/editorial', [RegistroController::class,'editorial'])->name('editorial');
-Route::get('/year', [RegistroController::class, 'year'])->name('year');
-
+Route::get('/view/year', [RegistroController::class, 'year'])->name('year');
+Route::get('/view/year/{year}', [RegistroController::class, 'yearShow'])->name('year.show');
+Route::get('/view/{year}.html', function () {
+    return Redirect::to(route('year.show', year),301);
+});
+Route::redirect('/view/{year}.html', '/there', 301);
 Route::resource('registro', RegistroController::class);
 Route::resource('author', AuthorController::class);
 Route::resource('division', DivisionController::class);
@@ -61,18 +65,21 @@ Route::get('/eprint/id/{document}', [RegistroController::class, 'show']);
 Route::get('/{eprint}/{pos}/{document}', [DocumentController::class, 'showFile']);
 Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
-    Route::get('/user/import', [UserController::class, 'massive'])->name('user.import');
-    Route::post('/user/import', [UserController::class, 'import']);
+
     Route::resource('user', UserController::class);
     Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
-	Route::resource('admin', AdminController::class);
+    Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });
+
 Route::group(['prefix' => 'import','middleware' => 'auth'], function () {
     Route::get('folders', [RegistroController::class, 'importFolders']);
     Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
+    Route::get('users', [UserController::class, 'massive'])->name('user.import');
+    Route::post('users', [UserController::class, 'import']);
 });
 
 Route::get('/{registro}', [RegistroController::class, 'show'])->name('registroid');
+
