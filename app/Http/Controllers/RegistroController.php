@@ -12,6 +12,7 @@ use App\Models\TipoRegistro;
 use App\Models\RegistroTipoCampos;
 use App\Services\ImportService;
 use Carbon\Carbon;
+use Database\Seeders\RegistroSeeder;
 use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -31,7 +32,8 @@ class RegistroController extends Controller
      */
     public function index()
     {
-        return view('registros.index');
+        $registros = Registro::search('raíz')->get();
+        return view('registros.index',['registros' => $registros]);
         // return csrf_token();
     }
 
@@ -119,6 +121,11 @@ class RegistroController extends Controller
 //        dd($years);
         return view('registros.year',['registros' => $years]);
     }
+    public function yearShow($year){
+        $year = $year=="empty"?"":$year;
+        $year = Registro::where('date_year', $year)->orderBy('date_year', 'DESC')->get();
+        return view('registros.index',['registros' => $year]);
+    }
     /**
      * Show the form for editing the specified resource.
      *
@@ -179,7 +186,6 @@ class RegistroController extends Controller
     public function massiveFolders(Request $request)
     {
         $service = new ImportService();
-        Debugbar::disable();
         switch ($request->process) {
             case 'search':
                 $service->identifyFoldersToExplore();

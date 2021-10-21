@@ -16,6 +16,7 @@ class CreateRegistrosTable extends Migration
         Schema::create('registros', function (Blueprint $table) {
             $table->id();
             $table->integer("eprintid")->unique();
+            $table->string("eprint_status");
             $table->string("title")->nullable();
             $table->string("type")->nullable();
             $table->text("abstract")->nullable();
