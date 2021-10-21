@@ -19,14 +19,13 @@
     <body class="{{ $class ?? '' }}">
       <div id="app">
         @auth()
-        esteban
             @include('layouts.page_templates.auth')
         @endauth
         @guest()
-        leandro
             @include('layouts.page_templates.guest')
         @endguest
       </div>
+
         <!--   Core JS Files   -->
         <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
         <script src="{{ asset('material') }}/js/core/popper.min.js"></script>

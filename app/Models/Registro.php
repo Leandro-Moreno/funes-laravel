@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Laravel\Scout\Searchable;
 
 class Registro extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     /**
      * The name of the "status_changed" column.
@@ -16,7 +17,7 @@ class Registro extends Model
      */
     const STATUS_CHANGED = 'status_changed';
 
-    protected $fillable = ['title','eprintid', 'abstract', 'type', 'titulo_publicacion', 'user_deposito_id',
+    protected $fillable = ['title','eprintid', 'abstract', 'type', 'titulo_publicacion', 'user_deposito_id', 'eprint_status',
         'item_issues_count', 'metadata_visibility', 'refereed', 'pres_type', 'ispublished',
         'user_edicion_id', 'issn', 'isbn', 'editor', 'año_publicacion', 'mes_publicacion',
         'dia_publicacion', 'tipo_de_fecha', 'arbitrado', 'estado_id', 'number', 'pagerange',
@@ -34,6 +35,19 @@ class Registro extends Model
     public function getRouteKeyName()
     {
         return 'eprintid';
+    }
+    /**
+     * Get the name of the index associated with the model.
+     *
+     * @return string
+     */
+    public function searchableAs()
+    {
+        return ['title','abstract'];
+    }
+    public function shouldBeSearchable()
+    {
+        return $this->eprint_status=="inbox"?true:false;
     }
     public function documents()
     {

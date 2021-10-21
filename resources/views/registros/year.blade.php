@@ -5,7 +5,7 @@
     <div class="container">
         <div class="row justify-content-center">
             @foreach($registros as $registro)
-            <a href="" class="col-md-3">
+            <a href="{{route('year.show', ['year' => isset($registro->date_year)?$registro->date_year:"empty"])}}" class="col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">

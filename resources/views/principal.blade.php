@@ -1,6 +1,7 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'home', 'title' => __('Página Inicial de Funes')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'home', 'title' => __('Funes - Repositorio Digital de Documentos Matemáticos - Inicio')])
 
 @section('content')
+@include('layouts.page_templates.header')
 <section>
   <div class="container" style="height: auto;">
     <div class="row justify-content-center">
