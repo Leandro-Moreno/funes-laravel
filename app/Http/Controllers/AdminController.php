@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Autor;
+use App\Models\Registro;
+use App\Models\User;
 use Illuminate\Http\Response;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
@@ -16,7 +18,12 @@ class AdminController extends Controller
      */
     public function index()
     {
-        return view('admin.index');
+        $registros = Registro::latest()->take(5)->get(['id','eprintid','eprint_status','title', 'created_at']);
+        $users = User::latest()->take(5)->get(['id','name','last_name','email', 'organization']);
+        return view('admin.index', [
+            'registros' => $registros,
+            'usuarios' => $users,
+        ]);
     }
 
     /**

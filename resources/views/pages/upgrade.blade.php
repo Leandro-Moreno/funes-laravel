@@ -1,4 +1,4 @@
-@extends('layouts.app', ['activePage' => 'upgade', 'titlePage' => __('Upgrade to PRO')])
+@extends('layouts.app', ['activePage' => 'upgade', 'title' => __('Upgrade to PRO')])
 
 @section('content')
 <div class="content">

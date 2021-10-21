@@ -9,16 +9,20 @@
     padding: 0;
     overflow: hidden;
     & li  {
-      float: left;
-      font-size: 13px;
-      padding: 0 10px;
-      border-left: 0 !important;
-      border-right: 0 !important;
-      &a {
+        float: left;
+        font-size: 13px;
+        padding: 0 10px;
+        border-left: 0 !important;
+        width: auto;
+        border-right: 1px $brand-primary solid !important;
+        &:last-child{
+            border-right: 0 !important;
+        }
+      a {
         text-align: center;
         padding: 1 4px;
         text-decoration: none;
-        color: #05B35C;
+        color: $grey-200;
       }
     }
   }

@@ -14,7 +14,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('principal');
 });
-
+Route::group(['prefix' => 'administrator','middleware' => 'auth'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::group(['prefix' => 'import'], function () {
+        Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
+        Route::get('users', [UserController::class, 'massive'])->name('user.import');
+        Route::post('users', [UserController::class, 'import']);
+    });
+});
 Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::get('/latest', [RegistroController::class, 'latest'])->name('Registrolatest');
@@ -36,6 +43,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::get('table-list', function () {
 		return view('pages.table_list');
 	})->name('table');
+    Route::get('dashboard', function () {
+        return view('dashboard');
+    })->name('table');
 
 	Route::get('typography', function () {
 		return view('pages.typography');
@@ -68,18 +78,12 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('user', UserController::class);
     Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
-    Route::resource('admin', AdminController::class);
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });
 
-Route::group(['prefix' => 'import','middleware' => 'auth'], function () {
-    Route::get('folders', [RegistroController::class, 'importFolders']);
-    Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
-    Route::get('users', [UserController::class, 'massive'])->name('user.import');
-    Route::post('users', [UserController::class, 'import']);
-});
+
 
 Route::get('/{registro}', [RegistroController::class, 'show'])->name('registroid');
 

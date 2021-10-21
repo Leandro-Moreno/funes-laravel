@@ -68,5 +68,6 @@
         <script src="{{ asset('material') }}/js/settings.js"></script>
         <script src="{{ mix('js/app.js') }}"> </script>
         @stack('js')
+        @stack('header')
     </body>
 </html>
