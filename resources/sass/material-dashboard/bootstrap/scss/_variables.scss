@@ -70,7 +70,7 @@ $warning:       $orange-500 !default;
 $danger:        $red !default;
 $light:         $gray-100 !default;
 $dark:          $gray-800 !default;
- 
+
 $theme-colors: () !default;
 $theme-colors: map-merge((
   "primary":    $primary,
@@ -842,7 +842,7 @@ $breadcrumb-margin-bottom:          1rem !default;
 $breadcrumb-bg:                     $gray-200 !default;
 $breadcrumb-divider-color:          $gray-600 !default;
 $breadcrumb-active-color:           $gray-600 !default;
-$breadcrumb-divider:                "/" !default;
+$breadcrumb-divider:                ">" !default;
 
 
 // Carousel

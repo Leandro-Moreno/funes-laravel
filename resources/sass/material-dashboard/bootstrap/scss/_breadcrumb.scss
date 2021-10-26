@@ -1,14 +1,17 @@
 .breadcrumb {
-  display: flex;
-  flex-wrap: wrap;
-  padding: $breadcrumb-padding-y $breadcrumb-padding-x;
-  margin-bottom: $breadcrumb-margin-bottom;
-  list-style: none;
-  background-color: $breadcrumb-bg;
+    display: flex;
+    flex-wrap: wrap;
+    padding-bottom: .2rem;
+    padding-top: .2rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
   @include border-radius($border-radius);
 }
 
 .breadcrumb-item {
+    font-size: 14px;
   // The separator between breadcrumbs (by default, a forward-slash: "/")
   + .breadcrumb-item::before {
     display: inline-block; // Suppress underlining of the separator in modern browsers
