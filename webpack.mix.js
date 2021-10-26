@@ -42,7 +42,7 @@ mix.js('resources/js/app.js', 'public/js')
         resolve: {
             alias: {
                 '@': path.resolve('resources/assets/sass'),
-                'vue': '@vue/runtime-dom'
+                'Vue': 'vue/dist/vue.esm-bundler.js',
             }
         }
     })
