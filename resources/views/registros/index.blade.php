@@ -1,8 +1,10 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'registro', 'title' => __('Registros')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'registro', 'title' => $title])
 
 @section('content')
-
+    {{ Breadcrumbs::render() }}
     <div class="container">
+        <h2>{{$title}}</h2>
+        {{ $registros->links() }}
         <div class="row justify-content-center">
             @foreach($registros as $registro)
             <a href="{{ route('registroid', $registro) }}" class="col-md-4">
@@ -32,6 +34,7 @@
             </a>
             @endforeach
         </div>
+        {{ $registros->links() }}
     </div>
 
 @endsection

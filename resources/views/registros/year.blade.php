@@ -1,8 +1,9 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'registro', 'title' => __('Registros')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'registro', 'title' => __('Registros por año')])
 
 @section('content')
-
+    {{ Breadcrumbs::render() }}
     <div class="container">
+        <h2>Registros por año</h2>
         <div class="row justify-content-center">
             @foreach($registros as $registro)
             <a href="{{route('year.show', ['year' => isset($registro->date_year)?$registro->date_year:"empty"])}}" class="col-md-3">

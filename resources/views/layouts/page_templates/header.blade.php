@@ -30,7 +30,7 @@
                         La Fundación Alejandro Ángel Escobar (FAAE) otorgó Mención de Honor a Juan Pablo Ramos-Bonilla, de
                         la Facultad de Ingeniería, y a Pablo Roberto Stevenson Díaz, de la Facultad de Ciencias.
                     </p>
-                    <a href="a" class="btn btn-outline-primary">
+                    <a href="{{route('Registrolatest')}}" class="btn btn-outline-primary">
                         Ver más
                     </a>
                 </div>
@@ -68,7 +68,7 @@
                         La Fundación Alejandro Ángel Escobar (FAAE) otorgó Mención de Honor a Juan Pablo Ramos-Bonilla, de
                         la Facultad de Ingeniería, y a Pablo Roberto Stevenson Díaz, de la Facultad de Ciencias.
                     </p>
-                    <a href="a" class="btn btn-outline-primary">
+                    <a href="{{route('subject.index')}}" class="btn btn-outline-primary">
                         Ver más
                     </a>
                 </div>
