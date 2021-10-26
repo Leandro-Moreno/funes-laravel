@@ -18,12 +18,6 @@ mix.js('resources/js/app.js', 'public/js')
     .browserSync('funes-laravel.test')
     .version()
     .sourceMaps()
-    .options({
-        hmrOptions: {
-            host: 'localhost',
-            port: '9000'
-        },
-    })
     .webpackConfig({
         module: {
             rules: [
@@ -32,7 +26,7 @@ mix.js('resources/js/app.js', 'public/js')
                     exclude: /node_modules(?!\/foundation-sites)|bower_components/,
                     use: [
                         {
-                            loader: 'babel-loader',
+                            loader: 'vue-loader',
                             options: Config.babel()
                         }
                     ]
@@ -41,17 +35,9 @@ mix.js('resources/js/app.js', 'public/js')
         },
         resolve: {
             alias: {
-                '@': path.resolve('resources/assets/sass'),
-                'Vue': 'vue/dist/vue.esm-bundler.js',
+                '@': path.resolve('resources/assets/sass')
             }
         }
-    })
-    .webpackConfig({
-        devServer: {
-            port: '9000',
-            compress: 'true',
-            http2: 'true'
-        },
     });
 mix.options({
     extractVueStyles: true,
