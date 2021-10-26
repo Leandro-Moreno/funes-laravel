@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\subject;
+use App\Models\Subject;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
@@ -14,7 +14,8 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        $subjects = Subject::withCount('registros')->orderBy('registros_count', 'desc')->paginate(20);
+        return view('subjects.index',['subjects' => $subjects]);
     }
 
     /**
@@ -41,21 +42,27 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function show(subject $subject)
+    public function show(Subject $subject)
     {
-        //
+//        $subject->load(['registros:title,eprintid,id', 'registros.authors:id,given,family']);
+//        $subject->load(['registros'=>function($q){
+//            $q->select('title', 'eprintid', 'id')->paginate(18);
+//        }]);
+        $registros = $subject->registros()->paginate(18);
+//        dd($registros);
+        return view('registros.index',['registros' => $registros, 'title'=> 'Registros por tematica '.$subject->name]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function edit(subject $subject)
+    public function edit(Subject $subject)
     {
         //
     }
@@ -64,10 +71,10 @@ class SubjectController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, subject $subject)
+    public function update(Request $request, Subject $subject)
     {
         //
     }
@@ -75,10 +82,10 @@ class SubjectController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\subject  $subject
+     * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(subject $subject)
+    public function destroy(Subject $subject)
     {
         //
     }

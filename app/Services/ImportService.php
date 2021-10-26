@@ -7,7 +7,7 @@ use App\Models\Document;
 use App\Models\Folder;
 use App\Models\Project;
 use App\Models\Registro;
-use App\Models\subject;
+use App\Models\Subject;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;

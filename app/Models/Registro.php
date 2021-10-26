@@ -63,7 +63,7 @@ class Registro extends Model
     }
     public function authors()
     {
-        return $this->belongsToMany(Author::class);
+        return $this->belongsToMany(Author::class)->select(array('given', 'family', 'email'));
     }
     public function projects()
     {

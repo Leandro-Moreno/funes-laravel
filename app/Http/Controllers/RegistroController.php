@@ -32,8 +32,8 @@ class RegistroController extends Controller
      */
     public function index()
     {
-        $registros = Registro::search('raíz')->get();
-        return view('registros.index',['registros' => $registros]);
+        $registros = Registro::where('eprint_status', 'archive')->orderBy('title')->paginate(18);
+        return view('registros.index',['registros' => $registros, 'title'=> 'Todos los registros']);
         // return csrf_token();
     }
 
@@ -113,18 +113,26 @@ class RegistroController extends Controller
 
     public function latest()
     {
-        $registros = Registro::latest()->take(25)->get();
-        return view('registros.index', ['registros' => $registros]);
+        $registros = Registro::where('eprint_status', 'archive')
+            ->select('title','eprintid','id')
+            ->with('authors')
+            ->latest()->paginate(18);
+        return view('registros.index', ['registros' => $registros, 'title'=> 'Ultimos Registros']);
     }
     public function year(){
-        $years = Registro::select('date_year')->orderBy('date_year', 'DESC')->distinct()->get();
-//        dd($years);
+        $years = Registro::where('eprint_status', 'archive')
+            ->select('date_year')
+            ->orderBy('date_year', 'DESC')->distinct()->get();
         return view('registros.year',['registros' => $years]);
     }
     public function yearShow($year){
         $year = $year=="empty"?"":$year;
-        $year = Registro::where('date_year', $year)->orderBy('date_year', 'DESC')->get();
-        return view('registros.index',['registros' => $year]);
+        $yearRegistro = Registro::where('eprint_status', 'archive')
+            ->where('date_year', $year)
+            ->select('title','eprintid','id')
+            ->with('authors')
+            ->paginate(21);
+        return view('registros.index',['registros' => $yearRegistro, 'title'=> 'Registros por año '.$year]);
     }
     /**
      * Show the form for editing the specified resource.

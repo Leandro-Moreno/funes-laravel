@@ -14,7 +14,7 @@ class Author extends Model implements Searchable
 
     public function registros()
     {
-        return $this->belongsToMany(Registro::class);
+        return $this->belongsToMany(Registro::class)->where('eprint_status', 'archive');
     }
     public function getSearchResult(): SearchResult
     {

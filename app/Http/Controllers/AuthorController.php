@@ -16,7 +16,11 @@ class AuthorController extends Controller
      */
     public function index(Request $request)
     {
-        // dd($request);
+        $authors = Author::withCount('registros')->orderBy('registros_count', 'desc')->paginate(20);
+        return view('authors.index',['authors' => $authors]);
+
+    }
+    public function test(){
         $searchterm = $request->input('query');
 
         $searchResults = (new Search())
@@ -54,7 +58,14 @@ class AuthorController extends Controller
      */
     public function show(Author $author)
     {
-        var_dump("hola");
+        $registros = $author
+            ->registros('eprintid','title')
+            ->paginate(18);
+
+        return view('registros.index',[
+            'registros' => $registros,
+            'title'=> 'Registros por autores '.$author->given.' '.$author->family
+        ]);
     }
 
     /**
