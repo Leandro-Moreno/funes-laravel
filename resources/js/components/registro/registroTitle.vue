@@ -22,7 +22,11 @@
                         <div class="album-info__name">{{title}}
                         </div>
                         <div class="album-info__track" v-for="author in authors">{{ author.given }} {{ author.family }}</div>
-                        <p>{{abstract}}</p>
+                        <p
+                            class="abstract"
+                            v-on:click="toggleText"
+                            :class="{ 'abstract-active': abstractActive }"
+                        >{{abstract}}</p>
                     </div>
                 </div>
             </div>
@@ -75,7 +79,14 @@ export default {
     },
     components: {},
     data() {
-        return {}
+        return {
+            abstractActive: false
+        }
+    },
+    methods: {
+        toggleText: function(){
+            this.abstractActive = !this.abstractActive;
+        }
     }
 }
 </script>
@@ -88,6 +99,22 @@ export default {
     stroke-width: 0;
     stroke: currentColor;
     fill: currentColor;
+}
+.abstract{
+    height: 250px;
+    overflow: hidden;
+    cursor: pointer;
+    &-active{
+        height: 100%;
+    }
+    &::after{
+        content: 'Ver más';
+        width: 100%;
+        z-index: 1;
+        position: relative;
+        color: red;
+        display: block;
+    }
 }
 
 .title-container {

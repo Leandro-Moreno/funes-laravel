@@ -5,7 +5,7 @@
         <!-- Overlay -->
         <div class="container">
             <div class="featured-grid">
-                <div class="featured-content featured-content-text">
+                <a class="featured-content featured-content-text featured-content-text-gradient">
 
                     <div class="featured-content-text-span">
                         <p class="main">FUNES</p>
@@ -17,7 +17,7 @@
                             <p class="phrase phrase-second">Somos el 5 repositorio en Colombia</p>
                         </div>
                     </div>
-                </div>
+                </a>
                 <a href="" class="featured-content">
 
 
@@ -29,23 +29,23 @@
                         </h3>
                     </div>
                 </a>
-                <div class="featured-content">
+                <a href="" class="featured-content">
 
                     <div class="featured-content-info">
                         <h3 class="title title-black">
                             Búsqueda Avanzada
                         </h3>
                     </div>
-                </div>
-                <div class="featured-content">
+                </a>
+                <a href=""class="featured-content">
 
                     <div class="featured-content-info">
                         <h3 class="title title-black">
                             Estructura de Funes por Términos Claves
                         </h3>
                     </div>
-                </div>
-                <div class="featured-content">
+                </a>
+                <a href=""class="featured-content">
 
 
                     <div class="featured-content-img">
@@ -55,7 +55,7 @@
                             Acerca de
                         </h3>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -105,8 +105,8 @@ export default {
                     // this.complimentaryHue2 = this.hue + 60;
                     // define a fixed saturation and lightness
                     // this.saturation = 95;
-                    this.lightness = 50;
-                    this.saturation = 69;
+                    this.lightness = random(20,70);
+                    this.saturation = random(20,90);
                     // this.lightness = 42;
 
                     // define a base color
@@ -345,11 +345,11 @@ export default {
     position: relative;
     &::before {
         content: "";
-        top: 0;
+        bottom: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        z-index: 1;
+        z-index: -9;
         position: absolute;
         background: linear-gradient(
                 360deg, rgba(223, 231, 239, 1), rgba(223, 231, 239, 0) 90%, rgba(223, 231, 239, 1) 100%);
@@ -374,7 +374,7 @@ body {
     height: 100%;
     pointer-events: none;
     overflow-y:hidden;
-    z-index: -1;
+    z-index: -10;
 }
 
 strong {
@@ -385,6 +385,7 @@ strong {
     box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.1);
     border-radius: 2rem;
     border: 1px solid rgba(255, 255, 255, 0.4);
+    z-index: 1;
     &::first-child{
         background: rgba(255, 255, 255, 0.79) !important;
         &::before {
@@ -393,7 +394,15 @@ strong {
             background: linear-gradient(to right, var(--base), var(--complimentary2));
         }
     }
+    &:hover{
+        background: rgba(255, 255, 255, 1)!important;
+        transition: all 0.3s ease-in-out;
+        &::before{
+            background: white;
+        }
+    }
 }
+
 .overlay {
     width: 100%;
     max-width: 1140px;
