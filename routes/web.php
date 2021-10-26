@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('principal');
-});
+})->name('inicio');
 Route::group(['prefix' => 'administrator','middleware' => 'auth'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
     Route::group(['prefix' => 'import'], function () {
