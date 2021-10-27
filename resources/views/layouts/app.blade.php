@@ -67,6 +67,8 @@
 {{--        <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/settings.js"></script>--}}
         <script src="{{ mix('js/app.js') }}"> </script>
+      <script src="{{ mix('js/manifest.js') }}"></script>
+      <script src="{{ mix('js/vendor.js') }}"></script>
         @stack('js')
         @stack('header')
         @stack('header-animate')

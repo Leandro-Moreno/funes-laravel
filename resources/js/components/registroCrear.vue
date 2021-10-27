@@ -9,7 +9,7 @@
                         <div id="v-model-radiobutton" v-for="tipo in tipos_registro">
                           <input type="radio" :id="tipo.name" :value="tipo.name" v-model="picked" />
                           <label :for="tipo.name">{{tipo.label}}</label>
-                          <p>{{tipo.description}}</p>                   
+                          <p>{{tipo.description}}</p>
                         </div>
                       </tab-content>
                       <tab-content title="Cargar">
@@ -37,7 +37,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 </template>
 
@@ -61,7 +61,7 @@
           return {
             picked: "",
             tipos_registro: null,
-          }          
+          }
         },
         props: {
           wizardTitle: {
@@ -96,7 +96,7 @@
               infoAdicional: this.$refs['detalles'].$refs['infoAdicional'].darInformacionAdicional(),
               archivoEnviado: this.$refs['cargarArchivo'].darArchivoEnviado(),
               archivoCargado: this.$refs['cargarArchivo'].darArchivoCargado(),
-              tipo_de_documento: this.picked            
+              tipo_de_documento: this.picked
             })
             .then((response)=>{
                 console.log(response);

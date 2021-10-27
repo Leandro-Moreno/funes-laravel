@@ -7,7 +7,7 @@
 require('./bootstrap');
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
-
+import Vue from 'vue'
 window.Vue = require('vue');
 // window.Vue = require('bootstrap-vue');
 Vue.use(require('bootstrap-vue'));
