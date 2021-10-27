@@ -1,3 +1,4 @@
+var path = require('path');
 const mix = require('laravel-mix');
 
 /*
@@ -10,11 +11,20 @@ const mix = require('laravel-mix');
  | file for the application as well as bundling up all the JS files.
  |
  */
-
+mix.babelConfig({
+    plugins: ['@babel/plugin-syntax-dynamic-import'],
+});
 mix.js('resources/js/app.js', 'public/js')
     .vue()
     .extract()
     .sass('resources/sass/material-dashboard.scss', 'public/material/css')
     .browserSync('funes-laravel.test')
     .version()
-    .sourceMaps();
+    .sourceMaps()
+    .webpackConfig({
+            output: {
+                publicPath: '/',
+                chunkFilename: 'js/[name].[chunkhash].js',
+            }
+    })
+    .webpackConfig(require('./webpack.config'));
