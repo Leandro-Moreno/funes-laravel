@@ -1,5 +1,7 @@
 var path = require('path');
 const mix = require('laravel-mix');
+require('laravel-mix-clean');
+
 
 /*
  |--------------------------------------------------------------------------
@@ -21,9 +23,12 @@ mix.js('resources/js/app.js', 'public/js')
     .browserSync('funes-laravel.test')
     .version()
     .sourceMaps()
+    .clean({
+        cleanOnceBeforeBuildPatterns: ['./js/*'],
+    })
     .webpackConfig({
         output: {
             publicPath: '/',
-            chunkFilename: 'js/[name].[chunkhash].js',
+            chunkFilename: 'js/[name].js',
         }
     });
