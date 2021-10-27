@@ -71,7 +71,6 @@ class ImportService{
             if(is_array($registro->title)){
                 $registro->title = "";
             }
-            dd($registro);
             $registro->save();
 //            dd($xmlContent);
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
