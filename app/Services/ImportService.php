@@ -78,7 +78,7 @@ class ImportService{
             'skill_areas' => 'string',
             'learning_level' => 'string',
             'funders' => 'string',
-            'referencetext' => 'text',
+            'referencetext' => 'string',
             'pres_type' => 'string',
             'metadata_visibility' => 'string',
             'item_issues_count' => 'integer',
