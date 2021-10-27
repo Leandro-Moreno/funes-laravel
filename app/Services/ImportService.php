@@ -29,6 +29,60 @@ class ImportService{
         'pos' => 'required',
         'license' => 'required'
         ];
+        protected $registroRules = [
+            'title' => 'string',
+            'eprintid' => 'required|unique:registros',
+            'type' => 'string',
+            'abstract' => 'string',
+            'thesis_type' => 'integer',
+            'monograph_type' => 'string',
+            'institution' => 'string',
+            'department' => 'string',
+            'place_of_pub' => 'string',
+            'composition' => 'string',
+            'data_type' => 'string',
+            'exhibitors' => 'string',
+            'num_pieces' => 'string',
+            'producers' => 'string',
+            'conducters' => 'string',
+            'accompaniment' => 'string',
+            'lyricists' => 'string',
+            'refereed' => 'string',
+            'ispublished' => 'string',
+            'patent_applicant' => 'string',
+            'date_year' => 'integer',
+            'date_month' => 'string',
+            'date_day' => 'string',
+            'date_type' => 'string',
+            'official_url' => 'string',
+            'pages' => 'string',
+            'id_number' => 'integer',
+            'publisher' => 'string',
+            'book_title' => 'string',
+            'series' => 'string',
+            'volume' => 'string',
+            'number' => 'string',
+            'isbn' => 'string',
+            'pagerange' => 'string',
+            'issn' => 'string',
+            'publication' => 'string',
+            'output_media' => 'string',
+            'related_url' => 'string',
+            'event_title' => 'string',
+            'event_location' => 'string',
+            'event_type' => 'string',
+            'event_dates' => 'string',
+            'pedagogic_type' => 'string',
+            'completition_time' => 'string',
+            'task_purpose' => 'string',
+            'skill_areas' => 'string',
+            'learning_level' => 'string',
+            'funders' => 'string',
+            'referencetext' => 'tett',
+            'pres_type' => 'string',
+            'metadata_visibility' => 'string',
+            'item_issues_count' => 'integer',
+        ];
     public function scanRegister(){
         $q = 0;
         $routes = Folder::where('status', 0)
@@ -59,18 +113,15 @@ class ImportService{
             $fileRoute = $route->route . "/revisions/" . $route->xmlRevision . '.xml';
             $xmlContent = $this->loadXmlContent($fileRoute);
 //            $registro = new Registro($xmlContent);
-            $validator = Validator::make($xmlContent,['eprintid'=>'unique:registros']);
+            $validator = Validator::make($xmlContent,$this->registroRules);
             if($validator->fails()){
                 return;
             }
             $validated = $validator->validated();
             $xmlContent['eprintid'] = $validated['eprintid'];
-            $registro = new Registro($xmlContent);
+            $registro = new Registro($validated);
 
             $registro = array_key_exists('date', $xmlContent)?$this->dateSplitColumns($xmlContent['date'], $registro):$registro;
-            if(is_array($registro->title)){
-                $registro->title = "";
-            }
             try{
                 $registro->save();
             }
