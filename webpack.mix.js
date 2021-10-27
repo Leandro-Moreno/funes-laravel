@@ -18,6 +18,28 @@ mix.js('resources/js/app.js', 'public/js')
     .vue({
         extractStyles:false,
     })
+    .webpackConfig({
+        module: {
+            rules: [
+                {
+                    test: /\.jsx?$/,
+                    exclude: /node_modules(?!\/foundation-sites)|bower_components/,
+                    use: [
+                        {
+                            loader: 'babel-loader',
+                            options: Config.babel()
+                        }
+                    ]
+                }
+            ]
+        },
+        resolve: {
+            alias: {
+                '@': path.resolve('resources/assets/sass'),
+                'Vue': 'vue/dist/vue.esm-bundler.js',
+            }
+        }
+    })
     .extract()
     .sass('resources/sass/material-dashboard.scss', 'public/material/css')
     .browserSync('funes-laravel.test')
