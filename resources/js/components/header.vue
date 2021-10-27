@@ -352,7 +352,7 @@ export default {
         z-index: -9;
         position: absolute;
         background: linear-gradient(
-                360deg, rgba(223, 231, 239, 1), rgba(223, 231, 239, 0) 90%, rgba(223, 231, 239, 1) 100%);
+                360deg, rgba(247, 247, 247, 1), rgba(247, 247, 247, 0) 90%, rgba(247, 247, 247, 1) 100%);
     }
 }
 .wrapper-full-page{
