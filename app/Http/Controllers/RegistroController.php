@@ -194,7 +194,6 @@ class RegistroController extends Controller
     public function massiveFolders(Request $request)
     {
         $service = new ImportService();
-        dd($request);
         switch ($request->process) {
             case 'search':
                 $service->identifyFoldersToExplore();

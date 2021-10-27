@@ -1,6 +1,7 @@
 <?php
 namespace App\Services;
 
+use Illuminate\Support\Facades\App;
 use App\Models\Author;
 use App\Models\Division;
 use App\Models\Document;
@@ -217,8 +218,16 @@ class ImportService{
                 if($this->findFolder($result, $processid)){
                     $eprintidArray = array_slice(preg_split("#/#", $result), -3,3 );
                     $route = $eprintidArray[1].$eprintidArray[2];
-                    $eprintidArray = explode(".",$eprintidArray[0]);
-                    $eprintid = $eprintidArray[1].$eprintidArray[2].$route;
+                    if (App::environment('local')) {
+                        $eprintidArray = explode(".",$eprintidArray[0]);
+                        dd($eprintidArray);
+                        $eprintid = $eprintidArray[1].$eprintidArray[2].$route;
+                    }
+                    else{
+                        $eprintid = $eprintidArray[0].$route;
+                    }
+                    dd($route);
+
                     $folderContent = [
                         'route' => $result,
                         'eprintid' => (int)($eprintid),
