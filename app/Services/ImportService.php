@@ -78,7 +78,7 @@ class ImportService{
             'skill_areas' => 'string',
             'learning_level' => 'string',
             'funders' => 'string',
-            'referencetext' => 'tett',
+            'referencetext' => 'text',
             'pres_type' => 'string',
             'metadata_visibility' => 'string',
             'item_issues_count' => 'integer',
