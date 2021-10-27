@@ -226,7 +226,6 @@ class ImportService{
                     else{
                         $eprintid = $eprintidArray[0].$route;
                     }
-                    dd($route);
 
                     $folderContent = [
                         'route' => $result,
