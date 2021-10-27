@@ -196,10 +196,8 @@ class RegistroController extends Controller
         $service = new ImportService();
         switch ($request->process) {
             case 'search':
-//                $service->identifyFoldersToExplore();
-                importFolder::dispatch();
                 $importFolder = new importFolder();
-                $importFolder->dispatch();
+                dispatch($importFolder);
                 break;
             case 'scan':
                 $service->scanRegister();
