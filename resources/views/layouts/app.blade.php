@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>{{ $title }}</title>
-    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material') }}/img/apple-icon.png">
-    <link rel="icon" type="image/png" href="{{ asset('material') }}/img/favicon.png">
-    <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no' name='viewport' />
-    <!--     Fonts and icons     -->
-    <link rel="stylesheet" type="text/css" href="{{ asset('dax') }}/stylesheet.css" />
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Open+Sans|Material+Icons" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
-    <!-- CSS Files -->
-    <link href="{{ mix('material/css/material-dashboard.css') }}" rel="stylesheet" />
-    </head>
-    <body class="{{ $class ?? '' }}">
-      <div id="app">
-        @auth()
-            @include('layouts.page_templates.auth')
-        @endauth
-        @guest()
-            @include('layouts.page_templates.guest')
-        @endguest
-      </div>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+<meta name="csrf-token" content="{{ csrf_token() }}">
+<title>{{ $title }}</title>
+<link rel="apple-touch-icon" sizes="76x76" href="{{ asset('material') }}/img/apple-icon.png">
+<link rel="icon" type="image/png" href="{{ asset('material') }}/img/favicon.png">
+<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
+      name='viewport'/>
+<!--     Fonts and icons     -->
+<link rel="stylesheet" type="text/css" href="{{ asset('dax') }}/stylesheet.css"/>
+<link rel="stylesheet" type="text/css"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Open+Sans|Material+Icons"/>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
+<!-- CSS Files -->
+<link href="{{ mix('material/css/material-dashboard.css') }}" rel="stylesheet"/>
+</head>
+<body class="{{ $class ?? '' }}">
+<div id="app">
+    @auth()
+        @include('layouts.page_templates.auth')
+    @endauth
+    @guest()
+        @include('layouts.page_templates.guest')
+    @endguest
+</div>
 
-        <!--   Core JS Files   -->
+<!--   Core JS Files   -->
 {{--        <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/core/popper.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>--}}
@@ -66,12 +68,12 @@
 {{--        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->--}}
 {{--        <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/settings.js"></script>--}}
-        <script src="{{ mix('js/app.js') }}"> </script>
-      <script src="{{ mix('js/manifest.js') }}"></script>
-      <script src="{{ mix('js/vendor.js') }}"></script>
-        @stack('js')
-        @stack('header')
-        @stack('header-animate')
-        @stack('404')
-    </body>
+<script src="{{ mix('js/app.js') }}"></script>
+<script src="{{ mix('js/manifest.js') }}"></script>
+<script src="{{ mix('js/vendor.js') }}"></script>
+@stack('js')
+@stack('header')
+@stack('header-animate')
+@stack('404')
+</body>
 </html>

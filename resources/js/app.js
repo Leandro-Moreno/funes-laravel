@@ -23,14 +23,14 @@ Vue.use(BootstrapVueIcons);
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-Vue.component('registro-crear', () => import('./components/RegistroCrear.vue')).default;
-Vue.component('registro-index', () => import('./components/registro/RegistroIndex.vue')).default;
-Vue.component('registro-detalles', () => import('./components/registroDetalles.vue')).default;
-Vue.component('cargar-archivos', () => import('./components/cargarArchivo.vue')).default;
-Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue')).default;
+Vue.component('registro-crear', () => import('./components/RegistroCrear.vue').default);
+Vue.component('registro-index', () => import('./components/registro/RegistroIndex.vue'));
+Vue.component('registro-detalles', () => import('./components/registroDetalles.vue'));
+Vue.component('cargar-archivos', () => import('./components/cargarArchivo.vue'));
+Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));
 Vue.component('registro-autores', () => import('./components/registro/registroAutores.vue'));
-Vue.component('registro-autores-institucionales', () => import('./components/registro/registroAutoresInstitucional.vue')).default;
-Vue.component('registro-info-adicional', () => import('./components/registro/registroInformacionAdicional.vue')).default;
+Vue.component('registro-autores-institucionales', () => import('./components/registro/registroAutoresInstitucional.vue'));
+Vue.component('registro-info-adicional', () => import('./components/registro/registroInformacionAdicional.vue'));
 
 Vue.component('registro-title', () => import('./components/registro/registroTitle.vue'));
 Vue.component('header-animated', () => import('./components/header.vue'));

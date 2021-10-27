@@ -22,9 +22,8 @@ mix.js('resources/js/app.js', 'public/js')
     .version()
     .sourceMaps()
     .webpackConfig({
-            output: {
-                publicPath: '/',
-                chunkFilename: 'js/[name].[chunkhash].js',
-            }
-    })
-    .webpackConfig(require('./webpack.config'));
+        output: {
+            publicPath: '/',
+            chunkFilename: 'js/[name].[chunkhash].js',
+        }
+    });
