@@ -68,6 +68,7 @@ class ImportService{
             $registro = new Registro($xmlContent);
 
             $registro = array_key_exists('date', $xmlContent)?$this->dateSplitColumns($xmlContent['date'], $registro):$registro;
+            dd($registro);
             $registro->save();
 //            dd($xmlContent);
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
