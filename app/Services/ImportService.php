@@ -74,8 +74,8 @@ class ImportService{
             try{
                 $registro->save();
             }
-            catch(\Exception e){
-                echo e;
+            catch(\Exception $e){
+                echo $e;
                 dd($registro);
             }
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
