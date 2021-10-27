@@ -31,6 +31,7 @@ class importFolder implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        ImportService::identifyFoldersToExplore();
+        $importservice = new ImportService();
+        $importservice->identifyFoldersToExplore();
     }
 }
