@@ -71,8 +71,13 @@ class ImportService{
             if(is_array($registro->title)){
                 $registro->title = "";
             }
-            $registro->save();
-//            dd($xmlContent);
+            try{
+                $registro->save();
+            }
+            catch(\Exception e){
+                echo e;
+                dd($registro);
+            }
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
             array_key_exists('divisions', $xmlContent)?$this->createDivisions($xmlContent['divisions'], $registro):"";
             array_key_exists('creators', $xmlContent)?$this->createAuthors($xmlContent['creators'], $registro):"";
