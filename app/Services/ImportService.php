@@ -32,6 +32,7 @@ class ImportService{
         protected $registroRules = [
             'title' => 'string',
             'eprintid' => 'required|unique:registros',
+            'eprint_status' => 'required',
             'type' => 'string',
             'abstract' => 'string',
             'thesis_type' => 'integer',
@@ -122,13 +123,7 @@ class ImportService{
             $registro = new Registro($validated);
 
             $registro = array_key_exists('date', $xmlContent)?$this->dateSplitColumns($xmlContent['date'], $registro):$registro;
-            try{
-                $registro->save();
-            }
-            catch(\Exception $e){
-                echo $e;
-                dd($registro);
-            }
+            $registro->save();
             array_key_exists('subjects', $xmlContent)?$this->createSubjects($xmlContent['subjects'], $registro):"";
             array_key_exists('divisions', $xmlContent)?$this->createDivisions($xmlContent['divisions'], $registro):"";
             array_key_exists('creators', $xmlContent)?$this->createAuthors($xmlContent['creators'], $registro):"";
