@@ -50,7 +50,7 @@ class SubjectController extends Controller
 //        $children = Subject::with('children')->get();
         $children = $subject->recursive_tree()->get();
 //        $children = Subject::with('parent')->get()->where('parent_id', $subject->id);
-//        dd($children);
+//        dd($children->toJson());
         $registros = $subject->registros()->paginate(18);
         return view('registros.index',[
             'registros' => $registros,

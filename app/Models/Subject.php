@@ -24,8 +24,11 @@ class Subject extends Model
 //    public function children(){
 //        return $this->belongsTo(Subject::class, 'id', 'parent_id');
 //    }
+    public function childrenCount() {
+        return $this->hasMany(Subject::class, 'parent_id');
+    }
     public function children() {
-        return $this->hasMany(Subject::class, 'parent_id', 'id');
+        return $this->hasMany(Subject::class, 'parent_id')->withCount('childrenCount')->with('children');
     }
 
 //    public function parent() {
