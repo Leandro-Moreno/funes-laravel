@@ -11,6 +11,7 @@ use App\Models\Subject;
 use App\Models\TipoRegistro;
 use App\Models\RegistroTipoCampos;
 use App\Services\ImportService;
+use App\Services\ImportSubjectService;
 use Carbon\Carbon;
 use Database\Seeders\RegistroSeeder;
 use Illuminate\Http\File;
@@ -193,6 +194,7 @@ class RegistroController extends Controller
 
     public function massiveFolders(Request $request)
     {
+
         $service = new ImportService();
         switch ($request->process) {
             case 'search':
@@ -203,6 +205,11 @@ class RegistroController extends Controller
                 break;
             case 'extract':
                 $service->extractRegister();
+                break;
+            case 'test':
+                $subjects = new ImportSubjectService();
+                $subjects->remove('ROOT');
+                $subjects->colSub();
                 break;
             case 'complete':
                 $service->identifyFoldersToExplore();

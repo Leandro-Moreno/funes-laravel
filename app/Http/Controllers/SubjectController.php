@@ -47,13 +47,17 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-//        $subject->load(['registros:title,eprintid,id', 'registros.authors:id,given,family']);
-//        $subject->load(['registros'=>function($q){
-//            $q->select('title', 'eprintid', 'id')->paginate(18);
-//        }]);
+//        $children = Subject::with('children')->get();
+        $children = $subject->recursive_tree()->get();
+//        $children = Subject::with('parent')->get()->where('parent_id', $subject->id);
+//        dd($children);
         $registros = $subject->registros()->paginate(18);
-//        dd($registros);
-        return view('registros.index',['registros' => $registros, 'title'=> 'Registros por tematica '.$subject->name]);
+        return view('registros.index',[
+            'registros' => $registros,
+            'title'=> 'Registros por tematica '.$subject->name,
+            'children' => $children
+                ]
+        );
     }
 
     /**
