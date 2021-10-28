@@ -34,6 +34,17 @@
             </a>
             @endforeach
         </div>
+        <div class="row justify-content-center">
+            @foreach($children as $sub)
+            <div class="col-3">
+                {{$sub['name']}}
+                @foreach($sub->children as $child)
+                    {{$child->name}}
+                @endforeach
+            </div>
+            @endforeach
+        </div>
+
         {{ $registros->links() }}
     </div>
 

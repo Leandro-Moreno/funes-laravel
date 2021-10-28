@@ -22,6 +22,7 @@ class DatabaseSeeder extends Seeder
             CamposTipoRegistroSeeder::class,
             AuthorSeeder::class,
             AutorInstitucionalSeeder::class,
+            SubjectSeeder::class,
             EstadoSeeder::class
         ]);
     }

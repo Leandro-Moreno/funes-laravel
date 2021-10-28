@@ -18,7 +18,7 @@
                         </div>
                     </div>
                 </a>
-                <a href="" class="featured-content">
+                <a href="./latest" class="featured-content">
 
 
                     <div class="featured-content-img">
@@ -37,7 +37,7 @@
                         </h3>
                     </div>
                 </a>
-                <a href=""class="featured-content">
+                <a href="./subject" class="featured-content">
 
                     <div class="featured-content-info">
                         <h3 class="title title-black">
@@ -45,7 +45,7 @@
                         </h3>
                     </div>
                 </a>
-                <a href=""class="featured-content">
+                <a href="./about-us" class="featured-content">
 
 
                     <div class="featured-content-img">
@@ -73,6 +73,7 @@ export default {
     mounted() {
         this.init();
     },
+    props: ['pdfUrl'],
     methods: {
         init() {
             // return a random number within a range
