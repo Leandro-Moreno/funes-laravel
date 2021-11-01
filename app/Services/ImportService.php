@@ -275,7 +275,6 @@ class ImportService{
                     $route = $eprintidArray[1].$eprintidArray[2];
                     if (App::environment('local')) {
                         $eprintidArray = explode(".",$eprintidArray[0]);
-                        dd($eprintidArray);
                         $eprintid = $eprintidArray[1].$eprintidArray[2].$route;
                     }
                     else{

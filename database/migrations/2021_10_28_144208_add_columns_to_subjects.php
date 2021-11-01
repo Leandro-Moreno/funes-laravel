@@ -15,8 +15,8 @@ class AddColumnsToSubjects extends Migration
     {
         Schema::table('subjects', function (Blueprint $table) {
             $table->foreignId('parent_id')->after('result')->nullable()->references('id')->on('subjects')->onDelete('cascade')->onUpdate('cascade');
-            $table->boolean('depositable')->after('result');
-            $table->boolean('showable')->after('result');
+            $table->boolean('depositable')->after('result')->default(true);
+            $table->boolean('showable')->after('result')->default(true);
         });
     }
 

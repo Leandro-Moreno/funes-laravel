@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Registro;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 
 class SubjectController extends Controller
 {
@@ -38,7 +41,37 @@ class SubjectController extends Controller
     {
         //
     }
-
+    public function showArray(Request $request)
+    {
+        $query = Subject::with('children:id,parent_id')->find($request->input('ids'));
+        $ids = new Collection();
+        foreach ($query as $item){
+            $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
+        }
+        $ids = $ids->unique();
+        $registros = Registro::select('id','eprintid','title','abstract')->whereHas('subjects', function($query) use ($ids) {
+            $query->whereIn('parent_id', $ids);
+        })->paginate(60);
+        return $registros;
+    }
+    public function subjectIdsRecursiveChildren(Subject $subject)
+    {
+        $ids = new Collection();
+        if($subject->children->count()>0)
+        {
+            foreach( $subject->children as $children){
+                $ids->push($children->id);
+                $ids = $ids->merge($this->subjectIdsRecursiveChildren($children));
+            }
+        }
+        return $ids;
+    }
+    public function indexApi()
+    {
+        return cache()->remember('subjectRegistro', 300, function () {
+            return Subject::where('id',1)->with('children')->get();
+        });
+    }
     /**
      * Display the specified resource.
      *
@@ -47,19 +80,27 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-//        $children = Subject::with('children')->get();
-        $children = $subject->recursive_tree()->get();
-//        $children = Subject::with('parent')->get()->where('parent_id', $subject->id);
-//        dd($children->toJson());
         $registros = $subject->registros()->paginate(18);
+        $subject->alias = $subject->result;
+        $subject->children = Subject::first()->recursive_tree()->get();
+
+
         return view('registros.index',[
             'registros' => $registros,
             'title'=> 'Registros por tematica '.$subject->name,
-            'children' => $children
+            'subject' => $subject
                 ]
         );
     }
+    public function showApi(Subject $subject)
+    {
+        $children = $subject->recursive_tree()->get();
+        $subject->alias = $subject->result;
+        $subject->children = $children;
+//        $registros = $subject->registros()->paginate(18);
 
+        return $subject;
+    }
     /**
      * Show the form for editing the specified resource.
      *

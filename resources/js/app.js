@@ -34,6 +34,7 @@ Vue.component('registro-info-adicional', () => import('./components/registro/reg
 
 Vue.component('registro-title', () => import('./components/registro/registroTitle.vue'));
 Vue.component('header-animated', () => import('./components/header.vue'));
+Vue.component('tree-subject', () => import('./components/Tree/tree.vue'));
 // Vue.component('header-animated', require('./components/header.vue').default);
 
 // Vue.use(BootstrapVue);

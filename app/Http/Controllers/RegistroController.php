@@ -33,8 +33,7 @@ class RegistroController extends Controller
      */
     public function index()
     {
-        $registros = Registro::where('eprint_status', 'archive')->orderBy('title')->paginate(18);
-        return view('registros.index',['registros' => $registros, 'title'=> 'Todos los registros']);
+        return view('registros.index-main',['title'=> 'Todos los registros']);
         // return csrf_token();
     }
 
@@ -47,7 +46,11 @@ class RegistroController extends Controller
     {
         return view('registros.create');
     }
-
+    public function showArray(Request $request)
+    {
+        $registros = Registro::where('eprint_status', 'archive')->find($request->input('ids'));
+        dd($registros);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -194,7 +197,6 @@ class RegistroController extends Controller
 
     public function massiveFolders(Request $request)
     {
-
         $service = new ImportService();
         switch ($request->process) {
             case 'search':

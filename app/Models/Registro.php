@@ -17,6 +17,8 @@ class Registro extends Model
      */
     const STATUS_CHANGED = 'status_changed';
 
+    protected $appends = ['route'];
+
     protected $fillable = ['title','eprintid', 'abstract', 'type', 'titulo_publicacion', 'user_deposito_id', 'eprint_status',
         'item_issues_count', 'metadata_visibility', 'refereed', 'pres_type', 'ispublished',
         'user_edicion_id', 'issn', 'isbn', 'editor', 'año_publicacion', 'mes_publicacion',
@@ -35,6 +37,10 @@ class Registro extends Model
     public function getRouteKeyName()
     {
         return 'eprintid';
+    }
+    public function getRouteAttribute()
+    {
+        return route('registroid', $this);
     }
     /**
      * Get the name of the index associated with the model.

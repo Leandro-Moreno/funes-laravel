@@ -27,14 +27,17 @@ class Subject extends Model
     public function childrenCount() {
         return $this->hasMany(Subject::class, 'parent_id');
     }
-    public function children() {
-        return $this->hasMany(Subject::class, 'parent_id')->withCount('childrenCount')->with('children');
-    }
 
+    public function children() {
+        return $this->hasMany(Subject::class, 'parent_id')->select('id', 'result as label','parent_id')->withCount('childrenCount')->with(['children' => function ($q) {
+            $q->select('id', 'result as label','parent_id');
+        }]);
+    }
 //    public function parent() {
 //        return $this->belongsTo(Subject::class, 'parent_id', 'id');
 //    }
     public function recursive_tree(){
         return $this->children()->with('recursive_tree');
     }
+
 }
