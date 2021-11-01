@@ -9,7 +9,7 @@
                     </span>
                 </div>
                 <div class="title-options">
-                    <div class="title-options-option">
+                    <div class="title-options-option" v-on:click="favoriteToggle" :class="{ 'title-options-option-favorite': favorite }">
                         <svg class="icon">
                             <use xlink:href="#icon-heart-o"></use>
                         </svg>
@@ -80,12 +80,18 @@ export default {
     components: {},
     data() {
         return {
-            abstractActive: false
+            abstractActive: false,
+            favorite: false
         }
     },
     methods: {
         toggleText: function(){
             this.abstractActive = !this.abstractActive;
+        },
+        favoriteToggle: function(){
+            this.favorite = !this.favorite;
+            console.log(this.favorite);
+            console.log(this.favorite);
         }
     }
 }
@@ -282,7 +288,7 @@ export default {
                 transition: all 0.4s cubic-bezier(0.35, 0.57, 0.13, 0.88);
             }
 
-            @media screen and (min-width: 500px) {
+            //@media screen and (min-width: 500px) {
                 &:hover {
                     color: #532ab9;
 
@@ -291,10 +297,10 @@ export default {
                         transform: scale(1.3);
                     }
                 }
-            }
-
-            @media screen and (max-width: 576px), (max-height: 500px) {
-                &:active {
+            //}
+            //
+            //@media screen and (max-width: 576px), (max-height: 500px) {
+                &-favorite {
                     color: #532ab9;
 
                     &::before {
@@ -302,11 +308,13 @@ export default {
                         transform: scale(1.3);
                     }
                 }
-            }
+            //}
 
             .icon {
-                position: relative;
-                z-index: 2;
+                position: absolute;
+                top: 67%;
+                -ms-transform: translateY(-50%);
+                transform: translateY(-50%);
             }
 
             &.-xl {
