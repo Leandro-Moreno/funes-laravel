@@ -299,7 +299,7 @@ export default {
 
             //@media screen and (min-width: 500px) {
                 &:hover {
-                    color: #532ab9;
+                    color: #d71919;
 
                     &::before {
                         opacity: 1;
@@ -310,7 +310,7 @@ export default {
             //
             //@media screen and (max-width: 576px), (max-height: 500px) {
                 &-favorite {
-                    color: #532ab9;
+                    color: #d71919;
 
                     &::before {
                         opacity: 1;
