@@ -78,20 +78,18 @@ export default {
     },
     created() {
         if (this.subject.length > 0) {
-            console.log("entra if subject");
             this.value.push(this.subject.id);
             this.data = this.subject.children;
         }
         if (this.data.length > 0) {
-            console.log("entra if data");
             this.SearchRegistros(this.value);
         }
+
     },
     computed: {},
     components: {Treeselect},
     methods: {
         async getSubjects({callback}) {
-            console.log("call subjects2");
             await axios.get('/api/subjectindex')
                 .then(response => {
                     this.data = [];
@@ -99,10 +97,8 @@ export default {
                     tempData[0].children.forEach((arrayData) => {
                         this.data.push(arrayData);
                     });
-                    console.log(this.data);
                     callback();
-                })
-                .catch((e) => console.log(e));
+                });
         },
 
         changes: function (node, instanceId) {
@@ -113,8 +109,6 @@ export default {
             }
         },
         loadRegistrosInSubject: function (subject) {
-            console.log("loadRegistrosInSubject");
-            console.log(subject);
             subject.children.forEach((subjectChildren) => {
                 this.loadRegistrosInSubject(subjectChildren);
             });
@@ -133,7 +127,6 @@ export default {
             })
                 .then(response => {
                     this.registros = response.data;
-                    console.log(this.registros);
                 });
         },
         getPage(page) {

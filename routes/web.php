@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 //    Route::resource('/config/admin', AdminController::class)->except(['create', 'show']);
 
     Route::resource('user', UserController::class);
+    Route::put('/registro-attach/{registro}', [RegistroController::class, 'attachUser'])->name('registro.attach.user');
     Route::get('/registros/massive', [RegistroController::class, 'massiveFiles'])->name('registro.massive');
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

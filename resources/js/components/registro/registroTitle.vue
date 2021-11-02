@@ -19,14 +19,14 @@
             <div class="title-content">
                 <div class="progress__top">
                     <div class="album-info">
-                        <div class="album-info__name">{{title}}
+                        <div class="album-info__name">{{registro.title}}
                         </div>
-                        <div class="album-info__track" v-for="author in authors">{{ author.given }} {{ author.family }}</div>
+                        <div class="album-info__track" v-for="author in registro.authors">{{ author.given }} {{ author.family }}</div>
                         <p
                             class="abstract"
                             v-on:click="toggleText"
                             :class="{ 'abstract-active': abstractActive }"
-                        >{{abstract}}</p>
+                        >{{registro.abstract}}</p>
                     </div>
                 </div>
             </div>
@@ -68,14 +68,13 @@
 export default {
     name: "registro-title",
     props: [
-        'title',
-        'authors',
-        'abstract',
+        'registro',
         'img_url'
     ],
-    created() {
-        console.log(this.authors);
-        console.log("laoded title");
+    mounted() {
+        if(this.registro.validate_auth_user_attached.length >0){
+            this.favorite = true;
+        }
     },
     components: {},
     data() {
@@ -88,10 +87,20 @@ export default {
         toggleText: function(){
             this.abstractActive = !this.abstractActive;
         },
-        favoriteToggle: function(){
+        async favoriteToggle(){
             this.favorite = !this.favorite;
-            console.log(this.favorite);
-            console.log(this.favorite);
+            await axios.put(`/registro-attach/${this.registro.eprintid}`)
+                        .then(response => {
+                            console.log(response.data.attached);
+                            this.favorite = response.data.attached;
+                        })
+                        .catch(function(error) {
+                            if (error.response && error.response.status === 401) {
+                                window.location.href = "login";
+                            } else {
+                                // Handle error however you want
+                            }
+                        });
         }
     }
 }

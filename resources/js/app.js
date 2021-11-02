@@ -10,8 +10,8 @@ import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import Vue from 'vue/dist/vue'
 window.Vue = Vue
 // window.Vue = require('bootstrap-vue');
-Vue.use(require('bootstrap-vue'));
-Vue.use(BootstrapVueIcons);
+// Vue.use(require('bootstrap-vue'));
+// Vue.use(BootstrapVueIcons);
 /**
  * The following block of code may be used to automatically register your
  * Vue components. It will recursively scan this directory for the Vue

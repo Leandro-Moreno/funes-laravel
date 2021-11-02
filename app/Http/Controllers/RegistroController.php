@@ -51,6 +51,17 @@ class RegistroController extends Controller
         $registros = Registro::where('eprint_status', 'archive')->find($request->input('ids'));
         dd($registros);
     }
+    public function attachUser(Registro $registro){
+        $user = Auth::user();
+        $attached = $registro->users->contains($user);
+        if($attached){
+            $registro->users()->detach($user);
+        }else{
+            $registro->users()->attach($user);
+        }
+        $attached = !$attached;
+        return ['attached' => $attached];
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -108,7 +119,7 @@ class RegistroController extends Controller
      */
     public function show(Registro $registro)
     {
-        $registro->load("authors", "documents", "subjects", "projects", "divisions");
+        $registro->load("authors", "documents", "subjects", "projects", "divisions","validateAuthUserAttached:id");
         foreach ($registro->documents as $document) {
             $document->url = URL::to(Storage::url($document->url));
         }

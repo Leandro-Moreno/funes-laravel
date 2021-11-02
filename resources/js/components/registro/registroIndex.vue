@@ -1,7 +1,7 @@
 <template>
 <div class="row ml-1 mr-1">
     <div class="col-md-4">
-        <registro-title :title="registro.title" :abstract="registro.abstract" :authors="registro.authors"></registro-title>
+        <registro-title :registro="registro"></registro-title>
     </div>
     <div class="col-md-8">
         <div class="row justify-content-center">
@@ -50,14 +50,14 @@
 </template>
 <script>
   export default {
-        props: ['registroprop'],
-        created(){
-          this.registro = this.registroprop;
-          console.log(this.registro.authors);
+        props: ['registro'],
+      beforeCreate() {
+      },
+      mounted(){
+
         },
         data(){
           return {
-            registro: [],
           }
         }
   }

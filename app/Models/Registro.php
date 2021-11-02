@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Registro extends Model
@@ -66,6 +67,14 @@ class Registro extends Model
     public function divisions()
     {
         return $this->belongsToMany(Division::class);
+    }
+    public function users()
+    {
+        return $this->belongsToMany(User::class);
+    }
+    public function validateAuthUserAttached()
+    {
+        return $this->belongsToMany(User::class)->wherePivot('user_id',Auth::id());
     }
     public function authors()
     {
