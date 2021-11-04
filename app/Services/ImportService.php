@@ -185,7 +185,7 @@ class ImportService{
                 }
                 $doc = new Document($validator->validated());
                 $thumbnailOldRoute = $xmlrevision['dir']. "/" . "thumbnails" . "/" . str_pad($document['pos'], 2, "0", STR_PAD_LEFT) . "/preview.png";
-                $thumbnailNewRoute = $mainPath . "\\" . $document['pos'] . "\preview.png";
+                $thumbnailNewRoute = $mainPath . "/" . $document['pos'] . "/preview.png";
                 if(Storage::exists($thumbnailOldRoute)) {
                     if( ! Storage::exists($thumbnailNewRoute)){
                         Storage::copy($thumbnailOldRoute, $thumbnailNewRoute);
