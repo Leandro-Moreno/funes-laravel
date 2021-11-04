@@ -155,9 +155,6 @@ class ImagickService{
 
         $this->imagick->setFormat($this->determineOutputFormat($pathToImage));
 
-        $this->imagick->clear();
-        $this->imagick->destroy();
-
         return $this->imagick;
     }
 
