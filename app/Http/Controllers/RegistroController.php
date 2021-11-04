@@ -280,6 +280,7 @@ class RegistroController extends Controller
                 Storage::makeDirectory("public\\document\\tmp");
             }
             $pdfRoute = storage_path("app\\" .$base . $document->filename);
+            dd($pdfRoute);
             $pdf = new ImagickService($pdfRoute);
             $pdf->setResolution(60);
             $pdf->saveImage(storage_path("app\public\document\\tmp\\thumbnail.jpg"));
