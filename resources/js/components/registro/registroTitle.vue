@@ -5,7 +5,7 @@
                 <div class="title-cover">
                     <span>
                         <div class="title-cover-image"
-                             style=" backgroundImage: url('https://funes-laravel.test/images/screen.png')"></div>
+                             :style="{ backgroundImage: `url(${thumbnail})` }"></div>
                     </span>
                 </div>
                 <div class="title-options">
@@ -72,6 +72,7 @@ export default {
         'img_url'
     ],
     mounted() {
+        this.loadThumbnail();
         if(this.registro.validate_auth_user_attached.length >0){
             this.favorite = true;
         }
@@ -80,7 +81,8 @@ export default {
     data() {
         return {
             abstractActive: false,
-            favorite: false
+            favorite: false,
+            thumbnail: [],
         }
     },
     methods: {
@@ -101,6 +103,14 @@ export default {
                                 // Handle error however you want
                             }
                         });
+        },
+        loadThumbnail(){
+            console.log("loadThumbnail");
+            console.log(this.registro.documents);
+            this.thumbnail = 'https://funes-laravel.test/images/screen.png';
+            if(this.registro.documents.length > 0){
+                this.thumbnail = this.registro.documents[0].thumbnail;
+            }
         }
     }
 }
