@@ -257,7 +257,7 @@ class ImportService{
 
             $email = is_string($author['id'])?$author['id']:"";
             $authorContent = [
-                'given' => $author['name']['given'],
+                'given' => array_key_exists('given',$author['name'])?$author['name']['given']:'',
                 'family' => $author['name']['family'],
                 'email' => $email];
             $validator = Validator::make($authorContent, ['email' => 'string', 'given'=>'required|string', 'family'=> 'required|string']);
