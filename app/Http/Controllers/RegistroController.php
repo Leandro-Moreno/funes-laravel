@@ -272,22 +272,22 @@ class RegistroController extends Controller
     }
     public function generateImageFromPDF(Document $document)
     {
-        $base = "public\document\\" . $document->eprintid . '\\' . $document->pos . "\\";
+        $base = "public/document/" . $document->eprintid . '/' . $document->pos . "/";
         $thumbBase = $base . "thumbnail.jpg";
-        $thumbnailRoute = storage_path("app\\" . $thumbBase);
+        $thumbnailRoute = storage_path("app/" . $thumbBase);
         if(!Storage::exists($thumbnailRoute)){
-            if(!Storage::exists("public\\document\\tmp")){
-                Storage::makeDirectory("public\\document\\tmp");
+            if(!Storage::exists("public/document/tmp")){
+                Storage::makeDirectory("public/document/tmp");
             }
-            $pdfRoute = storage_path("app\\" .$base . $document->filename);
+            $pdfRoute = storage_path("app/" .$base . $document->filename);
             dd($pdfRoute);
             $pdf = new ImagickService($pdfRoute);
             $pdf->setResolution(60);
-            $pdf->saveImage(storage_path("app\public\document\\tmp\\thumbnail.jpg"));
+            $pdf->saveImage(storage_path("app/public/document/tmp/thumbnail.jpg"));
             $pdf->imagick->clear();
             $pdf->imagick->destroy();
 //            dd(Storage::path("public\document\\tmp\\thumbnail.jpg"));
-            rename(Storage::path("public\\document\\tmp\\thumbnail.jpg"),Storage::path($thumbBase));
+            rename(Storage::path("public/document/tmp/thumbnail.jpg"),Storage::path($thumbBase));
         }
         $document->thumbnail = $thumbBase;
         $document->save();
