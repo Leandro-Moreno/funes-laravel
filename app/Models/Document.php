@@ -10,5 +10,5 @@ use Illuminate\Support\Facades\URL;
 class Document extends Model
 {
     use HasFactory;
-    protected $fillable = ['docid', 'pos', 'eprintid','format','language','security','license','main','filename','filesize','hash','url', 'registro_id'];
+    protected $fillable = ['docid', 'pos', 'eprintid','format','language','security','license','main','filename','filesize','hash','url', 'registro_id','thumbnail'];
 }

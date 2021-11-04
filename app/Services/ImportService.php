@@ -113,9 +113,10 @@ class ImportService{
         $routes->each(function ($route){
             $fileRoute = $route->route . "/revisions/" . $route->xmlRevision . '.xml';
             $xmlContent = $this->loadXmlContent($fileRoute);
-//            $registro = new Registro($xmlContent);
             $validator = Validator::make($xmlContent,$this->registroRules);
             if($validator->fails()){
+                $route->status = 4;
+                $route->save();
                 return;
             }
             $validated = $validator->validated();
@@ -153,11 +154,11 @@ class ImportService{
     private function createDocuments(Array $xmlrevision, Registro $eprint)
     {
         //makeFolder
-        $path = 'public/document/'.strval($xmlrevision['eprintid']);
+        $mainPath = 'public/document/'.strval($xmlrevision['eprintid']);
         $xmlrevision['dir'] = $xmlrevision['oldRoute'];
-        $this->createRoute($path);
+        $this->createRoute($mainPath);
         $documents = array_key_exists('pos',$xmlrevision['documents']['document']) ? $documents = $xmlrevision['documents'] : $documents = $xmlrevision['documents']['document'];
-        foreach ($documents as $document)
+        foreach ($documents as $key => $document)
         {
             if(!array_key_exists('file', $document['files']))
                 return;
@@ -166,7 +167,8 @@ class ImportService{
             $document['filename'] = $document['files']['file']['filename'];
             $document['filesize'] = $document['files']['file']['filesize'];
             $document['url'] = $document['files']['file']['url'];
-            $path = $path . '/' . $document['pos'];
+
+            $path = $mainPath . '/' . $document['pos'];
             $oldFileRoute = $xmlrevision['dir'] . '/'.str_pad($document['pos'], 2, "0", STR_PAD_LEFT) . '/' . $document['filename'];
             $newFileRoute = $path . '/' . $document['filename'];
             $existsInOldRoute = Storage::exists($oldFileRoute);
@@ -182,6 +184,14 @@ class ImportService{
                     Storage::copy($oldFileRoute, $newFileRoute);
                 }
                 $doc = new Document($validator->validated());
+                $thumbnailOldRoute = $xmlrevision['dir']. "/" . "thumbnails" . "/" . str_pad($document['pos'], 2, "0", STR_PAD_LEFT) . "/preview.png";
+                $thumbnailNewRoute = $mainPath . "\\" . $document['pos'] . "\preview.png";
+                if(Storage::exists($thumbnailOldRoute)) {
+                    if( ! Storage::exists($thumbnailNewRoute)){
+                        Storage::copy($thumbnailOldRoute, $thumbnailNewRoute);
+                    }
+                    $doc->thumbnail = $thumbnailNewRoute;
+                }
                 $doc->hash = sha1_file(Storage::path($newFileRoute));
                 $doc->eprintid = $eprint->eprintid;
                 $doc->registro_id = $eprint->id;

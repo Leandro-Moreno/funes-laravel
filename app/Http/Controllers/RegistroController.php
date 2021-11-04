@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exceptions\ImagickException;
 use App\Http\Requests\DocumentRequest;
 use App\Jobs\importFolder;
 use App\Models\Document;
@@ -10,6 +11,7 @@ use App\Models\Registro;
 use App\Models\Subject;
 use App\Models\TipoRegistro;
 use App\Models\RegistroTipoCampos;
+use App\Services\ImagickService;
 use App\Services\ImportService;
 use App\Services\ImportSubjectService;
 use Carbon\Carbon;
@@ -122,6 +124,7 @@ class RegistroController extends Controller
         $registro->load("authors", "documents", "subjects", "projects", "divisions","validateAuthUserAttached:id");
         foreach ($registro->documents as $document) {
             $document->url = URL::to(Storage::url($document->url));
+            $document->thumbnail = URL::to(Storage::url($document->thumbnail));
         }
         return view('registros.show', ['registro' => $registro]);
     }
@@ -219,7 +222,7 @@ class RegistroController extends Controller
             case 'extract':
                 $service->extractRegister();
                 break;
-            case 'test':
+            case 'subjects':
                 $subjects = new ImportSubjectService();
                 $subjects->remove('ROOT');
                 $subjects->colSub();
@@ -228,6 +231,18 @@ class RegistroController extends Controller
                 $service->identifyFoldersToExplore();
                 $service->scanRegister();
                 $service->extractRegister();
+                break;
+            case 'documents':
+                $documents = Document::where('format', 'application/pdf')
+                    ->whereNull('thumbnail')
+                    ->whereNotIn('eprintid',[395,458,503,672,1199,799,858])
+                    ->cursor();
+//                    ->take(10)
+//                    ->get();
+//            dd($documents);
+                $documents->each(function ($document) {
+                    $this->generateImageFromPDF($document);
+                });
                 break;
             default:
                 break;
@@ -254,5 +269,19 @@ class RegistroController extends Controller
     private function moveRegisterFile(array $document, string $oldFileRoute, string $newFileRoute)
     {
 
+    }
+    public function generateImageFromPDF(Document $document)
+    {
+        $base = "public\document\\" . $document->eprintid . '\\' . $document->pos . "\\";
+        $thumbBase = $base . "thumbnail.jpeg";
+        $thumbnailRoute = storage_path("app\\" . $thumbBase);
+        if(!Storage::exists($thumbnailRoute)){
+            $pdfRoute = storage_path("app\\" .$base . $document->filename);
+            $pdf = new ImagickService($pdfRoute);
+            $pdf->setResolution(60);
+            $pdf->saveImage($thumbnailRoute);
+        }
+        $document->thumbnail = $thumbBase;
+        $document->save();
     }
 }
