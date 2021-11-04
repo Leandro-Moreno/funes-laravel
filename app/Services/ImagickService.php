@@ -144,8 +144,7 @@ class ImagickService{
             return $this->getRemoteImageData($pathToImage);
         }
 //        try {
-        dd($this->pdfFile);
-        $prueba = sprintf('%s[0]', $this->pdfFile);
+        $prueba = sprintf('%s[%s]', $this->pdfFile, $this->page - 1);
             $this->imagick->readImage($prueba);
 //        }catch (ImagickException $exception){
 //            report($exception);
