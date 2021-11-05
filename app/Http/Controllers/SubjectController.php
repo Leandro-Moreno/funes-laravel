@@ -68,7 +68,7 @@ class SubjectController extends Controller
     }
     public function indexApi()
     {
-        return cache()->remember('subjectRegistro', 300, function () {
+        return cache()->remember('subjectRegistros', 1, function () {
             return Subject::where('id',1)->with('children')->get();
         });
     }

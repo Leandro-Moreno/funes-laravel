@@ -5,7 +5,7 @@
     <div class="container">
         <h2>{{$title}}</h2>
         {{ $registros->links() }}
-        <tree-subject :subject='@json( $subject )'></tree-subject>
+        <tree-subject></tree-subject>
         <div class="row justify-content-center">
             @foreach($registros as $registro)
             <a href="{{ route('registroid', $registro) }}" class="col-md-4">

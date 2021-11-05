@@ -65,19 +65,25 @@ import Treeselect from '@riophae/vue-treeselect'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
-    // register the component
     name: "tree-subject",
     props: [
         'dataChildren'
     ],
-    beforeCreate() {
-        // this.value.push(3);
+    data() {
+        return {
+            data: null,
+            value: [],
+            registros: [],
+            subjects: [],
+            treeselectOptions: [],
+            nodes: []
+        }
     },
     mounted() {
         this.getSubjects();
     },
     created() {
-        if (this.subject.length > 0) {
+        if (this.subjects.length > 0) {
             this.value.push(this.subject.id);
             this.data = this.subject.children;
         }
@@ -165,15 +171,6 @@ export default {
                 });
         }
     },
-    data() {
-        return {
-            data: null,
-            value: [],
-            registros: [],
-            subjects: [],
-            treeselectOptions: [],
-            nodes: []
-        }
-    },
+
 }
 </script>
