@@ -29,6 +29,16 @@ use Debugbar;
 class RegistroController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(Registro::class, 'registro');
+        $this->middleware('auth')->except(['index', 'show']);
+    }
+    /**
      * Display a listing of the resource.
      *
      * @return Response

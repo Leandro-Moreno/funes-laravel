@@ -16,13 +16,33 @@ use Illuminate\Http\Request;
 class UserController extends Controller
 {
     /**
+     * Create the controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->authorizeResource(User::class, 'user');
+    }
+    /**
      * Display a listing of the users
      *
      * @param User $model
      * @return View
      */
-    public function index(User $model)
+    public function index()
     {
+        $model = User::paginate(15);
+        return view('users.index', ['users' => $model]);
+    }
+    public function show(User $user)
+    {
+        dd($user);
+        return view('users.index', ['user' => $user]);
+    }
+    public function edit(Request $request, User $user)
+    {
+        dd($request);
         return view('users.index', ['users' => $model->paginate(15)]);
     }
     /**

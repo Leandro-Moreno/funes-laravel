@@ -42,4 +42,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Registro::class)->where('eprint_status', 'archive');
     }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 }
