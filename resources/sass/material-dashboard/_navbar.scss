@@ -229,17 +229,18 @@
     .navbar-collapse{
       .navbar-nav .nav-item{
         .nav-link{
-          padding-top: 15px;
-          padding-bottom: 15px;
+          padding-top: 12px;
+          padding-bottom: 12px;
           font-weight: 500;
-          font-size: 12px;
+          font-size: 13px;
           text-transform: uppercase;
-          border-radius: 3px;
+          border-radius: 4px;
           color: $white-color;
-          margin: 0 15px;
+          margin: 0 13px;
 
           &:hover{
-            background: rgba(200, 200, 200, 0.2);
+              //border-color: white;
+              border: 1px solid #ffffff69;
           }
         }
       }
