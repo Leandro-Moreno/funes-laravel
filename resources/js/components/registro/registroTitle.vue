@@ -98,7 +98,7 @@ export default {
                         })
                         .catch(function(error) {
                             if (error.response && error.response.status === 401) {
-                                window.location.href = "login";
+                                window.location.href = "/login";
                             } else {
                                 // Handle error however you want
                             }

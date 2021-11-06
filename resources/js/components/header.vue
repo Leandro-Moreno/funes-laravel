@@ -30,7 +30,8 @@
                     </div>
                 </a>
                 <a href="" class="featured-content">
-
+                    <div class="featured-content-img">
+                    </div>
                     <div class="featured-content-info">
                         <h3 class="title title-white">
                             Búsqueda Avanzada
@@ -38,7 +39,8 @@
                     </div>
                 </a>
                 <a href="./subject" class="featured-content">
-
+                    <div class="featured-content-img">
+                    </div>
                     <div class="featured-content-info">
                         <h3 class="title title-white">
                             Términos Claves
@@ -517,9 +519,17 @@ a {
 
 @media only screen and (max-width: 840px) {
     body {
-        padding: 1.5rem;
+        //padding: 1.5rem;
     }
-
+    .featured-content{
+        margin: 10px 0;
+        &::first{
+            margin: 0;
+        }
+    }
+    .featured-content-img{
+        height: 80px;
+    }
     .overlay {
         padding: 4rem;
         height: auto;

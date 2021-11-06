@@ -55,7 +55,7 @@ class RegistroController extends Controller
             'update' => 'update',
             'destroy' => 'delete',
             'latest'=>'another',
-            'yearShow'=>'viewAny',
+            'yearShow'=>'another',
             'year'=>'another'
         ];
     }
@@ -180,6 +180,7 @@ class RegistroController extends Controller
     }
     public function year(){
         $years = DB::table('registros')
+            ->where('eprint_status','archive')
             ->select('date_year')
             ->orderBy('date_year', 'DESC')
             ->distinct()
@@ -187,7 +188,6 @@ class RegistroController extends Controller
         return view('registros.year',['years' => $years]);
     }
     public function yearShow($year){
-        $this->authorize('index', Registro::class);
         $year = $year=="empty"?"":$year;
         $yearRegistro = Registro::where('eprint_status', 'archive')
             ->where('date_year', $year)
