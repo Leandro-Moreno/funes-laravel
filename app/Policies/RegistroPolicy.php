@@ -35,7 +35,7 @@ class RegistroPolicy
      * @param  \App\Models\Registro  $registro
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(?User $user, Registro $registro)
+    public function view(?User $user, ?Registro $registro)
     {
         return true;
     }
@@ -99,5 +99,9 @@ class RegistroPolicy
     public function forceDelete(User $user, Registro $registro)
     {
         return false;
+    }
+    public function another(?User $user)
+    {
+        return true;
     }
 }

@@ -2,5 +2,5 @@
 
 @section('content')
 <registro-index :registro='@json( $registro )'></registro-index>
-{{$registro;}}
+{{$registro}}
 @endsection

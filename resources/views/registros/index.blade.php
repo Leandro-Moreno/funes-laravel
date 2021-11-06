@@ -30,6 +30,11 @@
                                 @endforeach
                             </div>
                         </div>
+                        <div class="row">
+                            <div class="featured-content-info">
+                                <div class="title title-white">Ver más</div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </a>

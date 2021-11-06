@@ -24,7 +24,7 @@
                     <div class="featured-content-img">
                     </div>
                     <div class="featured-content-info">
-                        <h3 class="title title-black">
+                        <h3 class="title title-white">
                             Registros recientes
                         </h3>
                     </div>
@@ -32,7 +32,7 @@
                 <a href="" class="featured-content">
 
                     <div class="featured-content-info">
-                        <h3 class="title title-black">
+                        <h3 class="title title-white">
                             Búsqueda Avanzada
                         </h3>
                     </div>
@@ -40,8 +40,8 @@
                 <a href="./subject" class="featured-content">
 
                     <div class="featured-content-info">
-                        <h3 class="title title-black">
-                            Estructura de Funes por Términos Claves
+                        <h3 class="title title-white">
+                            Términos Claves
                         </h3>
                     </div>
                 </a>
@@ -51,8 +51,8 @@
                     <div class="featured-content-img">
                     </div>
                     <div class="featured-content-info">
-                        <h3 class="title title-black">
-                            Acerca de
+                        <h3 class="title title-white">
+                            Acerca de Funes
                         </h3>
                     </div>
                 </a>
@@ -278,7 +278,7 @@ export default {
             // Create colour palette
             const colorPalette = new ColorPalette();
 
-            app.stage.filters = [new KawaseBlurFilter(30, 10, true)];
+            app.stage.filters = [new KawaseBlurFilter(2, 10, true)];
 
             // Create orbs
             const orbs = [];
@@ -384,8 +384,8 @@ strong {
 .featured-content{
     background: rgba(255, 255, 255, 0.65);
     box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.1);
-    border-radius: 2rem;
-    border: 1px solid rgba(255, 255, 255, 0.4);
+    border-radius: 1rem;
+    border: 3px solid #5450a9;
     z-index: 1;
     &::first-child{
         background: rgba(255, 255, 255, 0.79) !important;

@@ -406,6 +406,7 @@ export default {
         font-weight: bold;
         margin-bottom: 12px;
         line-height: 1.3em;
+        color: #5450a9;
         @media screen and (max-width: 576px), (max-height: 500px) {
             font-size: 18px;
             margin-bottom: 9px;

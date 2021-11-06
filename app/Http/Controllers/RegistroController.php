@@ -20,6 +20,7 @@ use Illuminate\Http\File;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
@@ -36,7 +37,37 @@ class RegistroController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Registro::class, 'registro');
-        $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->except(['index', 'show','year','yearShow','latest','editorial','publication']);
+    }
+
+    /**
+     * Get the map of resource methods to ability names.
+     *
+     * @return array
+     */
+    protected function resourceAbilityMap()
+    {
+        return [
+            'show' => 'view',
+            'create' => 'create',
+            'store' => 'create',
+            'edit' => 'update',
+            'update' => 'update',
+            'destroy' => 'delete',
+            'latest'=>'another',
+            'yearShow'=>'viewAny',
+            'year'=>'another'
+        ];
+    }
+
+    /**
+     * Get the list of resource methods which do not have model parameters.
+     *
+     * @return array
+     */
+    protected function resourceMethodsWithoutModels()
+    {
+        return ['index', 'create', 'store','latest','year','yearShow'];
     }
     /**
      * Display a listing of the resource.
@@ -148,12 +179,15 @@ class RegistroController extends Controller
         return view('registros.index', ['registros' => $registros, 'title'=> 'Ultimos Registros']);
     }
     public function year(){
-        $years = Registro::where('eprint_status', 'archive')
+        $years = DB::table('registros')
             ->select('date_year')
-            ->orderBy('date_year', 'DESC')->distinct()->get();
-        return view('registros.year',['registros' => $years]);
+            ->orderBy('date_year', 'DESC')
+            ->distinct()
+            ->get();
+        return view('registros.year',['years' => $years]);
     }
     public function yearShow($year){
+        $this->authorize('index', Registro::class);
         $year = $year=="empty"?"":$year;
         $yearRegistro = Registro::where('eprint_status', 'archive')
             ->where('date_year', $year)

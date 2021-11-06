@@ -41,7 +41,8 @@ class Registro extends Model
     }
     public function getRouteAttribute()
     {
-        return route('registroid', $this);
+//        dd($this);
+        return route('registro.show', $this);
     }
     /**
      * Get the name of the index associated with the model.
