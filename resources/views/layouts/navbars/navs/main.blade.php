@@ -14,8 +14,8 @@
         <div class="collapse navbar-collapse justify-content-end">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" class="nav-link">
-                        <i class="material-icons">dashboard</i> {{ __('Página inicial') }}
+                    <a href="{{ route('registro.index') }}" class="nav-link">
+                        <i class="material-icons">dashboard</i> {{ __('Registros') }}
                     </a>
                 </li>
                 <li class="nav-item">
