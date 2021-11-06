@@ -20,11 +20,11 @@ Route::get('/home', [HomeController::class, 'index'])->name('home');
 Route::get('/latest', [RegistroController::class, 'latest'])->name('Registrolatest');
 Route::get('/publication', [RegistroController::class, 'publication'])->name('publication');
 Route::get('/editorial', [RegistroController::class,'editorial'])->name('editorial');
-Route::get('/view/year', [RegistroController::class, 'year'])->name('year');
-Route::get('/view/year/{year:[0-9]+}', [RegistroController::class, 'yearShow'])->name('year.show');
-Route::get('{year}.html', function ($year) {
+Route::get('/year/{year}', [RegistroController::class, 'yearShow'])->name('year.show');
+Route::get('/view/{year}.html', function ($year) {
     return Redirect::to(route('year.show', $year),301);
 });
+Route::get('/year', [RegistroController::class, 'year'])->name('year');
 
 Route::resource('registro', RegistroController::class);
 Route::resource('author', AuthorController::class);
@@ -80,4 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
     })->name('upgrade');
 });
 
-Route::get('/{registro}', [RegistroController::class, 'show'])->where('id', '[0-9]')->name('registroid');
+
+Route::get('/{registro}', function ($registro) {
+    return Redirect::to(route('registro.show', $registro),301);
+})->where('registro', '[0-9]+')->name('registroid');
