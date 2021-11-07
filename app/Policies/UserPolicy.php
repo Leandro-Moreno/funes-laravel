@@ -12,7 +12,7 @@ class UserPolicy
 
     public function before(User $user, $ability)
     {
-        if ($user->role_id < 2) {
+        if ($user->role_id == 1) {
             return true;
         }
     }
@@ -24,9 +24,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        if ($user->role_id < 2) {
-            return true;
-        }
+        return false;
     }
 
     /**
