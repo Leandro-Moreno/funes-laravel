@@ -30,7 +30,7 @@
 </div>
 
 <!--   Core JS Files   -->
-{{--        <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>--}}
+        <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
 {{--        <script src="{{ asset('material') }}/js/core/popper.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>--}}
@@ -67,7 +67,7 @@
 {{--        <!--  Notifications Plugin    -->--}}
 {{--        <script src="{{ asset('material') }}/js/plugins/bootstrap-notify.js"></script>--}}
 {{--        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->--}}
-{{--        <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>--}}
+        <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 {{--        <script src="{{ asset('material') }}/js/settings.js"></script>--}}
 <script src="{{ mix('js/app.js') }}"></script>
 <script src="{{ mix('js/manifest.js') }}"></script>

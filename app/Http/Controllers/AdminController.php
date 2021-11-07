@@ -20,9 +20,16 @@ class AdminController extends Controller
     {
         $registros = Registro::latest()->take(5)->get(['id','eprintid','eprint_status','title', 'created_at']);
         $users = User::latest()->take(5)->get(['id','name','last_name','email', 'organization']);
+        $registroArchiveCount = Registro::where('eprint_status','archive')->count();
+        $registroCompleteCount = Registro::count();
+        $userCount = User::count();
+//        dd($registroCompleteCount);
         return view('admin.index', [
             'registros' => $registros,
             'usuarios' => $users,
+            'registroCompleteCount' => $registroCompleteCount,
+            'registroArchiveCount' => $registroArchiveCount,
+            'userCount' => $userCount,
         ]);
     }
 

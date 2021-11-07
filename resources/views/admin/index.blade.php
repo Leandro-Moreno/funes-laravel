@@ -12,11 +12,11 @@
                             <i class="material-icons">article</i>
                         </div>
                         <p class="card-category">Registros</p>
-                        <h3 class="card-title">22100</h3>
+                        <h3 class="card-title">{{$registroArchiveCount}}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
-                            <i class="material-icons">date_range</i> Desde el inicio
+                            <i class="material-icons">date_range</i> Desde el inicio. {{$registroCompleteCount - $registroArchiveCount}} registros no se han publicado.
                         </div>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
                             <i class="material-icons">account_circle</i>
                         </div>
                         <p class="card-category">Usuarios</p>
-                        <h3 class="card-title">5500</h3>
+                        <h3 class="card-title">{{$userCount}}</h3>
                     </div>
                     <div class="card-footer">
                         <div class="stats">
@@ -76,6 +76,9 @@
             <div class="col-lg-12 col-md-12">
                 <div class="card">
                     <div class="card-header card-header-primary">
+                        <div class="card-icon">
+                            <i class="material-icons">article</i>
+                        </div>
                         <h4 class="card-title">{{__('Ultimos Registros')}}</h4>
                         <p class="card-category">Estos son los ultimos 5 registros creados</p>
                     </div>
@@ -115,6 +118,9 @@
         <div class="col-lg-12 col-md-12">
             <div class="card">
                 <div class="card-header card-header-success">
+                    <div class="card-icon">
+                        <i class="material-icons">account_circle</i>
+                    </div>
                     <h4 class="card-title">{{__('Ultimos Usuarios')}}</h4>
                     <p class="card-category">Estos son los ultimos 5 usuarios registrados</p>
                 </div>

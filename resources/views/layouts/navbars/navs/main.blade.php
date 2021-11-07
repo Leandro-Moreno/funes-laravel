@@ -15,7 +15,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a href="{{ route('registro.index') }}" class="nav-link">
-                        <i class="material-icons">dashboard</i> {{ __('Registros') }}
+                        <i class="material-icons">article</i> {{ __('Registros') }}
                     </a>
                 </li>
                 <li class="nav-item">
