@@ -13,7 +13,7 @@ class RegistroPolicy
 
     public function before(User $user, $ability)
     {
-        if ($user->role_id < 3) {
+        if ($user->role_id == 1) {
             return true;
         }
     }
@@ -60,9 +60,10 @@ class RegistroPolicy
      */
     public function update(User $user, Registro $registro)
     {
-        return $user->id ===($registro->user_deposito_id || $registro->user_edicion_id)
-            ? Response::allow()
-            : Response::deny('You do not own this post.');
+        if($user->id===($registro->user_deposito_id || $registro->user_edicion_id) || $user->role_id <3 ){
+            return Response::allow();
+        }
+        return Response::deny('You do not own this post.');
     }
 
     /**
@@ -103,5 +104,9 @@ class RegistroPolicy
     public function another(?User $user)
     {
         return true;
+    }
+    public function administrator(User $user)
+    {
+        return false;
     }
 }
