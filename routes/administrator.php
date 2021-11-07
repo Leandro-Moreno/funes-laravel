@@ -19,10 +19,11 @@ use App\Http\Controllers\UserController;
 | contains the "administrator" middleware group. Now create something great!
 |
 */
-
-Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-Route::group(['prefix' => 'import'], function () {
-    Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
-    Route::get('users', [UserController::class, 'massive'])->name('user.import');
-    Route::post('users', [UserController::class, 'import']);
+Route::group(['prefix' => 'administrator'], function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::group(['prefix' => 'import'], function () {
+        Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
+        Route::get('users', [UserController::class, 'massive'])->name('user.import');
+        Route::post('users', [UserController::class, 'import']);
+    });
 });
