@@ -56,7 +56,8 @@ class RegistroController extends Controller
             'destroy' => 'delete',
             'latest'=>'another',
             'yearShow'=>'another',
-            'year'=>'another'
+            'year'=>'another',
+            'massiveFolders' =>'administrator'
         ];
     }
 
@@ -67,7 +68,7 @@ class RegistroController extends Controller
      */
     protected function resourceMethodsWithoutModels()
     {
-        return ['index', 'create', 'store','latest','year','yearShow'];
+        return ['index', 'create', 'store','latest','year','yearShow','massiveFolders'];
     }
     /**
      * Display a listing of the resource.
@@ -334,5 +335,9 @@ class RegistroController extends Controller
         }
         $document->thumbnail = $thumbBase;
         $document->save();
+    }
+    public function indexAdministrator()
+    {
+        return view('admin.registro.index');
     }
 }
