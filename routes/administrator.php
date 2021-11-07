@@ -21,6 +21,7 @@ use App\Http\Controllers\UserController;
 */
 Route::group(['prefix' => 'administrator'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
+    Route::get('registro', [RegistroController::class, 'indexAdministrator'])->name('registro.admininistrator.index');
     Route::group(['prefix' => 'import'], function () {
         Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
         Route::get('users', [UserController::class, 'massive'])->name('user.import');
