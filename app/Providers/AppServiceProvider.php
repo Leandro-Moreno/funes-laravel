@@ -28,7 +28,10 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::useBootstrap();
         Blade::if('administrator', function () {
-            return auth()->user() && Auth::user()->role_id < 3;
+            return auth()->user() && Auth::user()->role_id == 1;
+        });
+        Blade::if('editor', function () {
+            return auth()->user() && Auth::user()->role_id <= 2;
         });
     }
 }
