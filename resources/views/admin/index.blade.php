@@ -85,7 +85,9 @@
                     <div class="card-body table-responsive">
                         <div class="row">
                             <div class="col-md-12 text-right">
+                                @administrator
                                 <a href="{{ route('registro.process') }}" class="btn btn-danger">{{ __('Importar Registros') }}</a>
+                                @endadministrator
                                 <a href="{{ route('registro.index') }}" class="btn btn-primary">{{ __('Todos los Registros') }}</a>
                             </div>
                         </div>
@@ -127,7 +129,9 @@
                 <div class="card-body table-responsive">
                     <div class="row">
                         <div class="col-md-12 text-right">
+                            @administrator
                             <a href="{{ route('user.import') }}" class="btn btn-danger">{{ __('Importar Usuarios') }}</a>
+                            @endadministrator
                             <a href="{{ route('user.index') }}" class="btn btn-primary">{{ __('Todos los Usuarios') }}</a>
                         </div>
                     </div>
