@@ -15,8 +15,8 @@
     <div>
         <label class="col-md-12" >Resumen</label>
           <b-form-textarea
-        id="description"
-        v-model="description"
+        id="abstract"
+        v-model="abstract"
         placeholder="Ingrese su resumen"
         rows="10"
         max-rows="12"
@@ -28,11 +28,12 @@
       <registro-autores ref="autores"></registro-autores>
       <registro-autores-institucionales ref="autoresInstitucionales"></registro-autores-institucionales>
       <registro-info-adicional ref="infoAdicional"></registro-info-adicional>
-      
+
 </div>
 </template>
 <script>
 export default {
+    name: "registro-detalles",
     mounted() {
   },
   data (){
@@ -40,7 +41,7 @@ export default {
       campos_tipos_registro: null,
       title: '',
       description: ''
-    }          
+    }
   }
 }
 </script>
