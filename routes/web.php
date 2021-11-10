@@ -32,6 +32,7 @@ Route::resource('division', DivisionController::class);
 Route::resource('subject', SubjectController::class);
 
 Route::get('/eprint/id/{document}', [RegistroController::class, 'show']);
+Route::get('/registro-type', [RegistroController::class, 'tiposRegistro']);
 Route::get('/{eprint:[0-9]+}/{pos:[0-9]+}/{document}', [DocumentController::class, 'showFile']);
 Route::post('subirImagen',[RegistroController::class, 'subirImagen']);
 

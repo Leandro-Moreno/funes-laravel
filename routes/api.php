@@ -15,3 +15,6 @@ Route::get('/subjectindex', [SubjectController::class, 'indexApi'])->name('api.s
 Route::get('/search/registro', [RegistroApiController::class, 'search'])->name('api.search.registro');
 //Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
 //Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');
+//Route::get('/registro', [RegistroApiController::class, 'index'])->name('registro.index.api');
+//Route::group(['middleware' => 'auth:api'], function () {
+//});

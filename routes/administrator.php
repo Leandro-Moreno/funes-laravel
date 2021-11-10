@@ -1,5 +1,6 @@
 <?php
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Api\Search\RegistroApiController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DocumentController;
@@ -21,10 +22,11 @@ use App\Http\Controllers\UserController;
 */
 Route::group(['prefix' => 'administrator'], function () {
     Route::get('/', [AdminController::class, 'index'])->name('admin.index');
-    Route::get('registro', [RegistroController::class, 'indexAdministrator'])->name('registro.admininistrator.index');
+    Route::get('registro', [AdminController::class, 'indexRegistro'])->name('registro.admininistrator.index');
     Route::group(['prefix' => 'import'], function () {
         Route::get('process', [RegistroController::class, 'massiveFolders'])->name('registro.process');
         Route::get('users', [UserController::class, 'massive'])->name('user.import');
         Route::post('users', [UserController::class, 'import']);
     });
+    Route::get('registro-index',[RegistroApiController::class, 'index'])->name('registro.index.api');
 });
