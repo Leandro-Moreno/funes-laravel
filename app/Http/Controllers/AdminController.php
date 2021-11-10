@@ -33,8 +33,18 @@ class AdminController extends Controller
         ]);
     }
 
-    public function indexRegistro(){
-
+    public function indexRegistro(?Request $request){
+        $eprint_status = '';
+        if( $request->input('eprint_status') ){
+            $eprint_status = $request->input('eprint_status');
+        }
+        $registros = Registro::select('id','eprintid','eprint_status','title', 'created_at','abstract')
+                        ->orderBy('created_at','DESC')
+                        ->where('eprint_Status', $eprint_status)
+                        ->paginate(25);
+        return view('admin.registro.index', [
+            'registros' => $registros,
+        ]);
     }
 
     /**
