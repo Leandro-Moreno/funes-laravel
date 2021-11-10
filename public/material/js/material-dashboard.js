@@ -15,7 +15,7 @@
 
  */
 
-(function() {
+jQuery(document).ready(function($) {
   isWindows = navigator.platform.indexOf('Win') > -1 ? true : false;
 
   if (isWindows) {
@@ -26,9 +26,9 @@
   } else {
     $('html').addClass('perfect-scrollbar-off');
   }
-})();
+});
 
-
+(function() {
 var breakCards = true;
 
 var searchVisible = 0;
@@ -732,3 +732,4 @@ function debounce(func, wait, immediate) {
     if (immediate && !timeout) func.apply(context, args);
   };
 };
+})(jQuery);

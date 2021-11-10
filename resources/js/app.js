@@ -7,6 +7,7 @@
 require('./bootstrap');
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
+import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue/dist/vue'
 window.Vue = Vue
 // window.Vue = require('bootstrap-vue');
@@ -22,11 +23,11 @@ window.Vue = Vue
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-
-Vue.component('registro-crear', () => import('./components/RegistroCrear.vue').default);
+Vue.use(require('bootstrap-vue'));
+Vue.component('registro-crear', () => import('./components/RegistroCrear.vue'));
 Vue.component('registro-index', () => import('./components/registro/RegistroIndex.vue'));
 Vue.component('registro-detalles', () => import('./components/registroDetalles.vue'));
-Vue.component('cargar-archivos', () => import('./components/cargarArchivo.vue'));
+Vue.component('cargar-archivo', () => import('./components/cargarArchivo.vue'));
 Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));
 Vue.component('registro-autores', () => import('./components/registro/registroAutores.vue'));
 Vue.component('registro-autores-institucionales', () => import('./components/registro/registroAutoresInstitucional.vue'));
@@ -35,9 +36,10 @@ Vue.component('registro-info-adicional', () => import('./components/registro/reg
 Vue.component('registro-title', () => import('./components/registro/registroTitle.vue'));
 Vue.component('header-animated', () => import('./components/header.vue'));
 Vue.component('tree-subject', () => import('./components/Tree/tree.vue'));
+Vue.component('administrator-registro-index', () => import('./components/Administrator/registro/index.vue'));
 // Vue.component('header-animated', require('./components/header.vue').default);
 
-// Vue.use(BootstrapVue);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
