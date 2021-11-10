@@ -16,8 +16,8 @@ class CreateDocumentsTable extends Migration
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('registro_id')->references('id')->on('registros');
-            $table->integer('docid');
-            $table->integer('pos');
+            $table->integer('docid')->nullable();
+            $table->integer('pos')->nullable();
             $table->integer('eprintid');
             $table->string('format');
             $table->string('language')->default('es');
