@@ -37,7 +37,7 @@ class RegistroController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Registro::class, 'registro');
-        $this->middleware('auth')->except(['index', 'show','year','yearShow','latest','editorial','publication']);
+        $this->middleware('auth')->except(['index', 'show', 'year', 'yearShow', 'latest', 'editorial', 'publication']);
     }
 
     /**
@@ -54,10 +54,10 @@ class RegistroController extends Controller
             'edit' => 'update',
             'update' => 'update',
             'destroy' => 'delete',
-            'latest'=>'another',
-            'yearShow'=>'another',
-            'year'=>'another',
-            'massiveFolders' =>'administrator'
+            'latest' => 'another',
+            'yearShow' => 'another',
+            'year' => 'another',
+            'massiveFolders' => 'administrator'
         ];
     }
 
@@ -68,8 +68,9 @@ class RegistroController extends Controller
      */
     protected function resourceMethodsWithoutModels()
     {
-        return ['index', 'create', 'store','latest','year','yearShow','massiveFolders'];
+        return ['index', 'create', 'store', 'latest', 'year', 'yearShow', 'massiveFolders'];
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -77,7 +78,7 @@ class RegistroController extends Controller
      */
     public function index()
     {
-        return view('registros.index-main',['title'=> 'Todos los registros']);
+        return view('registros.index-main', ['title' => 'Todos los registros']);
         // return csrf_token();
     }
 
@@ -90,22 +91,26 @@ class RegistroController extends Controller
     {
         return view('registros.create');
     }
+
     public function showArray(Request $request)
     {
         $registros = Registro::where('eprint_status', 'archive')->find($request->input('ids'));
         dd($registros);
     }
-    public function attachUser(Registro $registro){
+
+    public function attachUser(Registro $registro)
+    {
         $user = Auth::user();
         $attached = $registro->users->contains($user);
-        if($attached){
+        if ($attached) {
             $registro->users()->detach($user);
-        }else{
+        } else {
             $registro->users()->attach($user);
         }
         $attached = !$attached;
         return ['attached' => $attached];
     }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -163,7 +168,7 @@ class RegistroController extends Controller
      */
     public function show(Registro $registro)
     {
-        $registro->load("authors", "documents", "subjects", "projects", "divisions","validateAuthUserAttached:id");
+        $registro->load("authors", "documents", "subjects", "projects", "divisions", "validateAuthUserAttached:id");
         foreach ($registro->documents as $document) {
             $document->url = URL::to(Storage::url($document->url));
             $document->thumbnail = URL::to(Storage::url($document->thumbnail));
@@ -174,29 +179,34 @@ class RegistroController extends Controller
     public function latest()
     {
         $registros = Registro::where('eprint_status', 'archive')
-            ->select('title','eprintid','id')
+            ->select('title', 'eprintid', 'id')
             ->with('authors')
             ->latest()->paginate(18);
-        return view('registros.index', ['registros' => $registros, 'title'=> 'Ultimos Registros']);
+        return view('registros.index', ['registros' => $registros, 'title' => 'Ultimos Registros']);
     }
-    public function year(){
+
+    public function year()
+    {
         $years = DB::table('registros')
-            ->where('eprint_status','archive')
+            ->where('eprint_status', 'archive')
             ->select('date_year')
             ->orderBy('date_year', 'DESC')
             ->distinct()
             ->get();
-        return view('registros.year',['years' => $years]);
+        return view('registros.year', ['years' => $years]);
     }
-    public function yearShow($year){
-        $year = $year=="empty"?"":$year;
+
+    public function yearShow($year)
+    {
+        $year = $year == "empty" ? "" : $year;
         $yearRegistro = Registro::where('eprint_status', 'archive')
             ->where('date_year', $year)
-            ->select('title','eprintid','id')
+            ->select('title', 'eprintid', 'id')
             ->with('authors')
             ->paginate(21);
-        return view('registros.index',['registros' => $yearRegistro, 'title'=> 'Registros por año '.$year]);
+        return view('registros.index', ['registros' => $yearRegistro, 'title' => 'Registros por año ' . $year]);
     }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -234,15 +244,47 @@ class RegistroController extends Controller
     public function subirImagen(Request $request)
     {
         $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,xlsx,doc,docx,ai,pdf|max:2048'
+            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,xlsx,doc,docx,ai,pdf|max:128048'
         ]);
         if ($request->file()) {
-            $tmp_name = Str::random(32) . '.' . $request->file->getClientOriginalExtension();
-            $imageName = $tmp_name;
-            $request->file->move(public_path('images'), $imageName);
-            return response()->json(['success' => 'Subida exitosa', 'funes_id' => rand(0, 9999), 'file_name_temp' => $tmp_name]);
+            $eprintid = $request->input('id');
+            $registro = Registro::where('eprintid', $eprintid)->first();
+            if (is_null($registro)) {
+                $eprintid = $this->getNextEprintid();
+                $registro = new Registro(['eprintid' => $eprintid, 'eprint_status' => 'inbox', 'user_deposito_id' => Auth::id()]);
+            }
+            $registro->user_edicion_id = Auth::id();
+            $registro->save();
+            $filePath = 'public/document/' . $eprintid;
+            $service = new ImportService();
+            $service->createRoute($filePath);
+            $file = $request->file('file');
+            $imageName = $request->file->getClientOriginalName();
+            $path = $request->file->storeAs($filePath, $imageName);
+            $document = new Document([
+                'format' => $file->getMimeType(),
+                'language' => 'es',
+                'registro_id' => $registro->id,
+                'eprintid' => $registro->eprintid,
+                'pos' => 1,
+                'security' => 'public',
+                'license' => 'cc_bync_nd',
+                'main' => $imageName,
+                'filename' => $imageName,
+                'filesize' => $file->getSize(),
+                'hash' => sha1_file(Storage::path($filePath."/". $imageName)),
+                'url' => $filePath . '/' . $imageName
+            ]);
+            $document->save();
+            return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
         }
         return response()->json(['error' => "Tipo de archivo incompatible"]);
+    }
+
+    public function getNextEprintid()
+    {
+        $id = Registro::select('eprintid')->latest('eprintid')->first();
+        return (int)$id->eprintid + 1;
     }
 
 
@@ -280,7 +322,7 @@ class RegistroController extends Controller
             case 'documents':
                 $documents = Document::where('format', 'application/pdf')
                     ->whereNull('thumbnail')
-                    ->whereNotIn('eprintid',[395,458,503,672,1199,799,858])
+                    ->whereNotIn('eprintid', [395, 458, 503, 672, 1199, 799, 858])
                     ->cursor();
 //                    ->take(10)
 //                    ->get();
@@ -302,7 +344,7 @@ class RegistroController extends Controller
     public function tiposRegistro()
     {
         $tipos_registro = TipoRegistro::all();
-        return response(['tipos_registro' => $tipos_registro, 'message' => 'Tipos de registro enviados correctamente'], 200);
+        return $tipos_registro;
     }
 
     public function camposTiposRegistro()
@@ -315,27 +357,29 @@ class RegistroController extends Controller
     {
 
     }
+
     public function generateImageFromPDF(Document $document)
     {
         $base = "public/document/" . $document->eprintid . '/' . $document->pos . "/";
         $thumbBase = $base . "thumbnail.jpg";
         $thumbnailRoute = storage_path("app/" . $thumbBase);
-        if(!Storage::exists($thumbnailRoute)){
-            if(!Storage::exists("public/document/tmp")){
+        if (!Storage::exists($thumbnailRoute)) {
+            if (!Storage::exists("public/document/tmp")) {
                 Storage::makeDirectory("public/document/tmp");
             }
-            $pdfRoute = storage_path("app/" .$base . $document->filename);
+            $pdfRoute = storage_path("app/" . $base . $document->filename);
             $pdf = new ImagickService($pdfRoute);
             $pdf->setResolution(60);
             $pdf->saveImage(storage_path("app/public/document/tmp/thumbnail.jpg"));
             $pdf->imagick->clear();
             $pdf->imagick->destroy();
 //            dd(Storage::path("public\document\\tmp\\thumbnail.jpg"));
-            rename(Storage::path("public/document/tmp/thumbnail.jpg"),Storage::path($thumbBase));
+            rename(Storage::path("public/document/tmp/thumbnail.jpg"), Storage::path($thumbBase));
         }
         $document->thumbnail = $thumbBase;
         $document->save();
     }
+
     public function indexAdministrator()
     {
         return view('admin.registro.index');
