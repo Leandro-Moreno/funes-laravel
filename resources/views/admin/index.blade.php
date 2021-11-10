@@ -105,7 +105,7 @@
                                     <x-table.cell>{{isset($registro->title)?$registro->title:"Sin agregar nombre aún"}}</x-table.cell>
                                     <x-table.cell>{{$registro->eprintid}}</x-table.cell>
                                     <x-table.cell>{{$registro->created_at}}</x-table.cell>
-                                    <x-table.cell url="{{ route('registro.index', $registro) }}">
+                                    <x-table.cell url="{{ route('registro.show', $registro) }}">
                                         <i class="material-icons">info</i>{{$registro->eprint_status}}
                                     </x-table.cell>
                                 </x-table.row>
