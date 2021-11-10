@@ -1,0 +1,5 @@
+@mixin footer-colors($color, $link-color) {
+    color: $link-color;
+    background-color: $color !important;
+    @include shadow-navbar-color($color);
+}

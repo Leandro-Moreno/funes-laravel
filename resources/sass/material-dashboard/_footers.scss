@@ -1,4 +1,5 @@
 .footer{
+    @include navbar-colors($white-color, $navbar-color);
     padding: $padding-general-x 0;
     text-align: center;
     display: -webkit-flex; /* Safari */ /* Safari 6.1+ */
@@ -99,7 +100,6 @@
     width: 100%;
   }
 }
-
 @media screen and (min-width: 768px){
   .footer{
     .copyright {

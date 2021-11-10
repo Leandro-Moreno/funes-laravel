@@ -16,6 +16,7 @@
  @import "material-dashboard/input-group";
  @import "material-dashboard/images";
  @import "material-dashboard/navbar";
+@import "material-dashboard/footers";
  @import "material-dashboard/alerts";
  @import "material-dashboard/headers";
  @import "material-dashboard/type";
@@ -25,7 +26,6 @@
  @import "material-dashboard/dropdown";
  @import "material-dashboard/togglebutton";
  @import "material-dashboard/ripples";
- @import "material-dashboard/footers";
  @import "material-dashboard/sidebar-and-main-panel";
  @import "material-dashboard/fixed-plugin";
  @import "material-dashboard/tables";
@@ -42,7 +42,9 @@
  @import "material-dashboard/plugins/chartist";
  @import "material-dashboard/plugins/perfect-scrollbar";
 
- @import "material-dashboard/responsive";
- @import "monitor/masthead";
- @import "monitor/uniandes";
- @import "material-dashboard/funes/otros";
+@import "material-dashboard/responsive";
+@import "monitor/mixins/footer-colors";
+@import "monitor/masthead";
+@import "monitor/footer";
+@import "monitor/uniandes";
+@import "material-dashboard/funes/otros";
