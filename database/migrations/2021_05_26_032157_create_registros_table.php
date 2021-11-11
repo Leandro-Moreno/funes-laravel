@@ -17,7 +17,7 @@ class CreateRegistrosTable extends Migration
             $table->id();
             $table->integer("eprintid")->unique();
             $table->string("eprint_status");
-            $table->string("title")->nullable();
+            $table->text("title")->nullable();
             $table->string("type")->nullable();
             $table->text("abstract")->nullable();
             //Thesis
