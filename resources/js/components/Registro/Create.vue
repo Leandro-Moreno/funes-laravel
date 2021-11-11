@@ -4,15 +4,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
-                        <form-wizard ref="wizard" :start-index="4" action="#" @on-complete="postRegistro"
+<!--                         :start-index="4"-->
+                        <form-wizard ref="wizard" action="#" @on-complete="postRegistro"
                                      :title="wizardTitle" :subtitle="wizardSub"
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
                                      duration="60" color="#167d74">
                             <tab-content title="Tipo de Documento">
-                                <div id="v-model-radiobutton" v-for="tipo in tipos_registro">
-                                    <input type="radio" :id="tipo.name" :value="tipo.name" v-model="picked"/>
-                                    <label :for="tipo.name">{{ tipo.label }}</label>
-                                    <p>{{ tipo.description }}</p>
+                                <div id="v-model-radiobutton" v-for="type in registro_types">
+                                    <input type="radio" :id="type.name" :value="type.name" v-model="selected_type"/>
+                                    <label :for="type.name">{{ type.label }}</label>
+                                    <p>{{ type.description }}</p>
                                 </div>
                             </tab-content>
                             <tab-content title="Cargar">
@@ -23,7 +24,8 @@
                                 </cargar-archivo>
                             </tab-content>
                             <tab-content title="Detalles">
-                                <registro-detalles ref="detalles"></registro-detalles>
+                                <registro-type-article v-if="selected_type === 'article'"></registro-type-article>
+
                             </tab-content>
                             <tab-content title="Términos clave">
                                 Yuhuuu! This seems pretty damn simple
@@ -75,7 +77,7 @@ export default {
         this.wizardSub = this.wizardSubtitle;
         axios
             .get('/registro-type')
-            .then(response => (this.tipos_registro = response.data));
+            .then(response => (this.registro_types = response.data));
     },
     components: {
         FormWizard,
@@ -83,10 +85,10 @@ export default {
     },
     data() {
         return {
-            picked: "",
-            tipos_registro: null,
+            registro_types: null,
             registro: null,
             wizardSub: null,
+            selected_type: ""
         }
     },
     props: {
@@ -122,7 +124,7 @@ export default {
                 infoAdicional: this.$refs['detalles'].$refs['infoAdicional'].darInformacionAdicional(),
                 archivoEnviado: this.$refs['cargarArchivo'].darArchivoEnviado(),
                 archivoCargado: this.$refs['cargarArchivo'].darArchivoCargado(),
-                tipo_de_documento: this.picked
+                type: this.selected_type
             })
                 .then((response) => {
                     console.log(response);
