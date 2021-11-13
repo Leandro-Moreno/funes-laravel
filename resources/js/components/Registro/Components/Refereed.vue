@@ -5,8 +5,9 @@
         name="refereed"
         value="true"
         unchecked-value="false"
+        :required="required"
     >
-        El documento ha sido referido
+        Revisado por pares
     </b-form-checkbox>
 </template>
 <script>
@@ -18,7 +19,11 @@ export default {
         refereed: {
           type: Boolean,
           default: false,
-      }
+      },
+        required:{
+            type: Boolean,
+            default: false
+        }
     },
     data (){
         return {

@@ -25,6 +25,9 @@
                             </tab-content>
                             <tab-content title="Detalles">
                                 <registro-type-article v-if="selected_type === 'article'"></registro-type-article>
+                                <registro-type-book-section v-if="selected_type === 'book_section'"></registro-type-book-section>
+                                <registro-type-edited-book v-if="selected_type === 'edited_book'"></registro-type-edited-book>
+                                <registro-type-book v-if="selected_type === 'book'"></registro-type-book>
 
                             </tab-content>
                             <tab-content title="Términos clave">

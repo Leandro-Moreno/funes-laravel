@@ -34,10 +34,18 @@ export default {
     },
     data (){
         return {
-            campos_tipos_registro: null,
-            title: '',
-            description: ''
+            campos_tipos_registro: null
         }
-    }
+    },
+    props: {
+        title: {
+            type: String,
+            default: "",
+        },
+        abstract: {
+            type: String,
+            default: "",
+        }
+    },
 }
 </script>

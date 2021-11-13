@@ -1,23 +1,24 @@
 <template>
     <b-row>
         <b-col md="4">
-            <label for="publisher">Publisher:</label>
+            <label for="book_title">Título del libro:</label>
         </b-col>
-        <b-col md="8">
-            <b-form-input id="isbn"
+        <b-col md="12">
+            <b-form-input id="book_title"
+                          v-model="book_title"
                           :required="required"
-                          v-model="publisher"
-                          placeholder="Publisher"></b-form-input>
+                          placeholder="Título del libro"></b-form-input>
         </b-col>
     </b-row>
+
 </template>
 <script>
 export default {
-    name: "registro-components-isbn",
+    name: "registro-components-book-title",
     mounted() {
     },
     props: {
-        publisher: {
+        book_title: {
             type: String,
             default: "",
         },

@@ -1,23 +1,24 @@
 <template>
     <b-row>
         <b-col md="4">
-            <label for="publisher">Publisher:</label>
+            <label for="place_of_pub">Lugar de la Publicación:</label>
         </b-col>
-        <b-col md="8">
-            <b-form-input id="isbn"
+        <b-col md="12">
+            <b-form-input id="place_of_pub"
                           :required="required"
-                          v-model="publisher"
-                          placeholder="Publisher"></b-form-input>
+                          v-model="place_of_pub"
+                          placeholder="Lugar de la Publicación"></b-form-input>
         </b-col>
     </b-row>
+
 </template>
 <script>
 export default {
-    name: "registro-components-isbn",
+    name: "registro-components-place-of-pub",
     mounted() {
     },
     props: {
-        publisher: {
+        place_of_pub: {
             type: String,
             default: "",
         },

@@ -5,6 +5,7 @@
         </b-col>
         <b-col md="12">
             <b-form-input id="volume"
+                          v-model="volume"
                           :required="required"
                           placeholder="Volumen"></b-form-input>
         </b-col>

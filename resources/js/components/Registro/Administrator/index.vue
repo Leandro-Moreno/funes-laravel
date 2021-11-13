@@ -21,7 +21,7 @@ import VuetablePaginationInfo from "vuetable-2/src/components/VuetablePagination
 import VuetablePaginationDropdown from "vuetable-2/src/components/VuetablePaginationDropdown";
 
 export default {
-    name: "administrator-registro-index",
+    name: "registro-administrator-inde",
     data() {
         return {
             fields: [

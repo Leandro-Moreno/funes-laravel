@@ -6,6 +6,7 @@
         <b-col md="8">
             <b-form-input id="pagerange"
                           required="required"
+                          v-model="pagerange"
                           placeholder="Rango de paginas"></b-form-input>
         </b-col>
     </b-row>
@@ -17,7 +18,7 @@ export default {
     mounted() {
     },
     props: {
-        volume: {
+        pagerange: {
             type: String,
             default: "",
         },

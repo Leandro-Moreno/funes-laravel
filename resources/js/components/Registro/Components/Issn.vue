@@ -1,23 +1,24 @@
 <template>
     <b-row>
         <b-col md="4">
-            <label for="publisher">Publisher:</label>
+            <label for="issn">ISSN:</label>
         </b-col>
-        <b-col md="8">
-            <b-form-input id="isbn"
+        <b-col md="12">
+            <b-form-input id="issn"
+                          v-model="issn"
                           :required="required"
-                          v-model="publisher"
-                          placeholder="Publisher"></b-form-input>
+                          placeholder="ISSN"></b-form-input>
         </b-col>
     </b-row>
+
 </template>
 <script>
 export default {
-    name: "registro-components-isbn",
+    name: "registro-components-issn",
     mounted() {
     },
     props: {
-        publisher: {
+        issn: {
             type: String,
             default: "",
         },

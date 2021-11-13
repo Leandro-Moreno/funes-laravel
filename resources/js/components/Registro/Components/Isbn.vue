@@ -1,15 +1,16 @@
 <template>
     <b-row>
         <b-col md="4">
-            <label for="publisher">Publisher:</label>
+            <label for="number">ISBN:</label>
         </b-col>
         <b-col md="8">
             <b-form-input id="isbn"
                           :required="required"
-                          v-model="publisher"
-                          placeholder="Publisher"></b-form-input>
+                          v-model="isbn"
+                          placeholder="ISBN"></b-form-input>
         </b-col>
     </b-row>
+
 </template>
 <script>
 export default {
@@ -17,7 +18,7 @@ export default {
     mounted() {
     },
     props: {
-        publisher: {
+        isbn: {
             type: String,
             default: "",
         },

@@ -6,7 +6,8 @@
         <b-col md="8">
             <b-form-input id="number"
                           :required="required"
-                          placeholder="Numero"></b-form-input>
+                          v-model="number"
+                          placeholder="Número"></b-form-input>
         </b-col>
     </b-row>
 

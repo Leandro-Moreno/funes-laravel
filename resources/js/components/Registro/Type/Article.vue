@@ -11,6 +11,14 @@
             <registro-components-number class="col-md-6" :required="false"></registro-components-number>
             <registro-components-pagerange class="col-md-6" :required="true"></registro-components-pagerange>
         </div>
+        <div class="row card-body">
+            <registro-components-date class="col-md-6" :required="true"></registro-components-date>
+            <registro-components-date-type class="col-md-6"></registro-components-date-type>
+        </div>
+        <div class="row card-body">
+            <registro-components-publication class="col-md-6" :required="true"></registro-components-publication>
+            <registro-components-issn class="col-md-6"></registro-components-issn>
+        </div>
         <registro-autores ref="autores"></registro-autores>
         <registro-autores-institucionales ref="autoresInstitucionales"></registro-autores-institucionales>
         <registro-info-adicional ref="infoAdicional"></registro-info-adicional>

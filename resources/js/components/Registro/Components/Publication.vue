@@ -1,23 +1,24 @@
 <template>
     <b-row>
         <b-col md="4">
-            <label for="publisher">Publisher:</label>
+            <label for="publication">Nombre de la revista:</label>
         </b-col>
-        <b-col md="8">
-            <b-form-input id="isbn"
+        <b-col md="12">
+            <b-form-input id="publication"
                           :required="required"
-                          v-model="publisher"
-                          placeholder="Publisher"></b-form-input>
+                          v-model="publication"
+                          placeholder="Nombre de la revista"></b-form-input>
         </b-col>
     </b-row>
+
 </template>
 <script>
 export default {
-    name: "registro-components-isbn",
+    name: "registro-components-publication",
     mounted() {
     },
     props: {
-        publisher: {
+        publication: {
             type: String,
             default: "",
         },

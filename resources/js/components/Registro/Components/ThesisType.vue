@@ -1,8 +1,9 @@
 <template>
     <b-row>
-        <label>Tipo de Fecha:</label>
+        <label for="thesis_type">Tipo de Tesis:</label>
         <b-form-radio-group
-            v-model="date_type"
+            id="thesis_type"
+            v-model="thesis_type"
             :options="options"
             class="mb-3"
             value-field="item"
@@ -14,11 +15,11 @@
 </template>
 <script>
 export default {
-    name: "registro-components-date-type",
+    name: "registro-components-thesis-type",
     mounted() {
     },
     props: {
-        date_type: {
+        thesis_type: {
             type: String,
             default: "",
         },
@@ -30,10 +31,10 @@ export default {
     data() {
         return {
             options: [
-                { item: 'unspecified', name: 'Sin Especificar' },
-                { item: 'published', name: 'Publicación' },
-                { item: 'submitted', name: 'Presentación' },
-                { item: 'completed', name: 'Terminación' }
+                { item: 'masters', name: 'Maestría' },
+                { item: 'phd', name: 'Doctorado' },
+                { item: 'engd', name: 'Especialización' },
+                { item: 'other', name: 'Otros' }
             ]
         }
     }

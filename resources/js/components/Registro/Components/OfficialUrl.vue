@@ -1,13 +1,15 @@
 <template>
-    <div class="card">
-        <label class="col-md-12 card-header card-header-primary">Publisher</label>
-        <b-form-input
-            v-model="officialUrl"
-            placeholder="Publisher"
-            type="url"
-        >
-        </b-form-input>
-    </div>
+    <b-row>
+        <b-col md="4">
+            <label for="officialUrl">URL Oficial:</label>
+        </b-col>
+        <b-col md="8">
+            <b-form-input id="officialUrl"
+                          :required="required"
+                          v-model="officialUrl"
+                          placeholder="URL Oficial"></b-form-input>
+        </b-col>
+    </b-row>
 </template>
 <script>
 export default {
@@ -18,10 +20,11 @@ export default {
         officialUrl: {
             type: String,
             default: "",
+        },
+        required:{
+            type: Boolean,
+            default: false,
         }
-    },
-    data() {
-        return {}
     }
 }
 </script>
