@@ -9,7 +9,10 @@ import { BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue/dist/vue'
+// const externalComponent = () => import('./utils.js');
+// import externalComponent from "./components/utils"
 window.Vue = Vue
+Vue.use(require('./components/utils'));
 // window.Vue = require('bootstrap-vue');
 // Vue.use(require('bootstrap-vue'));
 // Vue.use(BootstrapVueIcons);
@@ -26,14 +29,31 @@ window.Vue = Vue
 Vue.use(require('bootstrap-vue'));
 Vue.component('registro-crear', () => import('./components/Registro/Create.vue'));
 Vue.component('registro-index', () => import('./components/registro/RegistroIndex.vue'));
-Vue.component('registro-core-details', () => import('./components/Registro/Components/DetailsCore.vue'));
 Vue.component('registro-type-article', () => import('./components/Registro/Type/Article.vue'));
-Vue.component('registro-components-refereed', () => import('./components/Registro/Components/Refereed.vue'));
+Vue.component('registro-type-book-section', () => import('./components/Registro/Type/BookSection.vue'));
+Vue.component('registro-type-edited-book', () => import('./components/Registro/Type/EditedBook.vue'));
+Vue.component('registro-type-book', () => import('./components/Registro/Type/Book.vue'));
+
+
+Vue.component('registro-core-details', () => import('./components/Registro/Components/DetailsCore.vue'));
 Vue.component('registro-components-publisher', () => import('./components/Registro/Components/Publisher.vue'));
+Vue.component('registro-components-refereed', () => import('./components/Registro/Components/Refereed.vue'));
 Vue.component('registro-components-official-url', () => import('./components/Registro/Components/OfficialUrl.vue'));
 Vue.component('registro-components-volume', () => import('./components/Registro/Components/Volume.vue'));
 Vue.component('registro-components-pagerange', () => import('./components/Registro/Components/Pagerange.vue'));
 Vue.component('registro-components-number', () => import('./components/Registro/Components/Number.vue'));
+Vue.component('registro-components-id-number', () => import('./components/Registro/Components/IdNumber.vue'));
+Vue.component('registro-components-date', () => import('./components/Registro/Components/Date.vue'));
+Vue.component('registro-components-date-type', () => import('./components/Registro/Components/DateType.vue'));
+Vue.component('registro-components-publication', () => import('./components/Registro/Components/Publication.vue'));
+Vue.component('registro-components-issn', () => import('./components/Registro/Components/Issn.vue'));
+Vue.component('registro-components-isbn', () => import('./components/Registro/Components/Isbn.vue'));
+Vue.component('registro-components-book-title', () => import('./components/Registro/Components/BookTitle.vue'));
+Vue.component('registro-components-place-of-pub', () => import('./components/Registro/Components/PlaceOfPub.vue'));
+Vue.component('registro-components-pages', () => import('./components/Registro/Components/Pages.vue'));
+Vue.component('registro-components-series', () => import('./components/Registro/Components/Series.vue'));
+Vue.component('registro-components-thesis-type', () => import('./components/Registro/Components/ThesisType.vue'));
+
 Vue.component('cargar-archivo', () => import('./components/cargarArchivo.vue'));
 Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));
 Vue.component('registro-autores', () => import('./components/registro/registroAutores.vue'));
@@ -43,7 +63,7 @@ Vue.component('registro-info-adicional', () => import('./components/registro/reg
 Vue.component('registro-title', () => import('./components/registro/registroTitle.vue'));
 Vue.component('header-animated', () => import('./components/header.vue'));
 Vue.component('tree-subject', () => import('./components/Tree/tree.vue'));
-Vue.component('administrator-registro-index', () => import('./components/Administrator/registro/index.vue'));
+Vue.component('registro-administrator-index', () => import('./components/Registro/Administrator/index.vue'));
 // Vue.component('header-animated', require('./components/header.vue').default);
 
 
@@ -54,5 +74,5 @@ Vue.component('administrator-registro-index', () => import('./components/Adminis
  */
 
 const app = new Vue({
-    el: '#app',
+    el: '#library',
 });
