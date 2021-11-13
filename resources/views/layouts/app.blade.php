@@ -12,6 +12,9 @@
 <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no'
       name='viewport'/>
 <!--     Fonts and icons     -->
+<link rel="preload" href="{{ mix('js/app.js') }}" as="script">
+<link rel="preload" href="{{ mix('js/vendor.js') }}" as="script">
+<link rel="preload" href="{{ mix('js/manifest.js') }}" as="script">
 <link rel="stylesheet" type="text/css" href="{{ asset('dax') }}/stylesheet.css"/>
 <link rel="stylesheet" type="text/css"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Open+Sans|Material+Icons"/>
@@ -20,7 +23,7 @@
 <link href="{{ mix('material/css/material-dashboard.css') }}" rel="stylesheet"/>
 </head>
 <body class="{{ $class ?? '' }}">
-<div id="app">
+<div id="library">
     @auth()
         @include('layouts.page_templates.auth')
     @endauth
@@ -30,7 +33,10 @@
 </div>
 
 <!--   Core JS Files   -->
-        <script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
+<script async src="{{ mix('js/app.js') }}"></script>
+<script async src="{{ mix('js/manifest.js') }}"></script>
+<script async src="{{ mix('js/vendor.js') }}"></script>
+<script src="{{ asset('material') }}/js/core/jquery.min.js"></script>
 {{--        <script src="{{ asset('material') }}/js/core/popper.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/core/bootstrap-material-design.min.js"></script>--}}
 {{--        <script src="{{ asset('material') }}/js/plugins/perfect-scrollbar.jquery.min.js"></script>--}}
@@ -67,11 +73,8 @@
 {{--        <!--  Notifications Plugin    -->--}}
 {{--        <script src="{{ asset('material') }}/js/plugins/bootstrap-notify.js"></script>--}}
 {{--        <!-- Control Center for Material Dashboard: parallax effects, scripts for the example pages etc -->--}}
-        <script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
+<script src="{{ asset('material') }}/js/material-dashboard.js?v=2.1.1" type="text/javascript"></script>
 {{--        <script src="{{ asset('material') }}/js/settings.js"></script>--}}
-<script src="{{ mix('js/app.js') }}"></script>
-<script src="{{ mix('js/manifest.js') }}"></script>
-<script src="{{ mix('js/vendor.js') }}"></script>
 @stack('js')
 @stack('header')
 @stack('header-animate')
