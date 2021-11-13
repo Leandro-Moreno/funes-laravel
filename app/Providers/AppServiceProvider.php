@@ -33,5 +33,6 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('editor', function () {
             return auth()->user() && Auth::user()->role_id <= 2;
         });
+
     }
 }
