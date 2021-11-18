@@ -18,8 +18,8 @@ class Author extends Model implements Searchable
     }
     public function getSearchResult(): SearchResult
     {
-        $url = route('autor.show', $this->id);
-        $title = $this->apellido . " " . $this->nombre . " " . $this->email;
+        $url = route('author.show', $this->id);
+        $title = $this->family . " " . $this->given . " " . $this->email;
         return new SearchResult(
             $this,
             $title,
