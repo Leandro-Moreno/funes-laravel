@@ -56,7 +56,7 @@ Vue.component('registro-components-place-of-pub', () => import('./components/Reg
 Vue.component('registro-components-pages', () => import('./components/Registro/Components/Pages.vue'));
 Vue.component('registro-components-series', () => import('./components/Registro/Components/Series.vue'));
 Vue.component('registro-components-thesis-type', () => import('./components/Registro/Components/ThesisType.vue'));
-Vue.component('registro-authors', () => import('./components/Registro/Components/Authors.vue'));
+Vue.component('registro-components-authors', () => import('./components/Registro/Components/Authors.vue'));
 
 Vue.component('cargar-archivo', () => import('./components/cargarArchivo.vue'));
 Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));

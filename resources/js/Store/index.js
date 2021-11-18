@@ -19,6 +19,7 @@ const store = new Vuex.Store({
             issn: '',
             isbn: '',
             pagerange: '',
+            type: '',
             authors: [{
                 given: "",
                 family: "",
@@ -97,6 +98,9 @@ const store = new Vuex.Store({
         },
         SET_BOOKTITLE(state, value) {
             state.currentRegistro.book_title = value;
+        },
+        SET_TYPE(state, value) {
+            state.currentRegistro.type = value;
         },
         MOVE_AUTHORS(state, {from, to}) {
             let authors = state.currentRegistro.authors;
@@ -184,6 +188,9 @@ const store = new Vuex.Store({
         setBookTitle({commit}, value) {
             commit("SET_BOOKTITLE", value)
         },
+        setType({commit}, value) {
+            commit("SET_TYPE", value)
+        },
     },
     getters: {
         getRegistro(state) {
@@ -254,6 +261,9 @@ const store = new Vuex.Store({
         },
         authors(state) {
             return state.currentRegistro.authors
+        },
+        type(state) {
+            return state.currentRegistro.type
         },
     }
 })

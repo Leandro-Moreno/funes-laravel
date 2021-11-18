@@ -10,10 +10,10 @@
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
                                      duration="60" color="#4b4898">
                             <tab-content title="Tipo de Documento">
-                                <div id="v-model-radiobutton" v-for="type in registro_types">
+                                <div id="v-model-radiobutton" v-for="(type, index) in registro_types" key="`type-${type.name}`">
                                     <input type="radio" :id="type.name" :value="type.name" v-model="selected_type"/>
                                     <label :for="type.name">{{ type.label }}</label>
-                                    <p>{{ type.description }}</p>
+                                    <p :for="type.name">{{ type.description }}</p>
                                 </div>
                             </tab-content>
                             <tab-content title="Cargar">
@@ -76,7 +76,15 @@ export default {
     computed: {
         ...mapGetters({
             registro: 'getRegistro'
-        })
+        }),
+        selected_type: {
+            get() {
+                return this.$store.getters.type
+            },
+            set(value) {
+                this.$store.dispatch('setType', value)
+            }
+        }
     },
     mounted() {
         let wizard = this.$refs.wizard;
@@ -94,7 +102,6 @@ export default {
         return {
             registro_types: null,
             wizardSub: null,
-            selected_type: ""
         }
     },
     props: {
@@ -126,6 +133,7 @@ export default {
             })
                 .then((response) => {
                     console.log(response);
+                    this.$store.dispatch('setIds', response.data.registro);
                 })
                 .catch(function (error) {
                     console.log(error);
