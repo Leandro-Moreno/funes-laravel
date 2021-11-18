@@ -80,7 +80,7 @@ Route::group(['middleware' => 'auth'], function () {
         return view('pages.upgrade');
     })->name('upgrade');
 });
-
+Route::get('/search/author', [AuthorController::class, 'search'])->name('api.search.author');
 
 Route::get('/{registro}', function ($registro) {
     return Redirect::to(route('registro.show', $registro),301);
