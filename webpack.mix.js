@@ -18,8 +18,7 @@ mix.babelConfig({
 });
 mix.js('resources/js/app.js', 'public/js')
     .vue()
-    .extract(['debounce','vue-pdf-app','pixi.js','vue-form-wizard','vue-loader'])
-    .extract()
+.extract()
     .sass('resources/sass/material-dashboard.scss', 'public/material/css')
     .browserSync('funes-laravel.test')
     .clean({
