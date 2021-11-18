@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\ImagickException;
 use App\Http\Requests\DocumentRequest;
+use App\Http\Requests\RegistroRequest;
 use App\Jobs\importFolder;
+use App\Models\Author;
 use App\Models\Document;
 use App\Models\Folder;
 use App\Models\Registro;
@@ -117,46 +119,40 @@ class RegistroController extends Controller
      * @param Request $request
      * @return Response
      */
-    public function store(Request $request)
+    public function store(RegistroRequest $request)
     {
-        // $registro = $request;
-        $registroInput = $request->input('registro');
-//        dd($registro);
+        $registroInput = $request->validated();
+        $registroInput = $registroInput['registro'];
+        if (is_null($registroInput['eprintid'])) {
+            $registroInput['eprintid'] = $this->getNextEprintid();
+        }
+        $registroInput['user_deposito_id'] = Auth::id();
+        $registroInput['user_edicion_id'] = Auth::id();
         $registro = new Registro;
-        $registro->firstOrCreate($registroInput);
-        dd($registro);
-//        $registro->firstOrCreate([
-//            'nombre' => $todo['nombre'],
-//            'tipo_de_documento' => $todo['tipo_de_documento'],
-//            'documento' => $todo['archivoEnviado']['response_file'],
-//            'resumen' => $todo['resumen'],
-//            'arbitrado' => $todo['infoAdicional']['arbitrado'],
-//            'estado_id' => $todo['infoAdicional']['estado_id'],
-//            'titulo_publicacion' => $todo['infoAdicional']['tipo_de_publicacion'],
-//            'issn' => $todo['infoAdicional']['issn'],
-//            'editor' => $todo['infoAdicional']['editor'],
-//            'año_publicacion' => $todo['infoAdicional']['ano_publicacion'],
-//            'mes_publicacion' => $todo['infoAdicional']['mes_publicacion'],
-//            'dia_publicacion' => $todo['infoAdicional']['dia_publicacion'],
-//            'tipo_de_fecha' => $todo['infoAdicional']['tipo_de_fecha'],
-//            'numero_serie' => $todo['infoAdicional']['numero_serie'],
-//            'pagina_hasta' => $todo['infoAdicional']['pagina_hasta'],
-//            'url_oficial' => $todo['infoAdicional']['url_oficial'],
-//            'volumen' => $todo['infoAdicional']['volumen'],
-//            'user_deposito_id' => 1,
-//            'user_edicion_id' => 1,
-//            'pagina_de' => $todo['infoAdicional']['pagina_de'],
-//            'numero_identificacion' => $todo['infoAdicional']['numero_identificacion']
-//        ]);
-        $autores = $todo['autores'];
-        // $this->storeAuthorRegister($autores, $registro);
-        $autores_institucionales = $todo['autoresInstitucionales'];
-        return response()->json(['response' => $ano_publicacion, 'prueba' => $prueba, 'todo' => $todo], 200);
+        $registro = $registro->firstOrCreate($registroInput);
+        $authors = $request['registro']['authors'];
+        $this->storeAuthorRegister($authors, $registro);
+//        $autores_institucionales = $todo['autoresInstitucionales'];
+        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro]);
     }
 
-    public function storeAuthorRegister(array $autores, Registro $registro)
+    public function storeAuthorRegister(array $authors, Registro $registro)
     {
-        foreach ($autores as $autor => $value) {
+        foreach ($authors as $author) {
+            if (!is_null($author['family'])) {
+                if (!is_null($author['authorId'] )) {
+                    $authorTemp = Author::find($author['authorId']);
+                }
+                else{
+                    $authorTemp = new Author([
+                        'given' => $author['given'],
+                        'family' => $author['family'],
+                        'email' => $author['email'],
+                    ]);
+                    $authorTemp->save();
+                }
+                $registro->authors()->attach($authorTemp);
+            }
         }
     }
 
@@ -272,7 +268,7 @@ class RegistroController extends Controller
                 'main' => $imageName,
                 'filename' => $imageName,
                 'filesize' => $file->getSize(),
-                'hash' => sha1_file(Storage::path($filePath."/". $imageName)),
+                'hash' => sha1_file(Storage::path($filePath . "/" . $imageName)),
                 'url' => $filePath . '/' . $imageName
             ]);
             $document->save();
