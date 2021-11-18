@@ -2,13 +2,13 @@
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-12">
-                <div class="card">
-                    <div class="card-body">
+                <div class="card card--border">
+                    <div class="card-body card--padding-0">
 <!--                         :start-index="4"-->
                         <form-wizard ref="wizard" action="#" @on-complete="postRegistro"
                                      :title="wizardTitle" :subtitle="wizardSub"
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
-                                     duration="60" color="#167d74">
+                                     duration="60" color="#4b4898">
                             <tab-content title="Tipo de Documento">
                                 <div id="v-model-radiobutton" v-for="type in registro_types">
                                     <input type="radio" :id="type.name" :value="type.name" v-model="selected_type"/>
@@ -18,7 +18,6 @@
                             </tab-content>
                             <tab-content title="Cargar">
                                 <cargar-archivo ref="cargarArchivo"
-                                                registro="registro"
                                                 v-on:updateregistro="updateregistro"
                                 >
                                 </cargar-archivo>
@@ -70,14 +69,19 @@
 <script>
 import {FormWizard, TabContent} from 'vue-form-wizard';
 import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+import {mapGetters} from 'vuex';
 
 export default {
     name: "registro-crear",
+    computed: {
+        ...mapGetters({
+            registro: 'getRegistro'
+        })
+    },
     mounted() {
-        console.clear();
         let wizard = this.$refs.wizard;
         wizard.activateAll();
-        this.wizardSub = this.wizardSubtitle;
+        this.wizardSub = this.registro.eprintid.toString();
         axios
             .get('/registro-type')
             .then(response => (this.registro_types = response.data));
@@ -89,7 +93,6 @@ export default {
     data() {
         return {
             registro_types: null,
-            registro: null,
             wizardSub: null,
             selected_type: ""
         }
@@ -119,15 +122,7 @@ export default {
     methods: {
         postRegistro: function () {
             axios.post('/registro', {
-                prueba: "prueba",
-                nombre: this.$refs['detalles'].title,
-                resumen: this.$refs['detalles'].description,
-                autores: this.$refs['detalles'].$refs['autores'].inputs,
-                autoresInstitucionales: this.$refs['detalles'].$refs['autoresInstitucionales'].institucionales,
-                infoAdicional: this.$refs['detalles'].$refs['infoAdicional'].darInformacionAdicional(),
-                archivoEnviado: this.$refs['cargarArchivo'].darArchivoEnviado(),
-                archivoCargado: this.$refs['cargarArchivo'].darArchivoCargado(),
-                type: this.selected_type
+                registro: this.registro
             })
                 .then((response) => {
                     console.log(response);
@@ -140,6 +135,15 @@ export default {
             this.registro = event;
             this.wizardSub = event.eprintid;
         }
-    }
+    },
+    watch: {
+        $props: {
+            handler() {
+                // console.log(this.parseData());
+            },
+            deep: true,
+            immediate: true,
+        },
+    },
 }
 </script>

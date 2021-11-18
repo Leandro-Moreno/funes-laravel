@@ -17,11 +17,17 @@ export default {
     name: "registro-components-book-title",
     mounted() {
     },
-    props: {
+    computed: {
         book_title: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.bookTitle
+            },
+            set(value) {
+                this.$store.dispatch('setBookTitle', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

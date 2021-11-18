@@ -17,11 +17,18 @@ export default {
     name: "registro-components-publication",
     mounted() {
     },
-    props: {
+    computed: {
         publication: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.publication
+            },
+            set(value) {
+                this.$store.dispatch('setPublication', value)
+            }
+        }
+    },
+    props: {
+
         required: {
             type: Boolean,
             default: false,

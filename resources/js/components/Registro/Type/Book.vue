@@ -7,10 +7,6 @@
             <registro-components-date class="col-md-6" :required="true"></registro-components-date>
             <registro-components-date-type class="col-md-6"></registro-components-date-type>
         </div>
-        <div class="row card-body">
-            <registro-components-date class="col-md-6" :required="true"></registro-components-date>
-            <registro-components-date-type class="col-md-6"></registro-components-date-type>
-        </div>
         <div class="row card card-body">
             <registro-components-location class="col-md-12" required="true"></registro-components-location>
             <registro-components-publisher class="col-md-12" required="true"></registro-components-publisher>

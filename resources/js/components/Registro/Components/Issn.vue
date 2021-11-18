@@ -17,6 +17,16 @@ export default {
     name: "registro-components-issn",
     mounted() {
     },
+    computed: {
+        issn: {
+            get() {
+                return this.$store.getters.issn
+            },
+            set(value) {
+                this.$store.dispatch('setIssn', value)
+            }
+        }
+    },
     props: {
         issn: {
             type: String,

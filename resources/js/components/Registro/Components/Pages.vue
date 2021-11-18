@@ -17,6 +17,16 @@ export default {
     name: "registro-components-pages",
     mounted() {
     },
+    computed: {
+        pages: {
+            get() {
+                return this.$store.getters.pages
+            },
+            set(value) {
+                this.$store.dispatch('setPages', value)
+            }
+        }
+    },
     props: {
         pages: {
             type: String,

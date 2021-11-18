@@ -17,11 +17,17 @@ export default {
     name: "registro-components-volume",
     mounted() {
     },
-    props: {
+    computed: {
         volume: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.volume
+            },
+            set(value) {
+                this.$store.dispatch('setVolume', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

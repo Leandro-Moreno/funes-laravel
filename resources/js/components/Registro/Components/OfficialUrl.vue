@@ -16,6 +16,16 @@ export default {
     name: "registro-components-official-url",
     mounted() {
     },
+    computed: {
+        officialUrl: {
+            get() {
+                return this.$store.getters.officialUrl
+            },
+            set(value) {
+                this.$store.dispatch('setOfficialUrl', value)
+            }
+        }
+    },
     props: {
         officialUrl: {
             type: String,

@@ -11,15 +11,22 @@
     </b-form-checkbox>
 </template>
 <script>
+import {mapGetters} from 'vuex';
 export default {
     name: "registro-components-refereed",
     mounted() {
     },
-    props:{
+    computed:{
         refereed: {
-          type: Boolean,
-          default: false,
-      },
+            get() {
+                return this.$store.getters.getRefereed
+            },
+            set(value) {
+                this.$store.dispatch('setRefereed', value)
+            }
+        },
+    },
+    props:{
         required:{
             type: Boolean,
             default: false

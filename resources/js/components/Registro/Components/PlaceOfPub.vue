@@ -17,11 +17,17 @@ export default {
     name: "registro-components-place-of-pub",
     mounted() {
     },
-    props: {
+    computed: {
         place_of_pub: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.placeOfPub
+            },
+            set(value) {
+                this.$store.dispatch('setPlaceOfPub', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

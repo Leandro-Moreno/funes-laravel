@@ -33,7 +33,7 @@
             </b-col>
             <b-col md="8">
                 <b-form-input id="day"
-                              v-model="year"
+                              v-model="day"
                               :required="required"
                               placeholder="Día"
                               autocomplete="off"
@@ -47,19 +47,33 @@ export default {
     name: "registro-components-date",
     mounted() {
     },
-    props: {
+    computed: {
         year: {
-            type: String,
-            default: "",
+            get() {
+                return this.$store.getters.year
+            },
+            set(value) {
+                this.$store.dispatch('setYear', value)
+            }
         },
         month: {
-            type: String,
-            default: "",
+            get() {
+                return this.$store.getters.month
+            },
+            set(value) {
+                this.$store.dispatch('setMonth', value)
+            }
         },
         day: {
-            type: String,
-            default: "",
+            get() {
+                return this.$store.getters.day
+            },
+            set(value) {
+                this.$store.dispatch('setDay', value)
+            }
         },
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

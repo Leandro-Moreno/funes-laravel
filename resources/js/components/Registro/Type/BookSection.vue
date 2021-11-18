@@ -6,8 +6,8 @@
             <registro-components-pagerange class="col-md-12" required="true"></registro-components-pagerange>
             <registro-components-book-title class="col-md-12" required="true"></registro-components-book-title>
             <registro-components-volume  required="false"></registro-components-volume>
-            <registro-components-book-place-of-pub required="true"></registro-components-book-place-of-pub>
-            <registro-components-book-pages  required="false"></registro-components-book-pages>
+            <registro-components-place-of-pub required="true"></registro-components-place-of-pub>
+            <registro-components-pages  required="false"></registro-components-pages>
             <registro-components-publisher class="col-md-12" required="true"></registro-components-publisher>
             <registro-components-id-number class="col-md-12" required="false"></registro-components-id-number>
             <registro-components-series class="col-md-12" required="false"></registro-components-series>

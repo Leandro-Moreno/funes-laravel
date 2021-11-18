@@ -17,6 +17,16 @@ export default {
     name: "registro-components-pagerange",
     mounted() {
     },
+    computed: {
+        pagerange: {
+            get() {
+                return this.$store.getters.pagerange
+            },
+            set(value) {
+                this.$store.dispatch('setPagerange', value)
+            }
+        }
+    },
     props: {
         pagerange: {
             type: String,

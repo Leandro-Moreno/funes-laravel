@@ -18,6 +18,7 @@
 
 import vue2Dropzone from 'vue2-dropzone'
 import 'vue2-dropzone/dist/vue2Dropzone.min.css'
+import {mapGetters} from 'vuex'
 
 export default {
     name: "cargar-archivo",
@@ -38,14 +39,22 @@ export default {
             response_file: ""
         }
     },
-    props: ['registro'],
-    mounted() {
+    computed: {
+        ...mapGetters({
+            eprintid: 'eprintid'
+        })
+    },
+    watch: {
+        registro(oldRegistro, newRegistro) {
+            console.log(oldRegistro);
+            console.log(newRegistro);
+        }
     },
     methods: {
         obtenerID: function (file, response) {
             this.file = file;
-            this.registro = response.registro;
-            this.$emit('updateregistro', response.registro);
+            this.$store.dispatch('setIds', response.registro);
+            // this.$emit('updateregistro', response.registro);
             this.response_file = response.file_name_temp;
         },
         verror: function () {
@@ -62,7 +71,7 @@ export default {
             };
         },
         sendingEvent: function (file, xhr, formData) {
-            formData.append('id', this.registro.eprintid);
+            formData.append('id', this.eprintid);
         }
     }
 }

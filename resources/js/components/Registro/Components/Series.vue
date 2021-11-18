@@ -17,6 +17,16 @@ export default {
     name: "registro-components-series",
     mounted() {
     },
+    computed: {
+        series: {
+            get() {
+                return this.$store.getters.series
+            },
+            set(value) {
+                this.$store.dispatch('setSeries', value)
+            }
+        }
+    },
     props: {
         series: {
             type: String,

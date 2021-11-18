@@ -19,7 +19,7 @@
             <registro-components-publication class="col-md-6" :required="true"></registro-components-publication>
             <registro-components-issn class="col-md-6"></registro-components-issn>
         </div>
-        <registro-autores ref="autores"></registro-autores>
+        <registro-components-authors ref="autores"></registro-components-authors>
         <registro-autores-institucionales ref="autoresInstitucionales"></registro-autores-institucionales>
         <registro-info-adicional ref="infoAdicional"></registro-info-adicional>
     </div>
@@ -27,5 +27,24 @@
 <script>
 export default {
     name: "registro-type-article",
+    props: {
+        title: {
+            type: String,
+            default: "",
+        },
+        abstract: {
+            type: String,
+            default: "",
+        }
+    },
+    methods:{
+        onUpdateCoreDetails: function (title, abstract) {
+            console.log(title);
+            console.log(abstract);
+        },
+        abstractUpdate: function(abstract){
+            console.log(update);
+        }
+    }
 }
 </script>

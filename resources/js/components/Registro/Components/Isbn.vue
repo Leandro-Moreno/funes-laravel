@@ -17,11 +17,17 @@ export default {
     name: "registro-components-isbn",
     mounted() {
     },
-    props: {
+    computed: {
         isbn: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.isbn
+            },
+            set(value) {
+                this.$store.dispatch('setIsbn', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

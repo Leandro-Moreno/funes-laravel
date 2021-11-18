@@ -4,7 +4,7 @@
             <label for="publisher">Publisher:</label>
         </b-col>
         <b-col md="8">
-            <b-form-input id="isbn"
+            <b-form-input id="publisher"
                           :required="required"
                           v-model="publisher"
                           placeholder="Publisher"></b-form-input>
@@ -13,14 +13,20 @@
 </template>
 <script>
 export default {
-    name: "registro-components-isbn",
+    name: "registro-components-publisher",
     mounted() {
     },
-    props: {
+    computed: {
         publisher: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.publisher
+            },
+            set(value) {
+                this.$store.dispatch('setPublisher', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,

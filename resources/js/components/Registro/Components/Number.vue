@@ -17,11 +17,17 @@ export default {
     name: "registro-components-number",
     mounted() {
     },
+    computed: {
+        publisher: {
+            get() {
+                return this.$store.getters.number
+            },
+            set(value) {
+                this.$store.dispatch('setNumber', value)
+            }
+        }
+    },
     props: {
-        number: {
-            type: String,
-            default: "",
-        },
         required: {
             type: Boolean,
             default: false

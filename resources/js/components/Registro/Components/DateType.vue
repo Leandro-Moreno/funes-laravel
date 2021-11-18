@@ -17,11 +17,17 @@ export default {
     name: "registro-components-date-type",
     mounted() {
     },
-    props: {
+    computed: {
         date_type: {
-            type: String,
-            default: "",
-        },
+            get() {
+                return this.$store.getters.dateType
+            },
+            set(value) {
+                this.$store.dispatch('setDateType', value)
+            }
+        }
+    },
+    props: {
         required: {
             type: Boolean,
             default: false,
