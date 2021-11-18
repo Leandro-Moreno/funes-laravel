@@ -8,11 +8,14 @@ require('./bootstrap');
 import { BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import BootstrapVue from 'bootstrap-vue'
-import Vue from 'vue/dist/vue'
+import Vue from 'vue'
+import store from './Store/index'
 // const externalComponent = () => import('./utils.js');
 // import externalComponent from "./components/utils"
-window.Vue = Vue
-Vue.use(require('./components/utils'));
+// window.Vue = Vue
+Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
+Vue.use(require('./components/utils'))
 // window.Vue = require('bootstrap-vue');
 // Vue.use(require('bootstrap-vue'));
 // Vue.use(BootstrapVueIcons);
@@ -26,7 +29,7 @@ Vue.use(require('./components/utils'));
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
-Vue.use(require('bootstrap-vue'));
+//Vue.use(require('bootstrap-vue'));
 Vue.component('registro-crear', () => import('./components/Registro/Create.vue'));
 Vue.component('registro-index', () => import('./components/registro/RegistroIndex.vue'));
 Vue.component('registro-type-article', () => import('./components/Registro/Type/Article.vue'));
@@ -53,10 +56,10 @@ Vue.component('registro-components-place-of-pub', () => import('./components/Reg
 Vue.component('registro-components-pages', () => import('./components/Registro/Components/Pages.vue'));
 Vue.component('registro-components-series', () => import('./components/Registro/Components/Series.vue'));
 Vue.component('registro-components-thesis-type', () => import('./components/Registro/Components/ThesisType.vue'));
+Vue.component('registro-authors', () => import('./components/Registro/Components/Authors.vue'));
 
 Vue.component('cargar-archivo', () => import('./components/cargarArchivo.vue'));
 Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));
-Vue.component('registro-autores', () => import('./components/registro/registroAutores.vue'));
 Vue.component('registro-autores-institucionales', () => import('./components/registro/registroAutoresInstitucional.vue'));
 Vue.component('registro-info-adicional', () => import('./components/registro/registroInformacionAdicional.vue'));
 
@@ -75,4 +78,5 @@ Vue.component('registro-administrator-index', () => import('./components/Registr
 
 const app = new Vue({
     el: '#library',
+    store
 });
