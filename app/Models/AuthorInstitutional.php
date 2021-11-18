@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Spatie\Searchable\Searchable;
 use Spatie\Searchable\SearchResult;
 
-class AutorInstitucional extends Model implements Searchable
+class AuthorInstitutional extends Model implements Searchable
 {
     use HasFactory;
 
