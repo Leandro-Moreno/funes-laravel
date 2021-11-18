@@ -120,34 +120,34 @@ class RegistroController extends Controller
     public function store(Request $request)
     {
         // $registro = $request;
-        $prueba = $request->prueba;
-        $todo = $request->all();
-        $registro = $todo['infoAdicional'];
-        $ano_publicacion = $todo['infoAdicional']['ano_publicacion'];
+        $registroInput = $request->input('registro');
+//        dd($registro);
         $registro = new Registro;
-        $registro->firstOrCreate([
-            'nombre' => $todo['nombre'],
-            'tipo_de_documento' => $todo['tipo_de_documento'],
-            'documento' => $todo['archivoEnviado']['response_file'],
-            'resumen' => $todo['resumen'],
-            'arbitrado' => $todo['infoAdicional']['arbitrado'],
-            'estado_id' => $todo['infoAdicional']['estado_id'],
-            'titulo_publicacion' => $todo['infoAdicional']['tipo_de_publicacion'],
-            'issn' => $todo['infoAdicional']['issn'],
-            'editor' => $todo['infoAdicional']['editor'],
-            'año_publicacion' => $todo['infoAdicional']['ano_publicacion'],
-            'mes_publicacion' => $todo['infoAdicional']['mes_publicacion'],
-            'dia_publicacion' => $todo['infoAdicional']['dia_publicacion'],
-            'tipo_de_fecha' => $todo['infoAdicional']['tipo_de_fecha'],
-            'numero_serie' => $todo['infoAdicional']['numero_serie'],
-            'pagina_hasta' => $todo['infoAdicional']['pagina_hasta'],
-            'url_oficial' => $todo['infoAdicional']['url_oficial'],
-            'volumen' => $todo['infoAdicional']['volumen'],
-            'user_deposito_id' => 1,
-            'user_edicion_id' => 1,
-            'pagina_de' => $todo['infoAdicional']['pagina_de'],
-            'numero_identificacion' => $todo['infoAdicional']['numero_identificacion']
-        ]);
+        $registro->firstOrCreate($registroInput);
+        dd($registro);
+//        $registro->firstOrCreate([
+//            'nombre' => $todo['nombre'],
+//            'tipo_de_documento' => $todo['tipo_de_documento'],
+//            'documento' => $todo['archivoEnviado']['response_file'],
+//            'resumen' => $todo['resumen'],
+//            'arbitrado' => $todo['infoAdicional']['arbitrado'],
+//            'estado_id' => $todo['infoAdicional']['estado_id'],
+//            'titulo_publicacion' => $todo['infoAdicional']['tipo_de_publicacion'],
+//            'issn' => $todo['infoAdicional']['issn'],
+//            'editor' => $todo['infoAdicional']['editor'],
+//            'año_publicacion' => $todo['infoAdicional']['ano_publicacion'],
+//            'mes_publicacion' => $todo['infoAdicional']['mes_publicacion'],
+//            'dia_publicacion' => $todo['infoAdicional']['dia_publicacion'],
+//            'tipo_de_fecha' => $todo['infoAdicional']['tipo_de_fecha'],
+//            'numero_serie' => $todo['infoAdicional']['numero_serie'],
+//            'pagina_hasta' => $todo['infoAdicional']['pagina_hasta'],
+//            'url_oficial' => $todo['infoAdicional']['url_oficial'],
+//            'volumen' => $todo['infoAdicional']['volumen'],
+//            'user_deposito_id' => 1,
+//            'user_edicion_id' => 1,
+//            'pagina_de' => $todo['infoAdicional']['pagina_de'],
+//            'numero_identificacion' => $todo['infoAdicional']['numero_identificacion']
+//        ]);
         $autores = $todo['autores'];
         // $this->storeAuthorRegister($autores, $registro);
         $autores_institucionales = $todo['autoresInstitucionales'];
