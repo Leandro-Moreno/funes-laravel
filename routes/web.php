@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\DivisionController;
 use App\Http\Controllers\DocumentController;
@@ -46,7 +47,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::put('/profile/password', [ProfileController::class, 'password'])->name('profile.password');
 });
-
+Route::get('/registroArray', [SubjectController::class, 'showArray'])->name('api.registro.show.array');
+Route::get('/subjectindex', [SubjectController::class, 'indexApi'])->name('api.subject.index');
 
 Route::group(['middleware' => 'auth'], function () {
     Route::get('table-list', function () {
@@ -85,3 +87,4 @@ Route::get('/search/author', [AuthorController::class, 'search'])->name('api.sea
 Route::get('/{registro}', function ($registro) {
     return Redirect::to(route('registro.show', $registro),301);
 })->where('registro', '[0-9]+')->name('registroid');
+Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
