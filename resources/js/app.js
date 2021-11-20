@@ -10,9 +10,13 @@ import 'bootstrap-vue/dist/bootstrap-vue-icons.min.css'
 import BootstrapVue from 'bootstrap-vue'
 import Vue from 'vue'
 import store from './Store/index'
+import PortalVue from 'portal-vue'
+// import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
 // const externalComponent = () => import('./utils.js');
 // import externalComponent from "./components/utils"
 // window.Vue = Vue
+Vue.use(PortalVue)
 Vue.use(BootstrapVue)
 Vue.use(BootstrapVueIcons)
 Vue.use(require('./components/utils'))
