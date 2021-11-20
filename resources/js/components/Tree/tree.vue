@@ -9,8 +9,10 @@
             :showCount="false"
             :openOnFocus="true"
             :closeOnSelect="false"
+            placeholder="Haz click para comenzar..."
             instanceId="subjects"
             @input="changes"
+            class="tree"
             v-bind:class="[registros.length===0    ?   'col-md-12' : 'col-md-3']"
         />
         <!--        <treeselect v-model="value" :multiple="true" :options="data" :showCount="false" :openOnFocus="true" :alwaysOpen="true" />-->
@@ -19,13 +21,14 @@
             {{ node.label }} - Description: {{ node.raw.desc }}
         </label>
         <div v-if="registros.hasOwnProperty('data')" class="col-md-9 row">
-            <div class="col-md-3" v-for="registro in registros.data">
-                <a :href="registro.route" class="card">
+            <div class="col-md-6 col--padding-min" v-for="(registro, index) in registros.data" :key="index">
+                <a :href="registro.route" class="card card--margin-min">
                     <div class="card-header">
-                        <h3 class="card-title">{{ registro.title }}</h3>
+                        <p class="card-title card__title--library">{{ registro.title }}</p>
                     </div>
                     <div class="card-body">
-
+                        <p class="">{{ registro.id}}</p>
+                        <p class="">{{ registro.abstract.substring(0,128)+'...'}}</p>
                     </div>
                 </a>
             </div>
@@ -96,7 +99,7 @@ export default {
     components: {Treeselect},
     methods: {
         async getSubjects({callback}) {
-            await axios.get('/api/subjectindex')
+            await axios.get('/subjectindex')
                 .then(response => {
                     this.data = [];
                     let tempData = response.data;
@@ -126,22 +129,23 @@ export default {
         },
         SearchRegistros: function (node) {
             this.nodes = node;
-            axios.get('/api/registroArray', {
+            axios.get('/registroArray', {
                 params: {
                     ids: this.nodes
                 }
             })
                 .then(response => {
                     this.registros = response.data;
+                    console.log(this.registros);
                 });
         },
         getPage(page) {
-            this.$http.get('/api/contactos?page=' + page).then((response) => {
+            this.$http.get('/contactos?page=' + page).then((response) => {
                 this.$set(this.$data, 'contactos', response.data);
             }, (response) => {
             });
 
-            axios.get('/api/registroArray?page=' + page, {
+            axios.get('/registroArray?page=' + page, {
                 params: {
                     ids: this.nodes
                 }
