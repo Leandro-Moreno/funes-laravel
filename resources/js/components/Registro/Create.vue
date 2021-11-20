@@ -10,7 +10,7 @@
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
                                      duration="60" color="#4b4898">
                             <tab-content title="Tipo de Documento">
-                                <div id="v-model-radiobutton" v-for="(type, index) in registro_types" key="`type-${type.name}`">
+                                <div id="v-model-radiobutton" v-for="(type, index) in registro_types" :key="`type-${index}`">
                                     <input type="radio" :id="type.name" :value="type.name" v-model="selected_type"/>
                                     <label :for="type.name">{{ type.label }}</label>
                                     <p :for="type.name">{{ type.description }}</p>
@@ -87,12 +87,14 @@ export default {
         }
     },
     mounted() {
-        let wizard = this.$refs.wizard;
-        wizard.activateAll();
-        this.wizardSub = this.registro.eprintid.toString();
         axios
             .get('/registro-type')
             .then(response => (this.registro_types = response.data));
+        this.$store.dispatch('setCurrentRegistroAction', this.data);
+        let wizard = this.$refs.wizard;
+        wizard.activateAll();
+        this.wizardSub = this.registro.eprintid.toString();
+        this.makeToast('success');
     },
     components: {
         FormWizard,
@@ -124,7 +126,10 @@ export default {
                 let acceptedValues = ['xs', 'sm', 'md', 'lg']
                 return acceptedValues.indexOf(value) !== -1
             }
-        }
+        },
+        data:{
+            type: Object
+        },
     },
     methods: {
         postRegistro: function () {
@@ -132,8 +137,8 @@ export default {
                 registro: this.registro
             })
                 .then((response) => {
-                    console.log(response);
                     this.$store.dispatch('setIds', response.data.registro);
+                    this.makeToast('success', 'Eprintid'+ response.data.registro.eprintid, response.data.registro.route);
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -142,7 +147,17 @@ export default {
         updateregistro: function(event){
             this.registro = event;
             this.wizardSub = event.eprintid;
-        }
+        },
+        makeToast(variant = 'success', title = 'Creado exitosamente', route = '') {
+            this.$bvToast.toast('El eprint ha sido creado exitosamente', {
+                href: route,
+                title: `Variant ${variant || 'default'}`,
+                variant: variant,
+                toaster: 'b-toaster-top-right',
+                solid: true,
+                autoHideDelay: '50000',
+            })
+        },
     },
     watch: {
         $props: {
