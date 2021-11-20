@@ -33,6 +33,8 @@ const store = new Vuex.Store({
     },
     mutations: {
         SET_REGISTRO(state, registro) {
+            console.log(this.currentRegistro);
+            console.log(registro);
             state.currentRegistro = registro;
         },
         SET_TITLE(state, title) {
@@ -64,13 +66,13 @@ const store = new Vuex.Store({
             state.currentRegistro.pagerange = pagerange;
         },
         SET_YEAR(state, value) {
-            state.currentRegistro.year = value;
+            state.currentRegistro.date_year = value;
         },
         SET_MONTH(state, value) {
-            state.currentRegistro.month = value;
+            state.currentRegistro.date_month = value;
         },
         SET_DAY(state, value) {
-            state.currentRegistro.day = value;
+            state.currentRegistro.date_day = value;
         },
         SET_DATETYPE(state, value) {
             state.currentRegistro.date_type = value;
@@ -123,6 +125,8 @@ const store = new Vuex.Store({
             commit("DELETE_AUTHOR", index);
         },
         setCurrentRegistroAction({commit}, registro) {
+            console.log("action");
+            console.log(registro);
             commit("SET_REGISTRO", registro);
         },
         setIds({commit}, registro) {
@@ -191,6 +195,9 @@ const store = new Vuex.Store({
         setType({commit}, value) {
             commit("SET_TYPE", value)
         },
+        setRegistro({commit}, value) {
+            commit("SET_REGISTRO", value)
+        },
     },
     getters: {
         getRegistro(state) {
@@ -224,13 +231,13 @@ const store = new Vuex.Store({
             return state.currentRegistro.pagerange
         },
         year(state) {
-            return state.currentRegistro.year
+            return state.currentRegistro.date_year
         },
         month(state) {
-            return state.currentRegistro.month
+            return state.currentRegistro.date_month
         },
         day(state) {
-            return state.currentRegistro.day
+            return state.currentRegistro.date_day
         },
         dateType(state) {
             return state.currentRegistro.date_type
