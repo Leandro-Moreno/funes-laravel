@@ -211,7 +211,8 @@ class RegistroController extends Controller
      */
     public function edit(Registro $registro)
     {
-        //
+        $registro->with(['documents','subjects', 'authors'])->get();
+        return view('registros.edit', ['registro'=>$registro]);
     }
 
     /**
