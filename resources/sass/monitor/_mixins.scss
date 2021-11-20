@@ -36,3 +36,48 @@
         }
     }
 }
+@mixin button-variant-library($color, $background, $border) {
+    // FIXME: SPEC - this should be the 600 color, how can we get that programmatically if at all? Or are we limited to the color palette only?
+    $focus-background: contrast-color(
+            $background,
+            darken($background, 3%),
+            lighten($background, 3%)
+    );
+    //$focus-background: darken($background, 10%);  // default bootstrap
+    $focus-border: darken($border, 12%);
+
+    $active-background: $focus-background;
+    //$active-background: darken($background, 17%);
+    $active-border: darken($border, 25%);
+
+    @include bmd-button-variant($color,
+        $background,
+        $focus-background,
+        $active-background,
+        $border,
+        $focus-border,
+        $active-border);
+
+    @include shadow-2dp-color($background);
+
+    &:focus,
+    &:active,
+    &:hover{
+        // remove this line if you want black shadows
+        @include button-shadow-color($background);
+    }
+
+    &.btn-link{
+        background-color: transparent;
+        color: $background;
+        box-shadow: none;
+
+        &:hover,
+        &:focus,
+        &:active{
+            background-color: transparent;
+            color: $background;
+        }
+    }
+
+}

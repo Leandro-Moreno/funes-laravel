@@ -27,3 +27,29 @@
     }
   }
 }
+
+.toast {
+
+    flex-basis: 350px;
+    max-width: 350px;
+    color: $white;
+    background-color: $success;
+    background-clip: padding-box;
+
+    &:not(:last-child) {
+        margin-bottom: 15px;
+    }
+
+    &.showing {
+        opacity: 1;
+    }
+
+    &.show {
+        display: block;
+        opacity: 1;
+    }
+
+    &.hide {
+        display: none;
+    }
+}
