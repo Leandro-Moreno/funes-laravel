@@ -49,7 +49,7 @@ class SubjectController extends Controller
             $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
         }
         $ids = $ids->unique();
-        $registros = Registro::select('id','eprintid','title','abstract')->whereHas('subjects', function($query) use ($ids) {
+        $registros = Registro::select('id','eprintid','title','abstract')->with('subjects:id,name','documents:registro_id,id,thumbnail')->whereHas('subjects', function($query) use ($ids) {
             $query->whereIn('parent_id', $ids);
         })->paginate(60);
         return $registros;
