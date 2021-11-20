@@ -1,5 +1,5 @@
 
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'admin', 'title' => __('Funes - Admin')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'admin', 'title' => config('app.name') . __(' - Administrador')])
 
 @section('content')
 <div class="container">
@@ -85,10 +85,11 @@
                     <div class="card-body table-responsive">
                         <div class="row">
                             <div class="col-md-12 text-right">
+                                <a href="{{ route('registro.create') }}" class="btn btn-sm btn-primary">{{ __('Nuevo registro') }}</a>
                                 @administrator
-                                <a href="{{ route('registro.process') }}" class="btn btn-danger">{{ __('Importar Registros') }}</a>
+                                <a href="{{ route('registro.process') }}" class="btn btn-sm btn-danger">{{ __('Importar Registros') }}</a>
                                 @endadministrator
-                                <a href="{{ route('registro.index') }}" class="btn btn-primary">{{ __('Todos los Registros') }}</a>
+                                <a href="{{ route('registro.admininistrator.index') }}" class="btn btn-sm btn-black">{{ __('Todos los Registros') }}</a>
                             </div>
                         </div>
                         <x-table>
@@ -98,6 +99,7 @@
                                 <x-table.heading>Eprint ID</x-table.heading>
                                 <x-table.heading>Fecha de creación</x-table.heading>
                                 <x-table.heading>Status</x-table.heading>
+                                <x-table.heading>Edición</x-table.heading>
                             </x-slot>
                             @foreach($registros as $registro)
                                 <x-table.row>
@@ -107,6 +109,10 @@
                                     <x-table.cell>{{$registro->created_at}}</x-table.cell>
                                     <x-table.cell url="{{ route('registro.show', $registro) }}">
                                         <i class="material-icons">info</i>{{$registro->eprint_status}}
+                                    </x-table.cell>
+                                    <x-table.cell>
+                                        <a class="btn btn-sm btn-success" href="{{ route('registro.edit', $registro) }}">Editar</a>
+                                        <a class="btn btn-sm btn-warning" href="{{ route('registro.show', $registro) }}">Ver</a>
                                     </x-table.cell>
                                 </x-table.row>
                             @endforeach

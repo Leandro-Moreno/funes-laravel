@@ -71,8 +71,10 @@
                                     <x-table.cell>{{isset($registro->title)?$registro->title:"Sin agregar nombre aún"}}</x-table.cell>
                                     <x-table.cell>{{Str::of($registro->abstract)->limit(128)}}</x-table.cell>
                                     <x-table.cell>{{$registro->created_at}}</x-table.cell>
-                                    <x-table.cell url="{{ route('registro.index', $registro) }}">
-                                        <i class="material-icons">info</i>{{$registro->eprint_status}}
+                                    <x-table.cell>
+                                        <a class="btn btn-sm btn-info" href="{{ route('registro.index', $registro) }}">{{__('VER')}}</a>
+                                        <a class="btn btn-sm btn-warning" href="{{ route('registro.edit', $registro) }}">{{__('Editar')}}</a>
+                                        <a class="btn btn-sm btn-success" href="{{ route('registro.edit', $registro) }}">{{__('Aprobar')}}</a>
                                     </x-table.cell>
                                 </x-table.row>
                             @endforeach
