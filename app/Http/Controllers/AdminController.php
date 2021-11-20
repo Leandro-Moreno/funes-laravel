@@ -6,6 +6,7 @@ use App\Models\Autor;
 use App\Models\Registro;
 use App\Models\User;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
 use Spatie\Searchable\Search;
 use Illuminate\Http\Request;
 
@@ -18,9 +19,9 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $registros = Registro::latest()->take(5)->get(['id','eprintid','eprint_status','title', 'created_at']);
-        $users = User::latest()->take(5)->get(['id','name','last_name','email', 'organization']);
-        $registroArchiveCount = Registro::where('eprint_status','archive')->count();
+        $registros = Registro::latest()->take(5)->get(['id', 'eprintid', 'eprint_status', 'title', 'created_at']);
+        $users = User::latest()->take(5)->get(['id', 'name', 'last_name', 'email', 'organization']);
+        $registroArchiveCount = Registro::where('eprint_status', 'archive')->count();
         $registroCompleteCount = Registro::count();
         $userCount = User::count();
 //        dd($registroCompleteCount);
@@ -33,15 +34,27 @@ class AdminController extends Controller
         ]);
     }
 
-    public function indexRegistro(?Request $request){
+    public function personal()
+    {
+        $userID = Auth::id();
+        $registros = Registro::where('user_deposito_id', $userID)
+            ->where('user_edicion_id', $userID)
+            ->paginate(30);
+        return view('admin.registro.personal', [
+            'registros' => $registros
+        ]);
+    }
+
+    public function indexRegistro(?Request $request)
+    {
         $eprint_status = '';
-        if( $request->input('eprint_status') ){
+        if ($request->input('eprint_status')) {
             $eprint_status = $request->input('eprint_status');
         }
-        $registros = Registro::select('id','eprintid','eprint_status','title', 'created_at','abstract')
-                        ->orderBy('created_at','DESC')
-                        ->where('eprint_Status', $eprint_status)
-                        ->paginate(25);
+        $registros = Registro::select('id', 'eprintid', 'eprint_status', 'title', 'created_at', 'abstract')
+            ->orderBy('created_at', 'DESC')
+            ->where('eprint_Status', $eprint_status)
+            ->paginate(25);
         return view('admin.registro.index', [
             'registros' => $registros,
         ]);
