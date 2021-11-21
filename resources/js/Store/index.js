@@ -272,6 +272,9 @@ const store = new Vuex.Store({
         type(state) {
             return state.currentRegistro.type
         },
+        documents(state) {
+            return state.currentRegistro.documents
+        },
     }
 })
 export default store;
