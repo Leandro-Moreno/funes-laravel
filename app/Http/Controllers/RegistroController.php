@@ -212,6 +212,10 @@ class RegistroController extends Controller
     public function edit(Registro $registro)
     {
         $registro->with(['documents','subjects', 'authors'])->get();
+        foreach ($registro->documents as $document) {
+            $document->url = URL::to(Storage::url($document->url));
+            $document->thumbnail = URL::to(Storage::url($document->thumbnail));
+        }
         return view('registros.edit', ['registro'=>$registro]);
     }
 
