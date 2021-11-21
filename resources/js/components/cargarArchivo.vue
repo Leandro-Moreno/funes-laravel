@@ -39,10 +39,27 @@ export default {
             response_file: ""
         }
     },
+    mounted: function(){
+      console.log("mounted");
+      console.log(this.documents);
+      documents.forEach((document)=>{
+          this.preLoadFiles(document.filename, document.size, document.url)
+      });
+    },
     computed: {
         ...mapGetters({
-            eprintid: 'eprintid'
-        })
+            eprintid: 'eprintid',
+            documents: 'documents',
+        }),
+        documents:{
+            get(){
+                return this.$store.getters.documents.forEach( document => {
+                    this.preLoadFiles(document.filename, document.size, document.url);
+                    console.log("getter");
+                    return document;
+                })
+            }
+        }
     },
     watch: {
         registro(oldRegistro, newRegistro) {
@@ -72,6 +89,15 @@ export default {
         },
         sendingEvent: function (file, xhr, formData) {
             formData.append('id', this.eprintid);
+        },
+        preLoadFiles: function(filename,size, url){
+            // callback and crossOrigin are optional
+            let mockFile = { name: filename, size: size };
+            console.log("preloadfiles");
+            console.log(url);
+            console.log(this.$refs.myVueDropzone);
+            // myDropzone.displayExistingFile(mockFile, url);
+            this.$refs.myVueDropzone.displayExistingFile(mockfile, url);
         }
     }
 }
