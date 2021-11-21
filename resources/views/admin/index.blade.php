@@ -1,5 +1,5 @@
 
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'admin', 'title' => config('app.name') . __(' - Administrador')])
+@extends('layouts.app-administrator', ['class' => 'off-canvas-sidebar', 'activePage' => 'dashboard', 'title' => config('app.name') . __(' - Administrador')])
 
 @section('content')
 <div class="container">
@@ -89,7 +89,9 @@
                                 @administrator
                                 <a href="{{ route('registro.process') }}" class="btn btn-sm btn-danger">{{ __('Importar Registros') }}</a>
                                 @endadministrator
+                                @editor
                                 <a href="{{ route('registro.admininistrator.index') }}" class="btn btn-sm btn-black">{{ __('Todos los Registros') }}</a>
+                                @endeditor
                             </div>
                         </div>
                         <x-table>

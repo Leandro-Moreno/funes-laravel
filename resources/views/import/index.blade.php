@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'register-import', 'title' => __('Importar Registros')])
+@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'registro-import', 'title' => __('Importar Registros')])
 @section('content')
     <div class="content">
         <div class="container-fluid">

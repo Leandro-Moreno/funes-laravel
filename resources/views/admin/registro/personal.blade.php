@@ -1,8 +1,7 @@
 
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'admin', 'title' => config('app.name') . __(' - Mis ultimos Registros')])
-
+@extends('layouts.app-administrator', ['class' => 'off-canvas-sidebar', 'activePage' => 'personal', 'title' => config('app.name') . __(' - Mis ultimos Registros')])
 @section('content')
-    <div class="container-fluid">
+    <div class="container">
         <section>
 
             <div class="col-lg-12 col-md-12">

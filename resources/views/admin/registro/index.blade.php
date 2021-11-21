@@ -1,4 +1,4 @@
-@extends('layouts.app', ['class' => 'off-canvas-sidebar', 'activePage' => 'admin', 'title' => __('Administrator Registro')])
+@extends('layouts.app', ['class' => 'registro-admin', 'activePage' => 'admin', 'title' => __('Administrator Registro')])
 
 @section('content')
     <div class="container">
