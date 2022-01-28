@@ -86,8 +86,8 @@
         outline: 0;
 
         .navbar-toggler-icon{
-            width: 22px;
-            height: 2px;
+            width: 34px;
+            height: 5px;
             vertical-align: middle;
             outline: 0;
             display: block;
@@ -129,6 +129,12 @@
 
     &.bg-primary{
         @include navbar-colors($bg-primary, $white-color);
+    }
+    &.bg-primary-dark{
+        @include navbar-colors($funes-dark, $white-color);
+    }
+    &.bg-primary-light{
+        @include navbar-colors($white-color, $funes-dark);
     }
     &.bg-info{
         @include navbar-colors($bg-info, $white-color);
@@ -235,12 +241,12 @@
           font-size: 13px;
           text-transform: uppercase;
           border-radius: 4px;
-          color: $white-color;
+          color: $black-color;
           margin: 0 13px;
 
           &:hover{
               //border-color: white;
-              border: 1px solid #ffffff69;
+              border: 1px solid $funes-dark;
           }
         }
       }
