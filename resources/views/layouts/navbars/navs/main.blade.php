@@ -1,8 +1,7 @@
-<nav class="navbar navbar-expand-lg bg-primary navbar-absolutetext-white">
+<nav class="navbar navbar-expand-lg bg-primary-light navbar-absolute text-dark">
     <div class="container">
         <div class="navbar-wrapper">
-            <a class="navbar-brand" href="{{ route('home') }}"><img height="45px" style="fill:white;"
-                                                                    src="{{ asset('material/img/logoFunes.png') }}"/></a>
+            <a style="font-size:52px;" class="navbar-brand andes-funes" href="{{ route('home') }}"></a>
         </div>
         <button class="navbar-toggler" type="button" data-toggle="collapse" aria-controls="navigation-index"
                 aria-expanded="false" aria-label="Toggle navigation">

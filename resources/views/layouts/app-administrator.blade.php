@@ -16,6 +16,7 @@
 <link rel="preload" href="{{ mix('js/vendor.js') }}" as="script">
 <link rel="preload" href="{{ mix('js/manifest.js') }}" as="script">
 <link rel="stylesheet" type="text/css" href="{{ asset('dax') }}/stylesheet.css"/>
+<link rel="stylesheet" type="text/css" href="{{ asset('andes-font.css') }}" />
 <link rel="stylesheet" type="text/css"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Open+Sans|Material+Icons"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
