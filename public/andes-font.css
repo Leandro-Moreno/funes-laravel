@@ -1,0 +1,144 @@
+@font-face {
+  font-family: 'bibliotecaAndes';
+  src:  url('fonts/bibliotecaAndes.eot?b8rvwo');
+  src:  url('fonts/bibliotecaAndes.eot?b8rvwo#iefix') format('embedded-opentype'),
+    url('fonts/bibliotecaAndes.ttf?b8rvwo') format('truetype'),
+    url('fonts/bibliotecaAndes.woff?b8rvwo') format('woff'),
+    url('fonts/bibliotecaAndes.svg?b8rvwo#bibliotecaAndes') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="andes-"], [class*=" andes-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'bibliotecaAndes' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.andes-funes:before {
+  content: "\e91a";
+}
+.andes-logo:before {
+  content: "\e90b";
+}
+.andes-fixed:before {
+  content: "\e908";
+}
+.andes-play-solid:before {
+  content: "\e900";
+}
+.andes-play-border:before {
+  content: "\e901";
+}
+.andes-play:before {
+  content: "\e902";
+}
+.andes-search:before {
+  content: "\e903";
+}
+.andes-structure:before {
+  content: "\e904";
+}
+.andes-teacher:before {
+  content: "\e905";
+}
+.andes-pencil:before {
+  content: "\e906";
+}
+.andes-info:before {
+  content: "\e907";
+}
+.andes-article:before {
+  content: "\e909";
+}
+.andes-telefono:before {
+  content: "\e90a";
+}
+.andes-research:before {
+  content: "\e90c";
+}
+.andes-education:before {
+  content: "\e90d";
+}
+.andes-mail:before {
+  content: "\e90e";
+}
+.andes-Clases:before {
+  content: "\e90f";
+}
+.andes-double-prev:before {
+  content: "\e910";
+}
+.andes-double-next:before {
+  content: "\e912";
+}
+.andes-prev:before {
+  content: "\e911";
+}
+.andes-next:before {
+  content: "\e913";
+}
+.andes-down:before {
+  content: "\e914";
+}
+.andes-close:before {
+  content: "\e915";
+}
+.andes-up:before {
+  content: "\e916";
+}
+.andes-user:before {
+  content: "\e917";
+}
+.andes-notification:before {
+  content: "\e918";
+}
+.andes-watch-more:before {
+  content: "\e919";
+}
+.andes-file-text:before {
+  content: "\e926";
+}
+.andes-phone:before {
+  content: "\e942";
+}
+.andes-location:before {
+  content: "\e947";
+}
+.andes-calendar:before {
+  content: "\e953";
+}
+.andes-plus:before {
+  content: "\ea0a";
+}
+.andes-minus:before {
+  content: "\ea0b";
+}
+.andes-google-plus:before {
+  content: "\ea8b";
+}
+.andes-facebook:before {
+  content: "\ea90";
+}
+.andes-twitter:before {
+  content: "\ea96";
+}
+.andes-youtube:before {
+  content: "\ea9d";
+}
+.andes-vimeo:before {
+  content: "\eaa0";
+}
+.andes-linkedin:before {
+  content: "\eaca";
+}
