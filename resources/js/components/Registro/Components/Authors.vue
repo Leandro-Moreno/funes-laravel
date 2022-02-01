@@ -85,15 +85,14 @@ export default {
         },
         pickAuthor: function (index, input) {
             let results = input.searchable;
-            this.authors[index].query = "";
-            this.$store.dispatch('addAuthor',{
-               given: results.given,
-               family: results.family,
-                email: results.email,
-                authorId: results.id,
-            });
-            this.deleteUser(index);
-            this.authors[index].results = [];
+            let authorsTemp = this.authors;
+            authorsTemp[index].query = "";
+            authorsTemp[index].given = results.given;
+            authorsTemp[index].family = results.family;
+            authorsTemp[index].email = results.email;
+            authorsTemp[index].authorId = results.id;
+            authorsTemp[index].results = [];
+            this.$store.dispatch('setAuthors',authorsTemp);
         },
         onChange: function (index) {
             this.searchAuthors(index);
@@ -129,7 +128,7 @@ export default {
                 });
         },
         deleteSearchInputs: function (index) {
-            setTimeout(() => this.authors[index].query = "", 500);
+            setTimeout(() => this.authors[index].query = "", 200);
         }
     }
 }

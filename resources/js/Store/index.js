@@ -113,6 +113,9 @@ export const store = new Vuex.Store({
         SET_TYPE(state, value) {
             state.currentRegistro.type = value;
         },
+        SET_AUTHORS(state, value){
+          state.currentRegistro.authors = value;
+        },
         ADD_AUTHOR(state, payload){
             Vue.set(state.author, 'email', payload.email);
             Vue.set(state.author, 'given', payload.given);
@@ -134,6 +137,9 @@ export const store = new Vuex.Store({
         },
     },
     actions: {
+        setAuthors({commit}, authors){
+            commit("SET_AUTHORS",authors);
+        },
         addAuthor(context, payload){
           context.commit("ADD_AUTHOR", payload);
         },
