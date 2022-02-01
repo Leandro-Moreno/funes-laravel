@@ -4,10 +4,10 @@ import Registro from './Registro';
 import {commit} from "lodash/seq";
 
 Vue.use(Vuex);
-const store = new Vuex.Store({
+export const store = new Vuex.Store({
     state: {
         currentRegistro: {
-            id: '',
+            id: 'prueba',
             eprintid: '',
             eprint_status: 'inbox',
             title: '',
@@ -24,11 +24,20 @@ const store = new Vuex.Store({
                 given: "",
                 family: "",
                 email: "",
-                authorId: "",
+                authorId: '',
                 results: [],
                 query: ""
             }]
         },
+        author: {
+            given: "",
+            family: "",
+            email: "",
+            authorId: '',
+            results: [],
+            query: ""
+        },
+        type: "type",
         allRegistros: []
     },
     mutations: {
@@ -104,6 +113,13 @@ const store = new Vuex.Store({
         SET_TYPE(state, value) {
             state.currentRegistro.type = value;
         },
+        ADD_AUTHOR(state, payload){
+            Vue.set(state.author, 'email', payload.email);
+            Vue.set(state.author, 'given', payload.given);
+            Vue.set(state.author, 'family', payload.family);
+            Vue.set(state.author, 'authorId', payload.authorId);
+            state.currentRegistro.authors.push(state.author);
+        },
         MOVE_AUTHORS(state, {from, to}) {
             let authors = state.currentRegistro.authors;
             authors.splice(to, 0, authors.splice(from, 1)[0]);
@@ -118,6 +134,9 @@ const store = new Vuex.Store({
         },
     },
     actions: {
+        addAuthor(context, payload){
+          context.commit("ADD_AUTHOR", payload);
+        },
         moveAuthors({commit}, {from, to}) {
             commit("MOVE_AUTHORS", {from, to});
         },
@@ -270,6 +289,7 @@ const store = new Vuex.Store({
             return state.currentRegistro.authors
         },
         type(state) {
+            console.log(state)
             return state.currentRegistro.type
         },
         documents(state) {
@@ -277,4 +297,4 @@ const store = new Vuex.Store({
         },
     }
 })
-export default store;
+

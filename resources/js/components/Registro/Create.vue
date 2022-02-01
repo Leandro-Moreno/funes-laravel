@@ -7,6 +7,7 @@
 <!--                         :start-index="4"-->
                         <form-wizard ref="wizard" action="#" @on-complete="postRegistro"
                                      :title="wizardTitle" :subtitle="wizardSub"
+                                     :backButtonText="wizardbackButtonText" :finishButtonText="wizardfinishButtonText"
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
                                      duration="60" color="#4b4898">
                             <tab-content title="Tipo de Documento">
@@ -90,11 +91,11 @@ export default {
         axios
             .get('/registro-type')
             .then(response => (this.registro_types = response.data));
-        this.$store.dispatch('setCurrentRegistroAction', this.data);
+        console.log(this.registro_types);
         let wizard = this.$refs.wizard;
         wizard.activateAll();
-        this.wizardSub = this.registro.eprintid.toString();
-        this.makeToast('success');
+        this.wizardSub = "wiz sub";
+        // this.makeToast('success');
     },
     components: {
         FormWizard,
@@ -115,6 +116,14 @@ export default {
             type: String,
             default: 'Prueba de titulos'
         },
+        wizardbackButtonText: {
+            type: String,
+            default: 'Atrás'
+        },
+        wizardfinishButtonText: {
+            type: String,
+            default: 'Finalizar'
+        },
         wizardnextButtonText: {
             type: String,
             default: 'Siguiente'
@@ -126,10 +135,7 @@ export default {
                 let acceptedValues = ['xs', 'sm', 'md', 'lg']
                 return acceptedValues.indexOf(value) !== -1
             }
-        },
-        data:{
-            type: Object
-        },
+        }
     },
     methods: {
         postRegistro: function () {

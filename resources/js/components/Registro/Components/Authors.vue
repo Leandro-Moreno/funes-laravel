@@ -86,10 +86,13 @@ export default {
         pickAuthor: function (index, input) {
             let results = input.searchable;
             this.authors[index].query = "";
-            this.authors[index].given = results.given;
-            this.authors[index].family = results.family;
-            this.authors[index].email = results.email;
-            this.authors[index].authorId = results.id;
+            this.$store.dispatch('addAuthor',{
+               given: results.given,
+               family: results.family,
+                email: results.email,
+                authorId: results.id,
+            });
+            this.deleteUser(index);
             this.authors[index].results = [];
         },
         onChange: function (index) {
@@ -107,13 +110,9 @@ export default {
             });
         },
         deleteUser: function (index) {
-            // this.authors.splice(index, 1);
-            console.log(index);
             this.$store.dispatch('deleteAuthor', index);
         },
         move: function (from, to) {
-            console.log(from);
-            console.log(to);
             // this.authors.splice(to, 0, this.authors.splice(from, 1)[0]);
             this.$store.dispatch('moveAuthors', {from, to});
         },

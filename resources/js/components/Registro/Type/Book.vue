@@ -24,7 +24,7 @@
         </div>
         <div class="row">
         </div>
-        <registro-autores ref="autores"></registro-autores>
+        <registro-components-authors ref="autores"></registro-components-authors>
         <registro-autores-institucionales ref="autoresInstitucionales"></registro-autores-institucionales>
         <registro-info-adicional ref="infoAdicional"></registro-info-adicional>
     </div>

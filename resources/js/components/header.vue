@@ -11,8 +11,8 @@
                         <p class="main">FUNES</p>
                         <p class="phrase">Repositorio Digital de Documentos de Educación Matemática</p>
                         <div class="featured-content-text-span-second">
-                            <p class="phrase phrase-second text-gradient">Contamos con 20.500 documentos</p>
-                            <p class="phrase phrase-second text-gradient">4500 usuarios</p>
+                            <p class="phrase phrase-second text-gradient">Contamos con {{registroCount}} documentos</p>
+                            <p class="phrase phrase-second text-gradient">{{usersCount}} usuarios</p>
                             <div class="border-top my-3"></div>
                             <p class="phrase phrase-second">Somos el 5 repositorio en Colombia</p>
                         </div>
@@ -74,6 +74,19 @@ export default {
     name: "header-animated",
     mounted() {
         this.init();
+        axios
+            .get('../api/count')
+            .then(response => {
+                this.registroCount = response.data.registros;
+                this.usersCount = response.data.users;
+
+            })
+    },
+    data(){
+        return {
+            registroCount: 0,
+            usersCount: 0,
+        }
     },
     props: ['pdfUrl'],
     methods: {
@@ -280,12 +293,12 @@ export default {
             // Create colour palette
             const colorPalette = new ColorPalette();
 
-            app.stage.filters = [new KawaseBlurFilter(2, 10, true)];
+            app.stage.filters = [new KawaseBlurFilter(2, 4, true)];
 
             // Create orbs
             const orbs = [];
 
-            for (let i = 0; i < 15; i++) {
+            for (let i = 0; i < 4; i++) {
                 const orb = new Orb(colorPalette.randomColor());
 
                 app.stage.addChild(orb.graphics);
@@ -354,8 +367,8 @@ export default {
         height: 100%;
         z-index: -9;
         position: absolute;
-        background: linear-gradient(
-                360deg, rgba(247, 247, 247, 1), rgba(247, 247, 247, 0) 90%, rgba(247, 247, 247, 1) 100%);
+        /*background: linear-gradient(
+                360deg, rgba(247, 247, 247, 1), rgba(247, 247, 247, 0) 90%, rgba(247, 247, 247, 1) 100%);*/
     }
 }
 .wrapper-full-page{
@@ -378,6 +391,7 @@ body {
     pointer-events: none;
     overflow-y:hidden;
     z-index: -10;
+    background-color: #5450a9;
 }
 
 strong {
