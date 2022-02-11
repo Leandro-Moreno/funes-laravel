@@ -176,9 +176,12 @@ class RegistroController extends Controller
     {
         $registros = Registro::where('eprint_status', 'archive')
             ->select('title', 'eprintid', 'id')
+            ->where(
+                'created_at', '>=', Carbon::now()->subDays(120)->firstOfMonth()->toDateTimeString()
+            )
             ->with('authors')
             ->latest()->paginate(18);
-        return view('registros.index', ['registros' => $registros, 'title' => 'Ultimos Registros']);
+        return view('registros.latest', ['registros' => $registros, 'title' => 'Ultimos Registros']);
     }
 
     public function year()
