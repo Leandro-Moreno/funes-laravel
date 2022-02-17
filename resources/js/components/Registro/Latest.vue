@@ -14,11 +14,20 @@
 
                 <div class="col-md-8">
                     <div class="row justify-content-center results">
-                        <div class="card results-card" v-for="registro in latest">
+                        <div class="card results-card" v-for="(registro, $index) in latest" :key="$index">
                             <a :href="registro.route">
                                 <registro-results :citation-prop="registro"></registro-results>
                             </a>
                         </div>
+                        <button class="btn-load-more" @click="manualLoad">Cargar Más</button>
+                        <infinite-loading
+                            slot="append"
+                            @infinite="infiniteHandler"
+                            spinner="waveDots"
+                            force-use-infinite-wrapper=".el-table__body-wrapper"
+                            ref="infiniteLoading"
+                            :distance="18"
+                        ></infinite-loading>
                     </div>
 
                 </div>
@@ -27,25 +36,32 @@
     </section>
 </template>
 <script>
+import InfiniteLoading from 'vue-infinite-loading';
 export default {
     name: "registro-latest",
     props: {
     },
     methods:{
-        async getLatest() {
-            await axios.get(`/api/latest?page=${this.page}`)
+        infiniteHandler($state = { loaded() {}, complete() {} }) {
+            console.log("prueba")
+            console.log($state)
+            axios.get(`/api/latest?page=${this.page}`)
                 .then(response => {
                     console.log(response);
                     this.data = response.data.registro;
                     this.total = this.data.total;
+                    this.latest.push(...this.data.data);
                     //each response.data.registro push intro this.latest
-                    this.data.data.forEach(registro => {
-                        this.latest.push(registro);
-                    });
-                    console.log(this.latest);
-                    this.page++;
+                    // this.data.data.forEach(registro => {
+                    //     this.latest.push(registro)
+                    // });
+                    $state.loaded();
+                    this.page++
                 });
         },
+        manualLoad() {
+            this.infiniteHandler()
+        }
     },
     data() {
         return {
@@ -57,8 +73,12 @@ export default {
         }
     },
     mounted() {
-        this.getLatest();
-    }
+        console.log(this.$refs)
+        this.infiniteHandler()
+    },
+    components: {
+        InfiniteLoading,
+    },
 }
 </script>
 <style lang="scss">
