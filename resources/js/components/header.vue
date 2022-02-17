@@ -69,13 +69,11 @@
 export default {
     name: "header-animated",
     mounted() {
-        this.init();
-        axios
-            .get('../api/count')
+        axios.get('../api/count')
             .then(response => {
                 this.registroCount = response.data.registros;
                 this.usersCount = response.data.users;
-
+                console.log(response);
             })
     },
     data(){
