@@ -18,7 +18,7 @@ class Registro extends Model
      */
     const STATUS_CHANGED = 'status_changed';
 
-    protected $appends = ['route'];
+    protected $appends = ['route', 'issued'];
 
     protected $fillable = ['title','eprintid', 'abstract', 'type', 'titulo_publicacion', 'user_deposito_id', 'eprint_status',
         'item_issues_count', 'metadata_visibility', 'refereed', 'pres_type', 'ispublished',
@@ -41,9 +41,15 @@ class Registro extends Model
     }
     public function getRouteAttribute()
     {
-//        dd($this);
         return route('registro.show', $this);
     }
+    public function getIssuedAttribute()
+    {
+        return ['date-parts'=>[[
+            $this->date_year,
+            is_null($this->date_month)?'01':$this->date_month,
+            is_null($this->date_day)?'01':$this->date_day
+        ]]];    }
     /**
      * Get the name of the index associated with the model.
      *
@@ -81,6 +87,10 @@ class Registro extends Model
     {
         return $this->belongsToMany(Author::class)->select(array('given', 'family', 'email'));
     }
+    public function author(){
+        return $this->authors();
+    }
+
     public function projects()
     {
         return $this->belongsToMany(Project::class);
