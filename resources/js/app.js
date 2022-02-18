@@ -43,6 +43,7 @@ Vue.component('registro-type-edited-book', () => import('./components/Registro/T
 Vue.component('registro-type-book', () => import('./components/Registro/Type/Book.vue'));
 Vue.component('registro-results', () => import('./components/Registro/Results.vue'));
 Vue.component('registro-latest', () => import('./components/Registro/Latest.vue'));
+Vue.component('registro-main', () => import('./components/Registro/registroMain.vue'));
 
 
 Vue.component('registro-core-details', () => import('./components/Registro/Components/DetailsCore.vue'));
