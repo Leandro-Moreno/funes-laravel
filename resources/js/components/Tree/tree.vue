@@ -1,64 +1,53 @@
 <template>
-    <div class="row">
-        <treeselect
-            v-model="value"
-            :multiple="true"
-            :load-options="getSubjects"
-            :options="data"
-            :loading="true"
-            :showCount="false"
-            :openOnFocus="true"
-            :closeOnSelect="false"
-            placeholder="Haz click para comenzar..."
-            instanceId="subjects"
-            @input="changes"
-            class="tree"
-            v-bind:class="[registros.length===0    ?   'col-md-12' : 'col-md-3']"
-        />
-        <!--        <treeselect v-model="value" :multiple="true" :options="data" :showCount="false" :openOnFocus="true" :alwaysOpen="true" />-->
-        <label slot="option-label" slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
-               :class="labelClassName">
-            {{ node.label }} - Description: {{ node.raw.desc }}
-        </label>
-        <div v-if="registros.hasOwnProperty('data')" class="col-md-9 row">
-            <div class="col-md-6 col--padding-min" v-for="(registro, index) in registros.data" :key="index">
-                <a :href="registro.route" class="card card--margin-min">
-                    <div class="card-header">
-                        <p class="card-title card__title--library">{{ registro.title }}</p>
+    <section>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div
+                    class="pt-4 card card-border-primary"
+                    v-bind:class="[registros.length===0    ?   'col-md-12' : 'col-md-4']"
+                    style="border:3px solid rebeccapurple;">
+                    <div class="card-header" v-if="registros.length>0">
+                        <div class="badge badge-pill badge-black">{{total}} registros</div>
                     </div>
-                    <div class="card-body">
-                        <p class="">{{ registro.id}}</p>
-                        <p class="">{{ registro.abstract.substring(0,128)+'...'}}</p>
+                    <div class="card-body text-success">
+                        <h2 class="card-title">Todos los Registros</h2>
+                        <treeselect
+                            v-model="value"
+                            :multiple="true"
+                            :load-options="getSubjects"
+                            :options="data"
+                            :loading="true"
+                            :showCount="false"
+                            :openOnFocus="true"
+                            :closeOnSelect="false"
+                            placeholder="Haz click para comenzar..."
+                            instanceId="subjects"
+                            @input="changes"
+                            class="tree"
+                        />
+                        <!--        <treeselect v-model="value" :multiple="true" :options="data" :showCount="false" :openOnFocus="true" :alwaysOpen="true" />-->
+                        <label slot="option-label" slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
+                               :class="labelClassName">
+                            {{ node.label }} - Description: {{ node.raw.desc }}
+                        </label>
+                        <p class="card-text" style="color:rebeccapurple">Estos son los registros publicados durante el último mes</p>
                     </div>
-                </a>
+                </div>
+
+                <div v-if="registros.length>0"  v-bind:class="[registros.length===0    ?   'col-md-1' : 'col-md-8']">
+                    <div class="row justify-content-center results">
+                        <div class="card results-card" v-for="(registro, $index) in registros" :key="$index">
+                            <a :href="registro.route">
+                                <registro-results :citation-prop="registro"></registro-results>
+                            </a>
+                        </div>
+                        <button class="btn-load-more" @click="loadMore">Cargar Más</button>
+                    </div>
+
+                </div>
             </div>
         </div>
-        <nav>
-            <ul class="pagination">
-                <li class="page-item" v-show="registros['prev_page_url']">
-                    <a href="#" class="page-link" @click.prevent="getPreviousPage">
-                                <span>
-                                  <span aria-hidden="true">«</span>
-                                </span>
-                    </a>
-                </li>
-                <li class="page-item" :class="{ 'active': (registros['current_page']=== n) }" v-for="(n, index) in registros['last_page']" v-if="index <= 10">
-                    <a href="#" class="page-link" @click.prevent="getPage(n)">
-                                <span >
-                                    {{ n }}
-                                </span>
-                    </a>
-                </li>
-                <li class="page-item" v-show="registros['next_page_url']">
-                    <a href="#" class="page-link" @click.prevent="getNextPage">
-                                <span>
-                                  <span aria-hidden="true">»</span>
-                                </span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-    </div>
+    </section>
 </template>
 
 <script>
@@ -79,7 +68,8 @@ export default {
             registros: [],
             subjects: [],
             treeselectOptions: [],
-            nodes: []
+            nodes: [],
+            total: 0,
         }
     },
     mounted() {
@@ -135,46 +125,48 @@ export default {
                 }
             })
                 .then(response => {
-                    this.registros = response.data;
-                    console.log(this.registros);
+                    this.page = 1
+                    this.total = response.data.total
+                    this.registros.push(...response.data.data);
                 });
         },
-        getPage(page) {
-            this.$http.get('/contactos?page=' + page).then((response) => {
-                this.$set(this.$data, 'contactos', response.data);
-            }, (response) => {
-            });
+        loadMore: function () {
+            this.page++;
+            axios.get('/registroArray', {
+                params: {
+                    ids: this.nodes,
+                    page: this.page
+                }
+            })
+                .then(response => {
+                    this.registros.push(...response.data.data);
+                });
+        },
 
-            axios.get('/registroArray?page=' + page, {
-                params: {
-                    ids: this.nodes
-                }
-            })
-                .then(response => {
-                    this.registros = response.data;
-                });
-        },
-        getPreviousPage() {
-            axios.get(this.registros['prev_page_url'], {
-                params: {
-                    ids: this.nodes
-                }
-            })
-                .then(response => {
-                    this.registros = response.data;
-                });
-        },
-        getNextPage() {
-            axios.get(this.registros['next_page_url'], {
-                params: {
-                    ids: this.nodes
-                }
-            })
-                .then(response => {
-                    this.registros = response.data;
-                });
-        }
     },
 
 }
 </script>
+<style lang="scss">
+.results {
+    padding-left: 15px;
+    &-card{
+        margin:6px;
+        padding:9px;
+    }
+
+}
+.csl-bib-body{
+    font-weight: 500;
+    color:black;
+    &:hover{
+        color: rebeccapurple;
+    }
+}
+.vue-treeselect{
+    &__multi-value-item{
+        background-color: rebeccapurple;
+        color: white;
+    }
+}
+</style>
