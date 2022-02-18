@@ -10,7 +10,7 @@
                         <div class="badge badge-pill badge-black">{{total}} registros</div>
                     </div>
                     <div class="card-body text-success">
-                        <h2 class="card-title">Todos los Registros</h2>
+                        <h2 class="card-title">Búsqueda por el árbol de terminos clave</h2>
                         <treeselect
                             v-model="value"
                             :multiple="true"
