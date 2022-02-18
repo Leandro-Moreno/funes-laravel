@@ -43,15 +43,34 @@ class SubjectController extends Controller
     }
     public function showArray(Request $request)
     {
-        $query = Subject::with('children:id,parent_id')->find($request->input('ids'));
+        $query = Subject::with('children:id,parent_id')
+            ->find($request->input('ids'));
         $ids = new Collection();
         foreach ($query as $item){
             $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
         }
         $ids = $ids->unique();
-        $registros = Registro::select('id','eprintid','title','abstract')->with('subjects:id,name','documents:registro_id,id,thumbnail')->whereHas('subjects', function($query) use ($ids) {
+        $registros = Registro::select(
+            'title',
+            'eprintid',
+            'id',
+            'date_year',
+            'event_location',
+            'publication',
+            'volume',
+            'type',
+            'issn',
+            'isbn',
+            'publisher as editor',
+            'number',
+            'pagerange as page',
+            'created_at',
+            'updated_at'
+        )
+            ->with('subjects:id,name','author')
+            ->whereHas('subjects', function($query) use ($ids) {
             $query->whereIn('parent_id', $ids);
-        })->paginate(60);
+        })->paginate(18);
         return $registros;
     }
     public function subjectIdsRecursiveChildren(Subject $subject)
