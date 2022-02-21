@@ -3,17 +3,24 @@
 @section('content')
     {{ Breadcrumbs::render() }}
     <div class="container">
-        <h2>Registros por año</h2>
+        <h2 style="
+        font-family: 'Dax';
+        font-weight: 500;
+        margin-bottom: 0.75rem;
+        color: rebeccapurple!important"
+        >Registros por año</h2>
         <div class="row justify-content-center">
             @foreach($years as $year)
-            <a href="{{route('year.show', ['year' => isset($year->date_year)?$year->date_year:__("Sin especificar")])}}" class="col-md-3">
-                <div class="card">
+            <a href="{{route('year.show', ['year' => isset($year->date_year)?$year->date_year:__("Sin especificar")])}}" class="col-md-2 col-sm-4">
+                <div class="card" style="margin-top:10px; margin-bottom:10px;">
                     <div class="card-header">
-                        <h2 class="card-title">
+                        <h2 class="card-title" style="
+                        font-family: 'Dax';
+                        font-weight: 500;
+                        margin-bottom: 0.75rem;
+                        color: rebeccapurple!important">
+                            {{isset($year->date_year)?$year->date_year:__("Sin especificar")}}
                         </h2>
-                        <div class="card-description">
-                            <h3 class="card-title">{{isset($year->date_year)?$year->date_year:__("Sin especificar")}}</h3>
-                        </div>
                     </div>
                     <div class="card-body">
                         <div class="row">
