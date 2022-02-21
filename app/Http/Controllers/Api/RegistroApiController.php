@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Registro;
@@ -39,5 +40,38 @@ class RegistroApiController extends Controller
         return response()->json([
             'registro' => $registros
         ]);
+    }
+    public function registroFilters(Request $request)
+    {
+        $query = Subject::with('children:id,parent_id')
+            ->find($request->input('ids'));
+        $ids = new Collection();
+        foreach ($query as $item){
+            $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
+        }
+        $ids = $ids->unique();
+        $registros = Registro::select(
+            'title',
+            'eprintid',
+            'id',
+            'date_year',
+            'event_location',
+            'publication',
+            'volume',
+            'type',
+            'issn',
+            'isbn',
+            'publisher as editor',
+            'number',
+            'pagerange as page',
+            'created_at',
+            'updated_at'
+        )
+            ->with('subjects:id,name','author');
+        $registros
+            ->whereHas('subjects', function($query) use ($ids) {
+                $query->whereIn('parent_id', $ids);
+            })->paginate(18);
+        return $registros;
     }
 }
