@@ -15,6 +15,7 @@ class CreateRegistroUserTable extends Migration
     {
         Schema::create('registro_user', function (Blueprint $table) {
             $table->foreignId('registro_id')->constrained();
+            $table->foreignId('role_id')->references('id')->on('roles');
             $table->foreignId('user_id')->constrained();
             $table->string('commentary')->nullable();
             $table->timestamps();
