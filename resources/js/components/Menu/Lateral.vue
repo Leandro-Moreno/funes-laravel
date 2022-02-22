@@ -1,5 +1,5 @@
 <template>
-    <div class="sidebar--vue" :class="{ 'open': show }" style="
+    <div class="sidebar--vue" :class="{ 'sidebar--vue__mobile': mobile , 'open': show}"  style="
     --bg-color: #ffffff;
     --secondary-color: #dfdfdf;
     --home-section-color:#e4e9f7;
@@ -15,10 +15,10 @@
             <i class="bx icon bxl-c-plus-plus"></i>
             <div class="logo_name">
                 <a style="font-size:54px; color:#84118b;" class="andes-funes logo-andes" href="/"></a>
-<!--                <div class="login">-->
-<!--                    <a class="btn btn-outline-black">Login </a>-->
-<!--                    <a class="btn btn-black">Registro</a>-->
-<!--                </div>-->
+                <div class="login row">
+                    <a href="/login" class="btn btn-sm col btn-outline-primary color-brand">Login </a>
+                    <a href="/register" class="btn btn-sm col btn-primary">Registro</a>
+                </div>
             </div>
             <i id="btn" class="bx bx-menu" v-on:click="toggle"></i>
 
@@ -67,6 +67,7 @@ export default {
     data () {
         return {
             show: true,
+            mobile: false,
             routes: []
         }
     },
@@ -98,6 +99,11 @@ export default {
         this.getRoutesFromApi()
     },
     created() {
+        //add hook t check size of screen
+
+        if(screen.width < 512) {
+            this.mobile = true
+        }
 
     },
     mounted() {
@@ -113,11 +119,30 @@ export default {
 @import url(https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css);
 
 
+
 .menu-logo {
     width: 30px;
     margin: 0 10px 0 10px;
 }
+.login{
+    display: flex;
+    height: 48%;
+    padding-top: 12px;
+    padding-right: 22px;
+    width: 87px;
+    margin-top: 0;
+    a{
+        margin: 0;
+        padding: 0;
+        .btn.btn-sm.col.btn-outline-primary{
+            color:rebeccapurple!important;
+        }
+    }
 
+}
+.color-brand{
+    color:rebeccapurple!important;
+}
 .sidebar--vue {
     position: fixed;
     left: 0;
@@ -132,11 +157,20 @@ export default {
     z-index: 99;
     transition: all .5s ease;
     box-shadow: 0 4px 18px 0px rgb(0 0 0 / 12%), 0 7px 10px -5px rgb(0 0 0 / 15%);
+    &__mobile {
+        height: 75px;
+        &.open{
+            height: 100%;
+        }
+    }
 
     &.open {
         width: 250px;
         &.links_name {
             display: none!important;
+        }
+        .sidebar--vue__mobile{
+            height: 100%;
         }
     }
 
@@ -164,6 +198,7 @@ export default {
             top: 0;
             left: 0;
             box-shadow: 0 4px 18px 0px rgb(0 0 0 / 12%), 0 7px 10px -5px rgb(0 0 0 / 15%);
+            display:flex;
         }
     }
 
@@ -430,9 +465,18 @@ export default {
 }
 
 @media (max-width: 420px) {
-    .sidebar--vue li .tooltip {
-        display: none;
+    .sidebar--vue{
+        li .tooltip{
+            display: none;
+        }
+        .ps{
+            display: none;
+        }
+        &.open .ps{
+            display: block;
+        }
     }
+
 }
 
 </style>
