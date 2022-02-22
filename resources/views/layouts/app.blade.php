@@ -25,12 +25,7 @@
 </head>
 <body class="{{ $class ?? '' }}">
 <div id="library">
-    @auth()
-        @include('layouts.page_templates.auth')
-    @endauth
-    @guest()
         @include('layouts.page_templates.guest')
-    @endguest
 </div>
 
 <!--   Core JS Files   -->
