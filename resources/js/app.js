@@ -44,6 +44,8 @@ Vue.component('registro-type-book', () => import('./components/Registro/Type/Boo
 Vue.component('registro-results', () => import('./components/Registro/Results.vue'));
 Vue.component('registro-latest', () => import('./components/Registro/Latest.vue'));
 Vue.component('registro-main', () => import('./components/Registro/registroMain.vue'));
+Vue.component('registro-year', () => import('./components/Registro/Year.vue'));
+Vue.component('menu-lateral', () => import('./components/Menu/Lateral.vue'));
 
 
 Vue.component('registro-core-details', () => import('./components/Registro/Components/DetailsCore.vue'));
