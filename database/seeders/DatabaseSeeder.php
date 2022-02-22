@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             AuthorSeeder::class,
             AutorInstitucionalSeeder::class,
             SubjectSeeder::class,
-            EstadoSeeder::class
+            EstadoSeeder::class,
+            RoutesSeeder::class,
         ]);
     }
 }
