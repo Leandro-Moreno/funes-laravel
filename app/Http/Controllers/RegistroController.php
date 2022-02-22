@@ -16,6 +16,7 @@ use App\Models\RegistroTipoCampos;
 use App\Services\ImagickService;
 use App\Services\ImportService;
 use App\Services\ImportSubjectService;
+use Butschster\Head\Facades\Meta;
 use Carbon\Carbon;
 use Database\Seeders\RegistroSeeder;
 use Illuminate\Http\File;
@@ -169,6 +170,8 @@ class RegistroController extends Controller
             $document->url = URL::to(Storage::url($document->url));
             $document->thumbnail = URL::to(Storage::url($document->thumbnail));
         }
+        Meta::setCanonical($registro->route);
+        Meta::setDescription($registro->abstract);
         return view('registros.show', ['registro' => $registro]);
     }
 
