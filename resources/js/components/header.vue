@@ -136,16 +136,7 @@ export default {
                 360deg, rgba(247, 247, 247, 1), rgba(247, 247, 247, 0) 90%, rgba(247, 247, 247, 1) 100%);*/
     }
 }
-.wrapper-full-page{
-    width: 100vw;
-}
 
-body {
-    max-width: 1920px;
-    min-height: 100vh;
-    display: grid;
-    place-items: center;
-}
 
 .orb-canvas {
     position: absolute;
