@@ -37,6 +37,7 @@ class RegistroRequest extends FormRequest
             'registro.issn' => 'nullable|string',
             'registro.isbn' => 'nullable|string',
             'registro.pagerange' => 'nullable|string',
+            'registro.subjects' => 'nullable|array',
         ];
     }
     /**
