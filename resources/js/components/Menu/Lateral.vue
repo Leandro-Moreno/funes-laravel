@@ -15,7 +15,7 @@
             <i class="bx icon bxl-c-plus-plus"></i>
             <div class="logo_name">
                 <a style="font-size:54px; color:#84118b;" class="andes-funes logo-andes" href="/"></a>
-                <div class="login row">
+                <div class="login row" v-if="!logged">
                     <a href="/login" class="btn btn-sm col btn-outline-primary color-brand">Login </a>
                     <a href="/register" class="btn btn-sm col btn-primary">Registro</a>
                 </div>
@@ -64,6 +64,12 @@
 <script>
 export default {
     name: 'menu-lateral',
+    props: {
+        logged: {
+            type: Boolean,
+            default: false
+        },
+    },
     data () {
         return {
             show: true,
@@ -87,7 +93,6 @@ export default {
             await axios.get('/api/routes')
                 .then(response => {
                     this.routes = response.data.routes
-                    console.log(this.routes)
                 })
                 .catch(error => {
                     console.log(error)
@@ -95,7 +100,6 @@ export default {
         }
     },
     beforeMount() {
-        console.log('beforeMount')
         this.getRoutesFromApi()
     },
     created() {
