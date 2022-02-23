@@ -67,6 +67,7 @@ Vue.component('registro-components-pages', () => import('./components/Registro/C
 Vue.component('registro-components-series', () => import('./components/Registro/Components/Series.vue'));
 Vue.component('registro-components-thesis-type', () => import('./components/Registro/Components/ThesisType.vue'));
 Vue.component('registro-components-authors', () => import('./components/Registro/Components/Authors.vue'));
+Vue.component('registro-tree', () => import('./components/Tree/TreeRegistro.vue'));
 
 Vue.component('cargar-archivo', () => import('./components/cargarArchivo.vue'));
 Vue.component('pdf-viewer', () => import('./components/pdfViewer.vue'));
