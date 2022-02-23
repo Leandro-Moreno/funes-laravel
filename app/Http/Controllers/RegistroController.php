@@ -122,6 +122,7 @@ class RegistroController extends Controller
      */
     public function store(RegistroRequest $request)
     {
+//        return response()->json(['request' => $request->validated()]);
         $registroInput = $request->validated();
         $registroInput = $registroInput['registro'];
         if (is_null($registroInput['eprintid'])) {
@@ -129,12 +130,32 @@ class RegistroController extends Controller
         }
         $registroInput['user_deposito_id'] = Auth::id();
         $registroInput['user_edicion_id'] = Auth::id();
+        $subjects = $registroInput['subjects'];
+        unset($registroInput['subjects']);
         $registro = new Registro;
-        $registro = $registro->firstOrCreate($registroInput);
+        $registro = $registro->updateOrCreate($registroInput);
+//        $registro->save();
         $authors = $request['registro']['authors'];
-        $this->storeAuthorRegister($authors, $registro);
-//        $autores_institucionales = $todo['autoresInstitucionales'];
-        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro]);
+        $this->storeAuthorRegister($authors, $registro);//        $autores_institucionales = $todo['autoresInstitucionales'];
+        $this->storeSubjectRegister($subjects, $registro);
+        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'route' => route('registro.edit', $registro->eprintid)]);
+    }
+    // public function storeSubjectRegister(array $subjects, Registro $registro) must search the subjects trough eloquent  and attach with registro
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function storeSubjectRegister(array $subjects, Registro $registro)
+    {
+        foreach ($subjects as $subject) {
+            if($registro->subjects->contains($subject)){
+                break;
+            }
+            $subject = Subject::firstOrCreate(['id' => $subject]);
+            $registro->subjects()->attach($subject);
+        }
     }
 
     public function storeAuthorRegister(array $authors, Registro $registro)
