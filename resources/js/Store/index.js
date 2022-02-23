@@ -7,7 +7,7 @@ Vue.use(Vuex);
 export const store = new Vuex.Store({
     state: {
         currentRegistro: {
-            id: 'prueba',
+            id: '',
             eprintid: '',
             eprint_status: 'inbox',
             title: '',
@@ -20,6 +20,7 @@ export const store = new Vuex.Store({
             isbn: '',
             pagerange: '',
             type: '',
+            subjects: [],
             authors: [{
                 given: "",
                 family: "",
@@ -45,6 +46,9 @@ export const store = new Vuex.Store({
             console.log(this.currentRegistro);
             console.log(registro);
             state.currentRegistro = registro;
+        },
+        SET_SUBJECTS(state, subjects) {
+            state.currentRegistro.subjects = subjects;
         },
         SET_TITLE(state, title) {
             state.currentRegistro.title = title;
@@ -137,6 +141,9 @@ export const store = new Vuex.Store({
         },
     },
     actions: {
+        setSubjects({commit}, subjects) {
+            commit('SET_SUBJECTS', subjects);
+        },
         setAuthors({commit}, authors){
             commit("SET_AUTHORS",authors);
         },
@@ -225,6 +232,7 @@ export const store = new Vuex.Store({
         },
     },
     getters: {
+        getSubjects: state => state.currentRegistro.subjects,
         getRegistro(state) {
             return state.currentRegistro;
         },
