@@ -5,7 +5,7 @@
                 <div class="card card--border">
                     <div class="card-body card--padding-0">
 <!--                         :start-index="4"-->
-                        <form-wizard ref="wizard" action="#" @on-complete="postRegistro"
+                        <form-wizard :start-index="3" ref="wizard" action="#" @on-complete="postRegistro"
                                      :title="wizardTitle" :subtitle="wizardSub"
                                      :backButtonText="wizardbackButtonText" :finishButtonText="wizardfinishButtonText"
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
@@ -31,7 +31,7 @@
 
                             </tab-content>
                             <tab-content title="Términos clave">
-                                Yuhuuu! This seems pretty damn simple
+                                <registro-tree ref="subjects"></registro-tree>
                             </tab-content>
                             <tab-content title="Depositar">
                                 <p>Como editor de este elemento, puede moverlo al estado "en revisión" sin tener que
@@ -145,6 +145,7 @@ export default {
                 .then((response) => {
                     this.$store.dispatch('setIds', response.data.registro);
                     this.makeToast('success', 'Eprintid'+ response.data.registro.eprintid, response.data.registro.route);
+                    window.location.href = response.data.route;
                 })
                 .catch(function (error) {
                     console.log(error);
