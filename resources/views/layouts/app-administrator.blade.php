@@ -25,8 +25,7 @@
 </head>
 <body class="{{ $class ?? '' }}">
 <div id="library">
-    @include('layouts.navbars.navs.auth')
-    @include('layouts.navbars.sidebar')
+    @include('layouts.navbars.navs.guest')
     <div class="wrapper wrapper-full-page">
         <div class="page--min-size" style=" background-size: cover; background-position: top center;align-items: center;">
             @yield('content')
