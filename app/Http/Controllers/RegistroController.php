@@ -7,6 +7,7 @@ use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\RegistroRequest;
 use App\Jobs\importFolder;
 use App\Models\Author;
+use App\Models\AuthorInstitutional;
 use App\Models\Document;
 use App\Models\Folder;
 use App\Models\Registro;
@@ -140,6 +141,7 @@ class RegistroController extends Controller
         $this->storeSubjectRegister($subjects, $registro);
         return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'route' => route('registro.edit', $registro->eprintid)]);
     }
+
     // public function storeSubjectRegister(array $subjects, Registro $registro) must search the subjects trough eloquent  and attach with registro
     /**
      * Store a newly created resource in storage.
@@ -158,6 +160,29 @@ class RegistroController extends Controller
         }
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function storeAuthorInstitucionalRegister(array $autores_institucionales, Registro $registro){
+
+        foreach ($autores_institucionales as $author) {
+            if (!is_null($author['nombre'])) {
+                if (!is_null($author['id'] )) {
+                    $authorTemp = AuthorInstitutional::find($author['id']);
+                }
+                else{
+                    $authorTemp = new AuthorInstitutional([
+                        'nombre' => $author['nombre'],
+                    ]);
+                    $authorTemp->save();
+                }
+                $registro->institutionalAuthors()->attach($authorTemp);
+            }
+        }
+    }
     public function storeAuthorRegister(array $authors, Registro $registro)
     {
         foreach ($authors as $author) {
@@ -411,5 +436,11 @@ class RegistroController extends Controller
     public function indexAdministrator()
     {
         return view('admin.registro.index');
+    }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        isset($query) ? $query : "";
+        return view('search.simple', ['query' => $query]);
     }
 }
