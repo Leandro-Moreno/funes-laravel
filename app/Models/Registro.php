@@ -5,11 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Laravel\Scout\Searchable;
+use Spatie\Searchable\Searchable;
+use Spatie\Searchable\SearchResult;
 
-class Registro extends Model
+class Registro extends Model implements Searchable
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     /**
      * The name of the "status_changed" column.
@@ -63,6 +64,15 @@ class Registro extends Model
     {
         return $this->eprint_status=="inbox"?true:false;
     }
+    public function getSearchResult(): SearchResult
+    {
+     return new SearchResult(
+         $this,
+         $this->title,
+         $this->route
+     );
+    }
+
     public function documents()
     {
         return $this->hasMany(Document::class,'registro_id', 'id');
@@ -86,6 +96,10 @@ class Registro extends Model
     public function authors()
     {
         return $this->belongsToMany(Author::class)->select(array('given', 'family', 'email'));
+    }
+    public function institutionalAuthors()
+    {
+        return $this->belongsToMany(AuthorInstitutional::class);
     }
     public function author(){
         return $this->authors();
