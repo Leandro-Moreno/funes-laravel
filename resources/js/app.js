@@ -78,6 +78,8 @@ Vue.component('registro-title', () => import('./components/registro/registroTitl
 Vue.component('header-animated', () => import('./components/header.vue'));
 Vue.component('tree-subject', () => import('./components/Tree/tree.vue'));
 Vue.component('registro-administrator-index', () => import('./components/Registro/Administrator/index.vue'));
+
+Vue.component('search-simple', () => import('./components/Search/simple.vue'));
 // Vue.component('header-animated', require('./components/header.vue').default);
 
 
