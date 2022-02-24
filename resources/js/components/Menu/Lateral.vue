@@ -7,7 +7,7 @@
     --icons-color: #363636;
     --items-tooltip-color:#e4e9f7;
     --serach-input-text-color:#5450a9;
-    --menu-items-hover-color:#c406b8;
+    --menu-items-hover-color:#f06a6a;
     --menu-items-text-color: #5450a9;
     --menu-footer-text-color:#fff;">
         <div class="logo-details">
@@ -27,7 +27,7 @@
             <ul class="nav-list">
                 <li>
                     <i class="bx bx-search" v-on:click="toggleTrue"></i>
-                    <input type="text" placeholder="Search..." ref="search">
+                    <input type="text" placeholder="Search..." ref="search" v-on:keyup.enter="clickSearch" v-model="querySearch">
                     <span class="tooltip">Search</span>
                 </li>
                 <span>
@@ -74,7 +74,8 @@ export default {
         return {
             show: true,
             mobile: false,
-            routes: []
+            routes: [],
+            querySearch: '',
         }
     },
     methods: {
@@ -97,6 +98,11 @@ export default {
                 .catch(error => {
                     console.log(error)
                 })
+        },
+        clickSearch() {
+            //redirect to serach page with querySearch param using vanilla js
+            window.location.href = '/search?query=' + this.querySearch
+
         }
     },
     beforeMount() {
@@ -307,6 +313,15 @@ export default {
         font-size: 22px;
         background: var(--secondary-color);
         color: var(--icons-color);
+        &:focus{
+            background-color: red;
+            input{
+                background-color: red;
+                &:focus{
+                    background-color: red;
+                }
+            }
+        }
     }
 
     &.open .bx-search:hover {
