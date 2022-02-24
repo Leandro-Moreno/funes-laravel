@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Registro;
 use App\Models\User;
+use Spatie\Searchable\Search;
 
 class RegistroApiController extends Controller
 {
@@ -73,5 +74,45 @@ class RegistroApiController extends Controller
                 $query->whereIn('parent_id', $ids);
             })->paginate(18);
         return $registros;
+    }
+    public function showArray(Request $request)
+    {
+        $ids = new Collection();
+        $query = Subject::with('children:id,parent_id')
+            ->find($request->input('ids'));
+        foreach ($query as $item){
+            $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
+        }
+        $ids = $ids->unique();
+        $registros = Registro::select(
+            'title',
+            'eprintid',
+            'id',
+            'date_year',
+            'event_location',
+            'publication',
+            'volume',
+            'type',
+            'issn',
+            'isbn',
+            'publisher as editor',
+            'number',
+            'pagerange as page',
+            'created_at',
+            'updated_at'
+        )
+            ->with('subjects:id,name','author')
+            ->whereHas('subjects', function($query) use ($ids) {
+                $query->whereIn('parent_id', $ids);
+            })->paginate(18);
+        return $registros;
+    }
+    public function simpleSearch(Request $request){
+        $searchResult = (new Search())->registerModel(Registro::class, 'title')
+            ->perform($request->input('query'));
+
+        return response()->json([
+            'registro' => $searchResult
+        ]);
     }
 }
