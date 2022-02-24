@@ -16,6 +16,7 @@ Route::get('/search/registro', [RegistroApiController::class, 'search'])->name('
 Route::get('/count', [CountApiController::class, 'registros'])->name('api.count.registro');
 Route::get('/latest', [RegistroApiController::class, 'latest'])->name('api.registro.latest');
 Route::get('/routes', [RoutesController::class, 'show'])->name('api.routes.show');
+Route::get('/search-simple', [RegistroApiController::class, 'simpleSearch'])->name('api.search.simple');
 
 //Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
 //Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');
