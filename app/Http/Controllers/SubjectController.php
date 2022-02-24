@@ -43,9 +43,9 @@ class SubjectController extends Controller
     }
     public function showArray(Request $request)
     {
+        $ids = new Collection();
         $query = Subject::with('children:id,parent_id')
             ->find($request->input('ids'));
-        $ids = new Collection();
         foreach ($query as $item){
             $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
         }
