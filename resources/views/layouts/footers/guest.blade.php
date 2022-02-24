@@ -48,9 +48,7 @@
     <div class="footer__institution">
         <div class="col-md-6 footer__brand">
             <figure>
-                <img typeof="foaf:Image" class="img-responsive footer__logo"
-                     src="{{ asset('material/img/logoFunes.png') }}"
-                     alt="Uniandes" title="Uniandes" />
+                <a href="/" class="andes-funes logo-andes" style="font-size: 120px; color: white;"></a>
                 <figcaption></figcaption>
             </figure>
         </div>
