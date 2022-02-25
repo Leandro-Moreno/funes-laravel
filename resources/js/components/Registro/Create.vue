@@ -5,7 +5,7 @@
                 <div class="card card--border">
                     <div class="card-body card--padding-0">
 <!--                         :start-index="4"-->
-                        <form-wizard :start-index="3" ref="wizard" action="#" @on-complete="postRegistro"
+                        <form-wizard :start-index="1" ref="wizard" action="#" @on-complete="postRegistro"
                                      :title="wizardTitle" :subtitle="wizardSub"
                                      :backButtonText="wizardbackButtonText" :finishButtonText="wizardfinishButtonText"
                                      :nextButtonText="wizardnextButtonText" :stepSize="stepSize" transition="slide-fade"
@@ -165,6 +165,12 @@ export default {
                 autoHideDelay: '50000',
             })
         },
+        updateUrlToEprintid(EpId) {
+            let url = window.location.href;
+            url = url.replace('create',EpId+'/edit');
+            history.pushState(null, '', url);
+            window.location.reload();
+        }
     },
     watch: {
         $props: {
@@ -174,6 +180,10 @@ export default {
             deep: true,
             immediate: true,
         },
+        'registro.eprintid': function(newVal, oldVal){
+            console.log(oldVal,newVal)
+            this.updateUrlToEprintid(newVal)
+        }
     },
 }
 </script>
