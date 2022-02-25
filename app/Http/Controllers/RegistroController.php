@@ -326,12 +326,18 @@ class RegistroController extends Controller
                 'filename' => $imageName,
                 'filesize' => $file->getSize(),
                 'hash' => sha1_file(Storage::path($filePath . "/" . $imageName)),
-                'url' => $filePath . '/' . $imageName
+                'url' => $filePath . '/' . $imageName,
+                'docid' => $this->getNextDocumentid()
             ]);
             $document->save();
             return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
         }
         return response()->json(['error' => "Tipo de archivo incompatible"]);
+    }
+    public function getNextDocumentid()
+    {
+        $document = Document::select('docid')->whereNotNull('docid')->latest('id')->first();
+        return (int)$document->docid + 1;
     }
 
     public function getNextEprintid()
