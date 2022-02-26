@@ -321,7 +321,7 @@ class RegistroController extends Controller
                 'eprintid' => $registro->eprintid,
                 'pos' => 1,
                 'security' => 'public',
-                'license' => 'cc_bync_nd',
+                'license' => 'cc_by_nc_nd',
                 'main' => $imageName,
                 'filename' => $imageName,
                 'filesize' => $file->getSize(),
