@@ -9,6 +9,7 @@ class Subject extends Model
 {
     use HasFactory;
     protected $fillable = ['name', 'result', 'depositable','showable','parent_id'];
+    protected $appends = ['route'];
     public function scopeChildless($q)
     {
         $q->has('child', '=', 0);
@@ -38,6 +39,10 @@ class Subject extends Model
 //    }
     public function recursive_tree(){
         return $this->children()->with('recursive_tree');
+    }
+    public function getRouteAttribute()
+    {
+        return route('subject.show', $this);
     }
 
 }
