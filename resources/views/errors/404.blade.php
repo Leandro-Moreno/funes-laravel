@@ -90,34 +90,29 @@
 
     </svg>
     <div class="child">
-        <h2>404 No encontrado</h2>
-        <span>¿Estás Perdido? En esta ruta no hay nada</span>
+        <h2 class="lost--title">404 No encontrado</h2>
+        <span class="lost">¿Estás Perdido? En esta ruta no hay nada</span>
     </div>
 @endsection
 @push('404')
     <style>
-        html {
-            width: 100%;
-            height: 100%;
-            box-sizing: border-box;
-            background: #000;
-        }
+        /*html {*/
+        /*    width: 100%;*/
+        /*    height: 100%;*/
+        /*    box-sizing: border-box;*/
+        /*    background: #000;*/
+        /*}*/
 
-        *,
-        *:before,
-        *:after {
-            box-sizing: inherit;
-        }
+        /**,*/
+        /**:before,*/
+        /**:after {*/
+        /*    box-sizing: inherit;*/
+        /*}*/
 
         body {
-            width: 100%;
-            height: 100%;
-            font: 100px/100px "Helvetica Neue";
-            font-weight: 900;
-            color: rgba(255, 255, 255, 1);
-            -webkit-font-smoothing: antialiased;
-            font-smoothing: antialiased;
-            overflow: hidden;
+            /*width: 100%;*/
+            /*height: 100%;*/
+
         }
 
         .child {
@@ -126,6 +121,21 @@
             left: 50%;
             transform: translate(-50%, -50%);
             letter-spacing: -5px;
+            color: rgba(255, 255, 255, 1);
+            -webkit-font-smoothing: antialiased;
+            font-smoothing: antialiased;
+            /*overflow: hidden;*/
+            font-family: "Dax";
+        }
+        .lost{
+            font-family: "Helvetica Neue";
+            font: 10vh/10vh "Helvetica Neue";
+            font-weight: 900;
+        }
+        .lost--title{
+            font-family: "Dax";
+            font-weight: 600;
+            letter-spacing: 0px;
         }
         svg {
             width:100%;
