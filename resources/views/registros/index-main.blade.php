@@ -2,5 +2,5 @@
 
 @section('content')
     {{ Breadcrumbs::render() }}
-    <tree-subject></tree-subject>
+    <tree-subject :ids=@json($ids)></tree-subject>
 @endsection

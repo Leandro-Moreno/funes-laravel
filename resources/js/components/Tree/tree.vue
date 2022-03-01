@@ -14,7 +14,6 @@
                         <treeselect
                             v-model="value"
                             :multiple="true"
-                            :load-options="getSubjects"
                             :options="data"
                             :loading="true"
                             :showCount="false"
@@ -24,6 +23,7 @@
                             instanceId="subjects"
                             @input="changes"
                             class="tree"
+                            ref="vueTree"
                         />
                         <!--        <treeselect v-model="value" :multiple="true" :options="data" :showCount="false" :openOnFocus="true" :alwaysOpen="true" />-->
                         <label slot="option-label" slot-scope="{ node, shouldShowCount, count, labelClassName, countClassName }"
@@ -36,7 +36,13 @@
 
                 <div v-if="registros.length>0"  v-bind:class="[registros.length===0    ?   'col-md-1' : 'col-md-8']">
                     <div class="row justify-content-center results">
+                        <div class="btn btn-outline" v-on:click="toggleSubjects">toggle show subjects</div>
                         <div class="card results-card" v-for="(registro, $index) in registros" :key="$index">
+                            <div class="card-header" style="padding:1px" v-if="showSubjects">
+                                <a v-for="subject in registro.subjects" :href="subject.route">
+                                    <div class="badge badge-pill badge-black">{{subject.result}}</div>
+                                </a>
+                            </div>
                             <a :href="registro.route">
                                 <registro-results :citation-prop="registro"></registro-results>
                             </a>
@@ -59,7 +65,8 @@ import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 export default {
     name: "tree-subject",
     props: [
-        'dataChildren'
+        'dataChildren',
+        'ids',
     ],
     data() {
         return {
@@ -70,12 +77,28 @@ export default {
             treeselectOptions: [],
             nodes: [],
             total: 0,
+            showSubjects: true,
+            options: []
         }
     },
-    mounted() {
+    beforeMount() {
         this.getSubjects();
     },
+    mounted() {
+        // this.value = this.ids;
+        this.$nextTick(() => {
+            this.value = this.ids;
+        })
+    },
     created() {
+        // this.options = this.ids.map( v=> {
+        //     return { id:v};
+        // });
+        // console.log(this.$refs);
+        // console.log(this.$refs['vueTree']);
+        // this.$refs.vueTree.forest.nodeMap[this.default_label_id].label = this.ids;
+        // this.$refs.vueTree.forest.selectedNodeIds = this.ids;
+        console.log(this.$refs);
         if (this.subjects.length > 0) {
             this.value.push(this.subject.id);
             this.data = this.subject.children;
@@ -83,12 +106,14 @@ export default {
         if (this.data.length > 0) {
             this.SearchRegistros(this.value);
         }
-
+    },
+    afterCreate() {
+        this.$refs.vueTree.forest.selectedNodeIds = this.ids;
     },
     computed: {},
     components: {Treeselect},
     methods: {
-        async getSubjects({callback}) {
+        async getSubjects() {
             await axios.get('/subjectindex')
                 .then(response => {
                     this.data = [];
@@ -96,16 +121,18 @@ export default {
                     tempData[0].children.forEach((arrayData) => {
                         this.data.push(arrayData);
                     });
-                    callback();
                 });
         },
 
         changes: function (node, instanceId) {
+            this.value = [];
             if (node.length > 0) {
+                this.value.push(...node);
                 this.SearchRegistros(node);
             } else {
                 this.registros = [];
             }
+            this.updateRoute();
         },
         loadRegistrosInSubject: function (subject) {
             subject.children.forEach((subjectChildren) => {
@@ -142,6 +169,23 @@ export default {
                     this.registros.push(...response.data.data);
                 });
         },
+        updateRoute: function () {
+            let url = new URL(window.location.origin + window.location.pathname);
+            console.log(window.location);
+            console.log(window.location.href);
+            console.log(url);
+            console.log(this.nodes);
+            if(this.nodes.length > 0){
+                this.nodes.forEach((node) => {
+                    url.searchParams.append('ids[]', node);
+                });
+            }
+            history.pushState(null, '', url);
+            console.log(url);
+        },
+        toggleSubjects: function () {
+            this.showSubjects = !this.showSubjects;
+        }
 
     },
 
