@@ -46,8 +46,10 @@ class SubjectController extends Controller
         $ids = new Collection();
         $query = Subject::with('children:id,parent_id')
             ->find($request->input('ids'));
+
         foreach ($query as $item){
             $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
+
         }
         $ids = $ids->unique();
         $registros = Registro::select(
@@ -67,15 +69,16 @@ class SubjectController extends Controller
             'created_at',
             'updated_at'
         )
-            ->with('subjects:id,name','author')
+            ->with('subjects:id,name,result','author')
             ->whereHas('subjects', function($query) use ($ids) {
-            $query->whereIn('parent_id', $ids);
+            $query->whereIn('id', $ids);
         })->paginate(18);
         return $registros;
     }
     public function subjectIdsRecursiveChildren(Subject $subject)
     {
         $ids = new Collection();
+        $ids->push($subject->id);
         if($subject->children->count()>0)
         {
             foreach( $subject->children as $children){
