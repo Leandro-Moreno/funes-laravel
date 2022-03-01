@@ -5,12 +5,12 @@ use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Api\CountApiController;
 use App\Http\Controllers\RegistroController;
-use App\Http\Controllers\AutorInstitucionalController;
+use App\Http\Controllers\AuthorInstitutionalController;
 use App\Http\Controllers\Api\RegistroApiController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/user', [AuthorController::class, 'index']);
-Route::get('/buscar-autor-institucional', [AutorInstitucionalController::class, 'index']);
+Route::get('/buscar-autor-institucional', [AuthorInstitutionalController::class, 'index']);
 Route::get('/subject/{subject}', [SubjectController::class, 'showApi'])->name('api.subject.show');
 Route::get('/search/registro', [RegistroApiController::class, 'search'])->name('api.search.registro');
 Route::get('/count', [CountApiController::class, 'registros'])->name('api.count.registro');

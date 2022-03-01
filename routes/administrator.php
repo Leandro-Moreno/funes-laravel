@@ -21,7 +21,7 @@ use App\Http\Controllers\UserController;
 |
 */
 Route::group(['prefix' => 'administrator'], function () {
-    Route::group(['middleware' => 'auth'], function () {
+    Route::group(['middleware' => ['auth','verified']], function () {
         Route::get('/transform', [RegistroController::class, 'convertDivisionsIntoSubjects']);
         Route::get('/', [AdminController::class, 'index'])->name('admin.index');
         Route::get('personal', [AdminController::class, 'personal'])->name('registro.personal');

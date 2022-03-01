@@ -41,7 +41,7 @@ class RegistroController extends Controller
     public function __construct()
     {
         $this->authorizeResource(Registro::class, 'registro');
-        $this->middleware('auth')->except(['index', 'show', 'year', 'yearShow', 'latest', 'editorial', 'publication', 'search']);
+        $this->middleware(['auth','verified'])->except(['index', 'show', 'year', 'yearShow', 'latest', 'editorial', 'publication', 'search']);
     }
 
     /**

@@ -40,4 +40,9 @@ class LoginController extends Controller
     public function username(){
         return 'username';
     }
+    public function login(Request $request)
+    {
+        dd($request);
+    }
+
 }
