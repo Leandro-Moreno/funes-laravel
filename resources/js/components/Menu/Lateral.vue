@@ -48,16 +48,18 @@
                 <div class="ps__thumb-y" tabindex="0" style="top: 0px; height: 0px;"></div>
             </div>
         </div>
-        <div class="profile">
-<!--            <div class="profile-details">-->
-<!--                <img src="/vue-sidebar-menu-akahon/img/photo.4e4bdfc3.jpg" alt="profileImg">-->
-<!--                <div class="name_job">-->
-<!--                    <div class="name"> Fayzullo Saidakbarov </div>-->
-<!--                    <div class="job"> Frontend vue developer </div>-->
-<!--                </div>-->
-<!--            </div>-->
-            <i id="log_out" class="bx bx-log-out"></i>
-        </div>
+        <a class="" href="/logout" v-if="auth">
+            <div class="profile">
+                <i id="log_out" class="bx bx-log-out"></i>
+            </div>
+            <!--            <div class="profile-details">-->
+            <!--                <img src="/vue-sidebar-menu-akahon/img/photo.4e4bdfc3.jpg" alt="profileImg">-->
+            <!--                <div class="name_job">-->
+            <!--                    <div class="name"> Fayzullo Saidakbarov </div>-->
+            <!--                    <div class="job"> Frontend vue developer </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+        </a>
     </div>
 
 </template>
@@ -76,6 +78,7 @@ export default {
             mobile: false,
             routes: [],
             querySearch: '',
+            auth: false,
         }
     },
     methods: {
@@ -94,6 +97,7 @@ export default {
             await axios.get('/api/routes')
                 .then(response => {
                     this.routes = response.data.routes
+                    this.auth = response.data.auth
                 })
                 .catch(error => {
                     console.log(error)
@@ -384,11 +388,11 @@ export default {
 
     div.profile {
         position: fixed;
-        height: 60px;
-        width: 78px;
+        height: 30px;
+        width: 60px;
         left: 0;
         bottom: 0;
-        padding: 10px 14px;
+        padding: 15px 14px;
         background: var(--secondary-color);
         transition: all .5s ease;
         overflow: hidden;
