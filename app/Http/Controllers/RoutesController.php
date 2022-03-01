@@ -54,7 +54,8 @@ class RoutesController extends Controller
         }
         $routes = Routes::where('role_id', '>=', $role_tmp)->get();
         return response()->json([
-            'routes' => $routes
+            'routes' => $routes,
+            'auth' => Auth::check()
         ]);
     }
 
