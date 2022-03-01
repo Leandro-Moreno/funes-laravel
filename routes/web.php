@@ -89,3 +89,5 @@ Route::get('/{registro}', function ($registro) {
 })->where('registro', '[0-9]+')->name('registroid');
 Route::get('/search', [RegistroController::class, 'search'])->name('search');
 Route::get('/logout', '\App\Http\Controllers\Auth\LoginController@logout');
+//create route from REgistroController to convertDivisionsIntoSubjects
+
