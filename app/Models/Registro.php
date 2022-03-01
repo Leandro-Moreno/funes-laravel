@@ -83,7 +83,7 @@ class Registro extends Model implements Searchable
     }
     public function divisions()
     {
-        return $this->belongsToMany(Division::class);
+        return $this->belongsToMany(Division::class)->withTimestamps();
     }
     public function users()
     {
