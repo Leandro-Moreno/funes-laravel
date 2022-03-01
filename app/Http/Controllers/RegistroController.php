@@ -80,9 +80,17 @@ class RegistroController extends Controller
      *
      * @return Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('registros.index-main', ['title' => 'Todos los registros']);
+        //dd input request
+//        dd(request()->all());
+//        dd($request->input('ids'));
+        $req = $request->input('ids');
+//        dd($req['ids']);
+        return view('registros.index-main', [
+            'title' => 'Todos los registros',
+            'ids' => $req,
+        ]);
         // return csrf_token();
     }
 
@@ -344,6 +352,19 @@ class RegistroController extends Controller
     {
         $id = Registro::select('eprintid')->latest('eprintid')->first();
         return (int)$id->eprintid + 1;
+    }
+
+    public function convertDivisionsIntoSubjects() {
+        $registros = Registro::with('divisions')->get();
+        //$registros foreach and get the divisions element. Get each division and transform into a subject
+        foreach ($registros as $registro) {
+            foreach ($registro->divisions as $division) {
+                $subject = Subject::where('name', $division->name)->first();
+                $registro->subjects()->attach($subject);
+                $registro->divisions()->detach($division);
+            }
+        }
+        dd($registros);
     }
 
 
