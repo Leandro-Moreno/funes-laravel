@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Registro;
 use App\Models\Subject;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -88,12 +89,28 @@ class SubjectController extends Controller
         }
         return $ids;
     }
+    public function removeChildreKeyIfEmpty($subjects)
+    {
+       if($subjects->children->count()>0)
+       {
+           foreach( $subjects->children as $children){
+               $this->removeChildreKeyIfEmpty($children);
+           }
+       }
+       else{
+           unset($subjects->children);
+       }
+       return $subjects;
+    }
     public function indexApi()
     {
-        return cache()->remember('subjectRegistros', 1, function () {
-            return Subject::where('id',1)->with('children')->get();
+        return cache()->remember('subjectRegistros', 10000, function () {
+            $subjects =  Subject::where('id',1)->with('children')->get();
+
+            return [$this->removeChildreKeyIfEmpty($subjects[0])];
         });
     }
+
     /**
      * Display the specified resource.
      *
