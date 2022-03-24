@@ -76,19 +76,7 @@ class SubjectController extends Controller
         })->paginate(18);
         return $registros;
     }
-    public function subjectIdsRecursiveChildren(Subject $subject)
-    {
-        $ids = new Collection();
-        $ids->push($subject->id);
-        if($subject->children->count()>0)
-        {
-            foreach( $subject->children as $children){
-                $ids->push($children->id);
-                $ids = $ids->merge($this->subjectIdsRecursiveChildren($children));
-            }
-        }
-        return $ids;
-    }
+
     public function removeChildreKeyIfEmpty($subjects)
     {
        if($subjects->children->count()>0)
