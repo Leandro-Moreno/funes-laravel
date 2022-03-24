@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk=self.webpackChunk||[]).push([[236],{236:(e,t,n)=>{n.r(t),n.d(t,{default:()=>s});const r={name:"registro-year",data:function(){return{}}};const s=(0,n(1900).Z)(r,(function(){var e=this.$createElement;return(this._self._c||e)("div")}),[],!1,null,null,null).exports}}]);
