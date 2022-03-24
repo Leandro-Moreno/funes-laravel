@@ -16,7 +16,21 @@
           </mappings>
         </serverdata>
       </paths>
+      <paths name="SAVI">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
       <paths name="dolibarr">
+        <serverdata>
+          <mappings>
+            <mapping local="$PROJECT_DIR$" web="/" />
+          </mappings>
+        </serverdata>
+      </paths>
+      <paths name="elixir">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$" web="/" />
