@@ -89,6 +89,10 @@ export default {
         this.$nextTick(() => {
             this.value = this.ids;
         })
+        console.log("route");
+        let urlParams = new URLSearchParams(window.location.search);
+        console.log(urlParams.has('yourParam')); // true
+        console.log(urlParams.get('yourParam')); // "MyParam"
     },
     created() {
         // this.options = this.ids.map( v=> {
