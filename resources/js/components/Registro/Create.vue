@@ -118,7 +118,7 @@ export default {
         },
         wizardbackButtonText: {
             type: String,
-            default: 'Atrás'
+            default: 'Anterior'
         },
         wizardfinishButtonText: {
             type: String,
