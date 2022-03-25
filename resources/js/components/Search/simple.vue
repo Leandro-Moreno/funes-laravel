@@ -7,15 +7,15 @@
                     style="border:3px solid rebeccapurple;"
                     v-bind:class="[results.length===0    ?   'col-md-12' : 'col-md-4']">
                     <div v-if="results.length>0" class="card-header">
-                        <div class="badge badge-pill badge-black">{{ results.length }} registros</div>
+                        <div class="badge badge-pill badge-black">{{ totalResults }} registros</div>
                     </div>
                     <div class="card-body text-success">
                         <h2 class="card-title">Resultados de {{ queryValue }}</h2>
                         <div class="wrap">
                             <div class="search">
                                 <input v-model="queryValue" class="searchTerm" placeholder="What are you looking for?"
-                                       type="text" v-on:keyup.enter="clickSearch">
-                                <button class="searchButton" type="submit" @click="clickSearch">
+                                       type="text" v-on:keyup.enter="subjectsSelect">
+                                <button class="searchButton" type="submit" @click="subjectsSelect">
                                     <i class="fa fa-search"></i>
                                 </button>
                             </div>
@@ -25,10 +25,19 @@
                             :alwaysOpen="false"
                             :multiple="true"
                             :openOnFocus="true"
+                            :options="data"
+                            :showCount="false"
                             placeholder="Filtra por terminos clave"
-                                    :options="data"
-                            @input="subjectsSelect"
-                            :showCount="false"/>
+                            @input="subjectsSelect"/>
+                        <label><input type="checkbox" v-model="yearRangeActive" @change="subjectsSelect">¿Desea filtrar por rango de años?</label>
+                        <vue-slider
+                            v-model="yearRange"
+                            :dot-options="dotOptions"
+                            :max="2022"
+                            :min="1950"
+                            @drag-end="subjectsSelect"
+                            :disabled="! yearRangeActive"
+                        />
                         <p class="card-text" style="color:rebeccapurple">Estos son los registros de las búsqueda</p>
                     </div>
                 </div>
@@ -51,7 +60,9 @@
 </template>
 <script>
 import Treeselect from '@riophae/vue-treeselect'
+import VueSlider from 'vue-slider-component'
 // import the styles
+import 'vue-slider-component/theme/default.css'
 import '@riophae/vue-treeselect/dist/vue-treeselect.css'
 
 export default {
@@ -59,9 +70,19 @@ export default {
     data() {
         return {
             results: [],
+            totalResults: 0,
             queryValue: '',
             value: [],
             data: [],
+            yearRange: [1950, new Date().getFullYear()],
+            dotOptions: [{
+                tooltip: 'always'
+            }, {
+                tooltip: 'always'
+            }, {
+                tooltip: 'always'
+            }],
+            yearRangeActive: false
         }
     },
     //add props with query var
@@ -72,7 +93,8 @@ export default {
         }
     },
     components: {
-        Treeselect
+        Treeselect,
+        VueSlider
     },
     methods: {
         //add method search using query variable as query for api /api/search-simple using axios. The response is a json object  that must be  into results array
@@ -90,22 +112,23 @@ export default {
         },
         subjectsSelect: function (node, instanceId) {
             let idsQuery = this.value;
+            let yearsQuery = this.yearRange;
             if (this.value.length === 0) {
                 idsQuery = 1;
             }
-            axios.get('/api/search-simple?query=' + this.queryValue + '&subjectId=' + idsQuery)
+            if( ! this.yearRangeActive){
+                yearsQuery = 'empty';
+            }
+            axios.get('/api/search-simple?query=' + this.queryValue + '&subjectId=' + idsQuery + '&yearRange=' + yearsQuery)
                 .then(response => {
                     this.results = [];
                     this.results = response.data.results.data;
-                    console.log(response)
+                    this.totalResults = response.data.results.total;
+                    console.log(response.data.results.total)
                 })
                 .catch(error => {
                     console.log(error);
-                })
-            //this.results = [];
-            //this.results.push(...response.data.registro);
-            //console.log(response)
-
+                });
         },
         clickSearch() {
             let url = new URL(window.location.href);

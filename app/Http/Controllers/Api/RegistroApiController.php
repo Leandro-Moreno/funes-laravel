@@ -160,6 +160,13 @@ class RegistroApiController extends Controller
                 $query->whereIn('id', $ids);
             });
         }
+        if ($request->has('yearRange')) {
+            if(  $request->input('yearRange') != 'empty') {
+                $yearRange = explode(',', $request->input('yearRange'));
+                $registrosResult = $registrosResult->where('date_year', '>=', $yearRange[0])
+                    ->where('date_year', '<=', $yearRange[1]);
+            }
+        }
 
         $registrosResult = $registrosResult->where(function (Builder $query) use($request){
            return $query->where('title', 'like', '%' . $request->input('query') . '%')
