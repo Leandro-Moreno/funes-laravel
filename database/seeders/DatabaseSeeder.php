@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
             TipoRegistroSeeder::class,
             CamposTipoRegistroSeeder::class,
             AuthorSeeder::class,
-            AutorInstitucionalSeeder::class,
             SubjectSeeder::class,
             EstadoSeeder::class,
             RoutesSeeder::class,

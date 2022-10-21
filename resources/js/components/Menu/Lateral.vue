@@ -4,17 +4,17 @@
     --secondary-color: #dfdfdf;
     --home-section-color:#e4e9f7;
     --logo-title-color:#fff;
-    --icons-color: #363636;
+    --icons-color: #1b1a3e;
     --items-tooltip-color:#e4e9f7;
     --serach-input-text-color:#5450a9;
-    --menu-items-hover-color:#f06a6a;
+    --menu-items-hover-color:var(--danger);
     --menu-items-text-color: #5450a9;
     --menu-footer-text-color:#fff;">
         <div class="logo-details">
 
             <i class="bx icon bxl-c-plus-plus"></i>
             <div class="logo_name">
-                <a style="font-size:54px; color:#84118b;" class="andes-funes logo-andes" href="/"></a>
+                <a style="font-size:54px; color:#1b1a3e;" class="andes-funes logo-andes" href="/"></a>
                 <div class="login row" v-if="!logged">
                     <a href="/login" class="btn btn-sm col btn-outline-primary color-brand">Login </a>
                     <a href="/register" class="btn btn-sm col btn-primary">Registro</a>

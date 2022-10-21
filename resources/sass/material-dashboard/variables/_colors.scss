@@ -4,7 +4,7 @@ $red-200: #ef9a9a !default;
 $red-300: #e57373 !default;
 $red-400: #ef5350 !default;
 $red-500: #f44336 !default;
-$red-600: #e53935 !default;
+$red-600: #E04E29 !default;
 $red-700: #d32f2f !default;
 $red-800: #c62828 !default;
 $red-900: #b71c1c !default;
@@ -12,7 +12,7 @@ $red-a100: #ff8a80 !default;
 $red-a200: #ff5252 !default;
 $red-a400: #ff1744 !default;
 $red-a700: #d50000 !default;
-$red: $red-500 !default;
+$red: $red-600 !default;
 
 $pink-50: #fce4ec !default;
 $pink-100: #f8bbd0 !default;
@@ -227,8 +227,8 @@ $orange-100: #ffe0b2 !default;
 $orange-200: #ffcc80 !default;
 $orange-300: #ffb74d !default;
 $orange-400: #ffa726 !default;
-$orange-500: #ff9800 !default;
-$orange-600: #fb8c00 !default;
+$orange-500: #FE9D0B !default;
+$orange-600: #FE9D0B !default;
 $orange-700: #f57c00 !default;
 $orange-800: #ef6c00 !default;
 $orange-900: #e65100 !default;
@@ -307,9 +307,12 @@ $white: #fff;
 
 // New colors
 $gray-color:  #999999 !default;
-$black-color: #3C4858 !default;
+$black-color: #1b1a3e !default;
 $funes-color: #5450a9 !default;
 $funes-dark: #2f2c68 !default;
+//$funes-contrast-light: #B8DBD9 !default;
+$funes-contrast-light: #f0effd !default;
+
 
 $black: #000000; $rgb-black: "0,0,0" !default;
 $white: #ffffff; $rgb-white: "255,255,255" !default;

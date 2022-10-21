@@ -8,7 +8,7 @@
                 <a class="featured-content featured-content-text featured-content-text-gradient">
 
                     <div class="featured-content-text-span">
-                        <p class="main">FUNES</p>
+                        <p class="main">Funes</p>
                         <p class="phrase">Repositorio Digital de Documentos de Educación Matemática</p>
                         <div class="featured-content-text-span-second">
                             <p class="phrase phrase-second text-gradient">Contamos con {{registroCount}} documentos</p>
@@ -147,7 +147,8 @@ export default {
     pointer-events: none;
     overflow-y:hidden;
     z-index: -10;
-    background-color: #5450a9;
+    //background-color: #f0effd;
+    background-color: var(--funes-contrast-light);
 }
 
 strong {
@@ -157,14 +158,10 @@ strong {
     background: rgba(255, 255, 255, 1);
     box-shadow: 0 0.75rem 2rem 0 rgba(0, 0, 0, 0.1);
     border-radius: 1rem;
-    border: 3px solid #5450a9;
+    //border: 3px solid #5450a9;
     z-index: 1;
     &::first-child{
         background: #ffffff !important;
-        &:hover{
-            border: 3px solid #5450a9;
-            background: #ffffff !important;
-        }
         &::before {
             margin: -3px; /* !importanté */
             border-radius: inherit; /* !importanté */
@@ -178,7 +175,6 @@ strong {
         }
         background: #5450a9;
         transition: all 0.3s ease-in-out;
-        border: 3px solid white;
         .featured-content-info{
             background-color: white;
             color:#5450a9;

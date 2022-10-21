@@ -25,6 +25,6 @@ class AuthorSeeder extends Seeder
             'email' => '123857@gmail.com'
         ]);
 
-        \App\Models\Author::factory()->count(50)->create();
+        \App\Models\Author::factory()->count(2)->create();
     }
 }

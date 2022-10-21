@@ -18,7 +18,7 @@
 <link rel="stylesheet" type="text/css" href="{{ asset('dax') }}/stylesheet.css"/>
 <link rel="stylesheet" type="text/css" href="{{ asset('andes-font.css') }}" />
 <link rel="stylesheet" type="text/css"
-      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:400,700|Open+Sans|Material+Icons"/>
+      href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,200;0,300;0,400;0,600;0,700;0,900;1,200;1,300;1,400;1,600;1,700;1,900&family=Zilla+Slab:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700|Material+Icons&display=swap"/>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
 <!-- CSS Files -->
 <link href="{{ mix('material/css/material-dashboard.css') }}" rel="stylesheet"/>
