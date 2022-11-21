@@ -10,15 +10,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-body">
+<!--                        <registro-title :registro="registro"></registro-title>-->
                         <div class="row">
-                            <div class="col-md-4">Código id</div>
+                            <div class="col-md-4">Códigos id</div>
                             <div class="col-md-8">{{registro.eprintid}}</div>
                         </div>
                         <div class="row">
                             <div class="col-md-4">Subject</div>
                             <div class="col-md-8">
                                 <div v-for="subject in registro.subjects">
-                                    {{subject.name}}
+                                    {{subject.result}}
                                 </div>
                             </div>
                         </div>

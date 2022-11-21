@@ -1,7 +1,10 @@
 
 <template>
+    <div>
     <div slot="citation" v-html="citation">
         {{citation}}
+    </div>
+        <div class="see_more">Ver más</div>
     </div>
 </template>
 <script>
@@ -37,4 +40,11 @@ export default {
     }
 }
 </script>
+<style>
+.see_more{
+    font-family: "Source Sans Pro", "Helvetica", "Arial", sans-serif;
+    font-weight: 500;
+
+}
+</style>
 

@@ -391,6 +391,7 @@ class RegistroController extends Controller
                 break;
             case 'subjects':
                 $subjects = new ImportSubjectService();
+                cache()->forget('subjectRegistros');
                 $subjects->remove('ROOT');
                 $subjects->colSub();
                 break;
