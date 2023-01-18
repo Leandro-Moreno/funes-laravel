@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exceptions\ImagickException;
 use App\Http\Requests\DocumentRequest;
 use App\Http\Requests\RegistroRequest;
+use App\Http\Requests\UploadRegistroImageRequest;
 use App\Jobs\importFolder;
 use App\Models\Author;
 use App\Models\AuthorInstitutional;
@@ -271,7 +272,8 @@ class RegistroController extends Controller
      */
     public function edit(Registro $registro)
     {
-        $registro->with(['documents','subjects', 'authors'])->get();
+//        dd($registro);
+        $registro->load(['documents','subjects', 'authors']);
         foreach ($registro->documents as $document) {
             $document->url = URL::to(Storage::url($document->url));
             $document->thumbnail = URL::to(Storage::url($document->thumbnail));
@@ -302,57 +304,50 @@ class RegistroController extends Controller
         //
     }
 
-    public function subirImagen(Request $request)
+    public function subirImagen(UploadRegistroImageRequest $request)
     {
-        $request->validate([
-            'file' => 'required|mimes:png,jpg,jpeg,csv,txt,xlx,xls,xlsx,doc,docx,ai,pdf|max:128048'
-        ]);
-        if ($request->file()) {
-            $eprintid = $request->input('id');
-            $registro = Registro::where('eprintid', $eprintid)->first();
-            if (is_null($registro)) {
-                $eprintid = $this->getNextEprintid();
-                $registro = new Registro(['eprintid' => $eprintid, 'eprint_status' => 'inbox', 'user_deposito_id' => Auth::id()]);
-            }
-            $registro->user_edicion_id = Auth::id();
-            $registro->save();
-            $filePath = 'public/document/' . $eprintid;
-            $service = new ImportService();
-            $service->createRoute($filePath);
-            $file = $request->file('file');
-            $imageName = $request->file->getClientOriginalName();
-            $path = $request->file->storeAs($filePath, $imageName);
-            $document = new Document([
-                'format' => $file->getMimeType(),
-                'language' => 'es',
-                'registro_id' => $registro->id,
-                'eprintid' => $registro->eprintid,
-                'pos' => 1,
-                'security' => 'public',
-                'license' => 'cc_by_nc_nd',
-                'main' => $imageName,
-                'filename' => $imageName,
-                'filesize' => $file->getSize(),
-                'hash' => sha1_file(Storage::path($filePath . "/" . $imageName)),
-                'url' => $filePath . '/' . $imageName,
-                'docid' => $this->getNextDocumentid()
-            ]);
-            $document->save();
-            return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
+        $validated = $request->validated();
+        /*
+         * $validated have the variable file and nullable id. If id is null, the image is new, else the image is updated, check if id is null and then
+         *
+         */
+
+        if (is_null($validated['id'])) {
         }
+        $eprintid = $request->input('id');
+        $registro = Registro::where('eprintid', $eprintid)->first();
+        if (is_null($registro)) {
+            $eprintid = $this->getNextEprintid();
+            $registro = new Registro(['eprintid' => $eprintid, 'eprint_status' => 'inbox', 'user_deposito_id' => Auth::id()]);
+        }
+        $registro->user_edicion_id = Auth::id();
+        $registro->save();
+        $filePath = 'public/document/' . $eprintid;
+        $service = new ImportService();
+        $service->createRoute($filePath);
+        $file = $request->file('file');
+        $imageName = $request->file->getClientOriginalName();
+        $path = $request->file->storeAs($filePath, $imageName);
+        $document = new Document([
+            'format' => $file->getMimeType(),
+            'language' => 'es',
+            'registro_id' => $registro->id,
+            'eprintid' => $registro->eprintid,
+            'pos' => 1,
+            'security' => 'public',
+            'license' => 'cc_by_nc_nd',
+            'main' => $imageName,
+            'filename' => $imageName,
+            'filesize' => $file->getSize(),
+            'hash' => sha1_file(Storage::path($filePath . "/" . $imageName)),
+            'url' => $filePath . '/' . $imageName,
+            'docid' => $this->getNextDocumentid()
+        ]);
+        $document->save();
+        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
         return response()->json(['error' => "Tipo de archivo incompatible"]);
     }
-    public function getNextDocumentid()
-    {
-        $document = Document::select('docid')->whereNotNull('docid')->latest('id')->first();
-        return (int)$document->docid + 1;
-    }
 
-    public function getNextEprintid()
-    {
-        $id = Registro::select('eprintid')->latest('eprintid')->first();
-        return (int)$id->eprintid + 1;
-    }
 
     public function convertDivisionsIntoSubjects() {
         $registros = Registro::with('divisions')->get();

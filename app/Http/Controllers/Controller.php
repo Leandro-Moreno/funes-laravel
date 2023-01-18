@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Document;
 use App\Models\Subject;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -24,5 +25,16 @@ class Controller extends BaseController
             }
         }
         return $ids;
+    }
+    public function getNextDocumentid()
+    {
+        $document = Document::select('docid')->whereNotNull('docid')->latest('id')->first();
+        return (int)$document->docid + 1;
+    }
+
+    public function getNextEprintid()
+    {
+        $id = Registro::select('eprintid')->latest('eprintid')->first();
+        return (int)$id->eprintid + 1;
     }
 }
