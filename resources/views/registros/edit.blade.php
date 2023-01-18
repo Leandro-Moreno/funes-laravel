@@ -2,4 +2,5 @@
 
 @section('content')
     <registro-crear :data="{{$registro}}"> </registro-crear>
+    {{$registro}}
 @endsection

@@ -135,7 +135,11 @@ export default {
                 let acceptedValues = ['xs', 'sm', 'md', 'lg']
                 return acceptedValues.indexOf(value) !== -1
             }
-        }
+        },
+        data : Object
+    },
+    created() {
+        console.log(this.data)
     },
     methods: {
         postRegistro: function () {
