@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthorController;
 use App\Http\Controllers\RoutesController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\Api\CountApiController;
+use App\Http\Controllers\Api\Auth\ApiLoginController;
 use App\Http\Controllers\RegistroController;
 use App\Http\Controllers\AuthorInstitutionalController;
 use App\Http\Controllers\Api\RegistroApiController;
@@ -17,6 +18,12 @@ Route::get('/count', [CountApiController::class, 'registros'])->name('api.count.
 Route::get('/latest', [RegistroApiController::class, 'latest'])->name('api.registro.latest');
 Route::get('/routes', [RoutesController::class, 'show'])->name('api.routes.show');
 Route::get('/search-simple', [RegistroApiController::class, 'simpleSearch'])->name('api.search.simple');
+
+//sanctum
+Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+    return $request->user();
+});
+Route::post('/login', [ApiLoginController::class,'__invoke']);
 
 //Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
 //Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');
