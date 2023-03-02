@@ -22,9 +22,6 @@ class Subject extends Model
     {
         return $this->belongsTo(Subject::class,'parent_id', 'id');
     }
-//    public function children(){
-//        return $this->belongsTo(Subject::class, 'id', 'parent_id');
-//    }
     public function childrenCount() {
         return $this->hasMany(Subject::class, 'parent_id');
     }
@@ -34,9 +31,6 @@ class Subject extends Model
             $q->select('id', 'result as label','parent_id');
         }]);
     }
-//    public function parent() {
-//        return $this->belongsTo(Subject::class, 'parent_id', 'id');
-//    }
     public function recursive_tree(){
         return $this->children()->with('recursive_tree');
     }
