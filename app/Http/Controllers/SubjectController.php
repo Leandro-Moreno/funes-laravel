@@ -29,8 +29,12 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        $subjects = Subject::all();
+        return response()->json([
+            'subjects' => $subjects
+        ]);
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,19 +44,44 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:subjects,name|max:255',
+            'parent_id' => 'nullable|exists:subjects,id',
+            'result' => 'required|max:255'
+        ]);
+
+        $subject = Subject::create($request->all());
+
+        return response()->json([
+            'message' => 'Subject created successfully',
+            'subject' => $subject
+        ]);
     }
+
     public function showArray(Request $request)
     {
-        $ids = new Collection();
-        $query = Subject::with('children:id,parent_id')
-            ->find($request->input('ids'));
+        $ids = $this->getSubjectIdsRecursiveChildren($request->input('ids'));
 
-        foreach ($query as $item){
-            $ids = $ids->merge($this->subjectIdsRecursiveChildren($item));
+        $registros = $this->getRegistrosBySubjectIds($ids);
 
+        return $registros;
+    }
+
+    private function getSubjectIdsRecursiveChildren(array $ids): Collection
+    {
+        $subjectIds = new Collection();
+
+        $query = Subject::with('children:id,parent_id')->find($ids);
+
+        foreach ($query as $item) {
+            $subjectIds = $subjectIds->merge($this->getSubjectIdsRecursiveChildren($item));
         }
-        $ids = $ids->unique();
+
+        return $subjectIds->unique();
+    }
+
+    private function getRegistrosBySubjectIds(Collection $ids): LengthAwarePaginator
+    {
         $registros = Registro::select(
             'title',
             'eprintid',
@@ -69,11 +98,10 @@ class SubjectController extends Controller
             'pagerange as page',
             'created_at',
             'updated_at'
-        )
-            ->with('subjects:id,name,result','author')
-            ->whereHas('subjects', function($query) use ($ids) {
+        )->with('subjects:id,name,result', 'author')->whereHas('subjects', function ($query) use ($ids) {
             $query->whereIn('id', $ids);
-        })->paginate(18);
+        })->orderBy('updated_at', 'desc')->paginate(18);
+
         return $registros;
     }
 
@@ -107,17 +135,40 @@ class SubjectController extends Controller
      */
     public function show(Subject $subject)
     {
-        $registros = $subject->registros()->paginate(18);
+        $registros = $this->getRegistrosBySubject($subject);
+
         $subject->alias = $subject->result;
-        $subject->children = Subject::first()->recursive_tree()->get();
+        $subject->children = $this->getRecursiveTreeForSubject(Subject::first());
 
-
-        return view('registros.index',[
+        return response()->json([
             'registros' => $registros,
-            'title'=> 'Registros por tematica '.$subject->name,
+            'title' => 'Registros por tematica '.$subject->name,
             'subject' => $subject
-                ]
-        );
+        ]);
+    }
+
+
+    /**
+     * Get registros related to the subject
+     *
+     * @param Subject $subject
+     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     */
+    private function getRegistrosBySubject(Subject $subject)
+    {
+        return $subject->registros()
+            ->paginate(18);
+    }
+
+    /**
+     * Get the recursive tree of subjects
+     *
+     * @param Subject $subject
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    private function getRecursiveTreeForSubject(Subject $subject)
+    {
+        return $subject->recursive_tree()->get();
     }
     public function showApi(Subject $subject)
     {
@@ -136,8 +187,14 @@ class SubjectController extends Controller
      */
     public function edit(Subject $subject)
     {
-        //
+        $subjects = Subject::all();
+
+        return response()->json([
+            'subject' => $subject,
+            'subjects' => $subjects
+        ]);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -148,8 +205,20 @@ class SubjectController extends Controller
      */
     public function update(Request $request, Subject $subject)
     {
-        //
+        $request->validate([
+            'name' => 'required|unique:subjects,name,'.$subject->id.'|max:255',
+            'parent_id' => 'nullable|exists:subjects,id',
+            'result' => 'required|max:255'
+        ]);
+
+        $subject->update($request->all());
+
+        return response()->json([
+            'message' => 'Subject updated successfully',
+            'subject' => $subject
+        ]);
     }
+
 
     /**
      * Remove the specified resource from storage.
@@ -157,8 +226,20 @@ class SubjectController extends Controller
      * @param  \App\Models\Subject  $subject
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Subject $subject)
+    public function destroy(Request $request, Subject $subject)
     {
-        //
+        $newParentId = $request->input('new_parent_id');
+
+        if ($newParentId) {
+            // Reassign children to new parent
+            $newParent = Subject::findOrFail($newParentId);
+            $subject->children()->update(['parent_id' => $newParentId]);
+        }
+
+        // Delete the subject
+        $subject->delete();
+
+        return response()->json(['message' => 'Subject deleted successfully']);
     }
+
 }
