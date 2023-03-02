@@ -18,6 +18,17 @@ Route::get('/count', [CountApiController::class, 'registros'])->name('api.count.
 Route::get('/latest', [RegistroApiController::class, 'latest'])->name('api.registro.latest');
 Route::get('/routes', [RoutesController::class, 'show'])->name('api.routes.show');
 Route::get('/search-simple', [RegistroApiController::class, 'simpleSearch'])->name('api.search.simple');
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::get('/subject', [SubjectController::class, 'indexApi'])->name('api.subject.index');
+    Route::post('/subject', [SubjectController::class, 'store'])->name('api.subject.store');
+    Route::get('/subject/{subject}', [SubjectController::class, 'showApi'])->name('api.subject.show');
+    Route::put('/subject/{subject}', [SubjectController::class, 'update'])->name('api.subject.update');
+    Route::delete('/subject/{subject}', [SubjectController::class, 'destroy'])->name('api.subject.destroy');
+    Route::get('/subject/create', [SubjectController::class, 'create'])->name('api.subject.create');
+    Route::get('/subject/{subject}/edit', [SubjectController::class, 'edit'])->name('api.subject.edit');
+    Route::post('/subject/show-array', [SubjectController::class, 'showArray'])->name('api.subject.show.array');
+});
+
 
 //sanctum
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -25,8 +36,3 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::get('/auth/session', [ApiLoginController::class,'__invoke']);
 
-//Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
-//Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');
-//Route::get('/registro', [RegistroApiController::class, 'index'])->name('registro.index.api');
-//Route::group(['middleware' => 'auth:api'], function () {
-//});
