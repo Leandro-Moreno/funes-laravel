@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('last_name');
             $table->string('email')->unique();
             $table->string('username')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('role_id')->references('id')->on('roles');
             $table->foreignId('lang_id')->default(1)->references('id')->on('langs');
             $table->string('organization')->nullable();

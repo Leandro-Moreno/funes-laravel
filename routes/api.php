@@ -23,7 +23,7 @@ Route::get('/search-simple', [RegistroApiController::class, 'simpleSearch'])->na
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/login', [ApiLoginController::class,'__invoke']);
+Route::get('/auth/session', [ApiLoginController::class,'__invoke']);
 
 //Route::get('/tipos-registro', RegistroController::class, 'tiposRegistro');
 //Route::get('/campos-tipos-registro', RegistroController::class, 'camposTiposRegistro');

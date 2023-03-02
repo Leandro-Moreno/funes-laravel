@@ -376,7 +376,7 @@ class RegistroController extends Controller
         $service = new ImportService();
         switch ($request->process) {
             case 'search':
-                $service->identifyFoldersToExplore();
+                $service->identifyFoldersWithRegistry();
                 break;
             case 'scan':
                 $service->scanRegister();
@@ -391,7 +391,7 @@ class RegistroController extends Controller
                 $subjects->colSub();
                 break;
             case 'complete':
-                $service->identifyFoldersToExplore();
+                $service->identifyFoldersWithRegistry();
                 $service->scanRegister();
                 $service->extractRegister();
                 break;

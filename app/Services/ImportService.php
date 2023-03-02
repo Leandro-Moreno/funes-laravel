@@ -13,6 +13,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -137,6 +138,21 @@ class ImportService{
             $route->status = 3;
             $route->save();
         });
+    }
+    public function transformRoutesToIds(array|string $routes){
+        if (is_array($routes)) {
+            // If it's an array, recursively apply the function to each element
+            return array_values(array_map([$this, 'transformRoutesToIds'], $routes));
+        } else {
+            // If it's a string, extract the numbers at the end and return them
+            $route = trim($routes, '/');
+            $parts = explode('/', $route);
+            //join all the parts
+            $route = join('', $parts);
+            $matches = [];
+            preg_match('/\d+$/', $route, $matches);
+            return $matches[0];
+        }
     }
     public function dateSplitColumns(String $date, Registro $registro){
         if(!empty($date)){
@@ -306,8 +322,68 @@ class ImportService{
             }
         }
     }
+    public function testFolderss(?string $queryFolder = 'hereforimport'): array
+    {
+        $directories = $this->getRevisionDirectories($queryFolder);
+        $processid = $this->nextProcessId();
+        $a = $directories->map(
+            function ($directory) use ($processid) {
+                $route = $this->getRouteFromDirectory($directory);
+                return $this->createFolderFromRoute($route, $processid);
+            }
+        )->toArray();
+        return $a;
+    }
+    public function identifyFoldersWithRegistry(?string $queryFolder = 'hereforimport', ?int $batchSize = 100): void
+    {
+        $directories = $this->getRevisionDirectories($queryFolder)->values();
+        $totalDirectories = count($directories);
+        $processId = DB::table('folders')->max('processid') + 1;
+        $processedCount = 0;
 
-    public function identifyFoldersToExplore()
+        while ($processedCount < $totalDirectories) {
+            $batch = [];
+            $batchCount = 0;
+            while ($batchCount < $batchSize && $processedCount < $totalDirectories) {
+                $directory = $directories[$processedCount];
+                $route = $this->getRouteFromDirectory($directory);
+                $batch[] = ['route' => $route, 'processid' => $processId];
+                $batchCount++;
+                $processedCount++;
+            }
+            Folder::insertOrIgnore($batch);
+        }
+    }
+
+    public function getRevisionDirectories(string $queryFolder)
+    {
+        $allDirectories = Storage::allDirectories($queryFolder);
+
+        return collect($allDirectories)->filter(
+            function ($directory) {
+                return $this->endsWith($directory, 'revisions');
+            }
+        );
+    }
+
+
+
+    public function getRouteFromDirectory(string $directory): string
+    {
+        return str_replace('/revisions', '', $directory);
+    }
+
+    public function createFolderFromRoute(string $route, int $processid): Folder
+    {
+        $folder = Folder::firstOrCreate(['route' => $route], ['processid' => $processid]);
+        return $folder;
+    }
+
+    public function endsWith($haystack, $needle): bool
+    {
+        return substr_compare($haystack, $needle, -strlen($needle)) === 0;
+    }
+    public function zidentifyFoldersToExplore()
     {
         $processid = 1;
         $ultimo = Folder::latest()->first('processid');
@@ -315,6 +391,14 @@ class ImportService{
             $processid = $ultimo->processid + 1;
         }
         return $this->findFolder("hereforimport", $processid);
+    }
+    public function nextProcessId(): int{
+        $processid = 1;
+        $latestFolder = Folder::latest()->first('processid');
+        if(isset($latestFolder)){
+            $processid = $latestFolder->processid + 1;
+        }
+        return $processid;
     }
 
 

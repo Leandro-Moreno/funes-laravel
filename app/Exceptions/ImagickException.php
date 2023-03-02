@@ -4,7 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 
-//class ImagickException extends Exception
+class ImagickException extends Exception
 {
     public function render($request)
     {

@@ -5,7 +5,7 @@
         </b-col>
         <b-col md="8">
             <b-form-input id="pagerange"
-                          required="required"
+                          :required="required"
                           v-model="pagerange"
                           placeholder="Rango de paginas"></b-form-input>
         </b-col>
