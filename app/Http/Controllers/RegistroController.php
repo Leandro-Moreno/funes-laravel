@@ -307,27 +307,58 @@ class RegistroController extends Controller
     public function subirImagen(UploadRegistroImageRequest $request)
     {
         $validated = $request->validated();
-        /*
-         * $validated have the variable file and nullable id. If id is null, the image is new, else the image is updated, check if id is null and then
-         *
-         */
+        $eprintid = $this->getEprintid($validated);
 
+        $registro = $this->getOrCreateRegistro($eprintid);
+
+        $this->updateRegistro($registro);
+
+        $filePath = 'public/document/' . $eprintid;
+        $this->createRoute($filePath);
+
+        $document = $this->createDocument($request, $registro, $filePath);
+
+        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
+    }
+
+    private function getEprintid($validated)
+    {
         if (is_null($validated['id'])) {
+            return $this->getNextEprintid();
         }
-        $eprintid = $request->input('id');
+
+        return $validated['id'];
+    }
+
+    private function getOrCreateRegistro($eprintid)
+    {
         $registro = Registro::where('eprintid', $eprintid)->first();
+
         if (is_null($registro)) {
-            $eprintid = $this->getNextEprintid();
             $registro = new Registro(['eprintid' => $eprintid, 'eprint_status' => 'inbox', 'user_deposito_id' => Auth::id()]);
         }
+
+        return $registro;
+    }
+
+    private function updateRegistro($registro)
+    {
         $registro->user_edicion_id = Auth::id();
         $registro->save();
-        $filePath = 'public/document/' . $eprintid;
+    }
+
+    private function createRoute($filePath)
+    {
         $service = new ImportService();
         $service->createRoute($filePath);
+    }
+
+    private function createDocument($request, $registro, $filePath)
+    {
         $file = $request->file('file');
         $imageName = $request->file->getClientOriginalName();
         $path = $request->file->storeAs($filePath, $imageName);
+
         $document = new Document([
             'format' => $file->getMimeType(),
             'language' => 'es',
@@ -343,9 +374,10 @@ class RegistroController extends Controller
             'url' => $filePath . '/' . $imageName,
             'docid' => $this->getNextDocumentid()
         ]);
+
         $document->save();
-        return response()->json(['success' => 'Subida exitosa', 'registro' => $registro, 'document' => $document]);
-        return response()->json(['error' => "Tipo de archivo incompatible"]);
+
+        return $document;
     }
 
 
@@ -429,10 +461,6 @@ class RegistroController extends Controller
         return response(['campos_tipos_registro' => $campos_tipo_registro, 'message' => 'Tipos de registro enviados correctamente'], 200);
     }
 
-    private function moveRegisterFile(array $document, string $oldFileRoute, string $newFileRoute)
-    {
-
-    }
 
     public function generateImageFromPDF(Document $document)
     {
