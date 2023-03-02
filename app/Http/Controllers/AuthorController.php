@@ -17,11 +17,11 @@ class AuthorController extends Controller
     public function index(Request $request)
     {
         $authors = Author::withCount('registros')->orderBy('registros_count', 'desc')->paginate(20);
-        return view('authors.index', ['authors' => $authors]);
+        return response()->json($authors);
 
     }
 
-    public function search(Request $request)
+    public function search(Request $request): \Illuminate\Http\JsonResponse
     {
         $searchterm = $request->input('query');
 
@@ -32,16 +32,6 @@ class AuthorController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
@@ -49,7 +39,15 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'given' => ['required', 'string'],
+            'family' => ['required', 'string'],
+            'email' => ['nullable', 'email']
+        ]);
+
+        $author = Author::create($validatedData);
+
+        return response()->json(['message' => 'Author created successfully', 'author' => $author]);
     }
 
     /**
@@ -64,21 +62,10 @@ class AuthorController extends Controller
             ->registros('eprintid', 'title')
             ->paginate(18);
 
-        return view('registros.index', [
+        return response()->json([
             'registros' => $registros,
             'title' => 'Registros por autores ' . $author->given . ' ' . $author->family
         ]);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Author $author
-     * @return Response
-     */
-    public function edit(Author $author)
-    {
-        //
     }
 
     /**
@@ -90,7 +77,15 @@ class AuthorController extends Controller
      */
     public function update(Request $request, Author $author)
     {
-        //
+        $validatedData = $request->validate([
+            'given' => ['required', 'string'],
+            'family' => ['required', 'string'],
+            'email' => ['nullable', 'email']
+        ]);
+
+        $author->update($validatedData);
+
+        return response()->json(['message' => 'Author updated successfully', 'author' => $author]);
     }
 
     /**
@@ -101,6 +96,8 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        $author->registros()->detach();
+        $author->delete();
+        return response()->json(['message' => 'Author deleted successfully']);
     }
 }
