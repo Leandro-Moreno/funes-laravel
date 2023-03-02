@@ -37,7 +37,15 @@ class RoutesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'route_alias' => 'required|unique:routes|max:255',
+            'position' => 'required|integer',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $route = Routes::create($validatedData);
+        return response()->json(['message' => 'Ruta creada correctamente', 'route' => $route]);
     }
 
     /**
@@ -59,37 +67,28 @@ class RoutesController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Routes  $routes
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Routes $routes)
+    public function edit(Routes $route)
     {
-        //
+        $roles = Role::all();
+        return response()->json(['route' => $route, 'roles' => $roles]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Routes  $routes
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Routes $routes)
+    public function update(Request $request, Routes $route)
     {
-        //
+        $validatedData = $request->validate([
+            'name' => 'required|max:255',
+            'route_alias' => ['required', 'max:255', Rule::unique('routes')->ignore($route->id)],
+            'position' => 'required|integer',
+            'role_id' => 'required|exists:roles,id',
+        ]);
+
+        $route->update($validatedData);
+        return response()->json(['message' => 'Route updated successfully', 'route' => $route]);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Routes  $routes
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Routes $routes)
+    public function destroy(Routes $route)
     {
-        //
+        $route->delete();
+        return response()->json(['message' => 'Route deleted successfully']);
     }
 }
